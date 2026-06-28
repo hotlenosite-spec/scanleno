@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ScanLeno Admin</title>
+    <style>
+      :root { color-scheme: light; --navy:#061e55; --blue:#1769ff; --muted:#65728a; --bg:#f5f7fa; --card:#fff; --line:#e5eaf2; --ok:#13b88a; --danger:#dc3545; }
+      * { box-sizing: border-box; }
+      body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, sans-serif; background: var(--bg); color: #14213d; }
+      main { max-width: 1180px; margin: auto; padding: 28px; }
+      header { display:flex; gap:16px; align-items:center; justify-content:space-between; margin-bottom:18px; }
+      h1, h2, h3 { color: var(--navy); margin: 0 0 12px; }
+      button, input, textarea { font: inherit; }
+      button { border: 0; border-radius: 14px; padding: 10px 14px; background: var(--blue); color: white; cursor: pointer; font-weight: 700; }
+      button.secondary { background: #eaf3ff; color: var(--navy); }
+      button:disabled { opacity: .55; cursor: not-allowed; }
+      input, textarea { width: 100%; border: 1px solid var(--line); border-radius: 14px; padding: 11px 12px; background: white; color: #14213d; }
+      textarea { min-height: 80px; resize: vertical; }
+      .card { background: var(--card); border-radius: 20px; padding: 18px; box-shadow: 0 8px 20px #0f274212; margin-bottom: 16px; }
+      .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; }
+      .tabs { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:16px; }
+      .tab { background:white; color:var(--navy); border:1px solid var(--line); }
+      .tab.active { background:var(--blue); color:white; border-color:var(--blue); }
+      .row { display:flex; gap:12px; align-items:center; justify-content:space-between; border-bottom:1px solid var(--line); padding:10px 0; }
+      .row:last-child { border-bottom:0; }
+      .muted { color: var(--muted); }
+      .pill { display:inline-flex; align-items:center; border-radius:999px; padding:4px 9px; background:#eaf3ff; color:var(--navy); font-weight:700; }
+      .error { background:#fff2f2; color:#8a1f1f; border:1px solid #ffd0d0; }
+      .success { background:#effbf7; color:#08785b; border:1px solid #bcebdc; }
+      .switch { display:flex; gap:10px; align-items:center; }
+      .switch input { width:auto; transform:scale(1.2); }
+      [hidden] { display:none !important; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <div>
+          <h1>ScanLeno Admin</h1>
+          <p class="muted">Local backend control panel. User document contents are never displayed here.</p>
+        </div>
+        <button class="secondary" id="refresh">Refresh</button>
+      </header>
+
+      <section class="card">
+        <div class="grid">
+          <label>Backend URL<input id="apiUrl" placeholder="http://localhost:8787" /></label>
+          <label>API token<input id="apiToken" type="password" placeholder="Optional Bearer token" /></label>
+        </div>
+      </section>
+
+      <div id="notice" class="card" hidden></div>
+      <div id="loading" class="card">Loading admin data...</div>
+
+      <nav class="tabs" id="tabs" hidden></nav>
+      <section id="content"></section>
+    </main>
+
+    <script>
+      const sections = ['Dashboard', 'Feature Flags', 'Ads', 'Subscriptions', 'Support', 'App Messages', 'Privacy'];
+      const state = { section: 'Dashboard', data: null };
+      const apiUrl = document.querySelector('#apiUrl');
+      const apiToken = document.querySelector('#apiToken');
+      const notice = document.querySelector('#notice');
+      const loading = document.querySelector('#loading');
+      const tabs = document.querySelector('#tabs');
+      const content = document.querySelector('#content');
+
+      apiUrl.value = localStorage.getItem('scanlenoAdminApiUrl') || 'http://localhost:8787';
+      apiToken.value = localStorage.getItem('scanlenoAdminApiToken') || '';
+      apiUrl.addEventListener('change', () => localStorage.setItem('scanlenoAdminApiUrl', apiUrl.value.trim()));
+      apiToken.addEventListener('change', () => localStorage.setItem('scanlenoAdminApiToken', apiToken.value));
+      document.querySelector('#refresh').addEventListener('click', load);
+
+      function headers() {
+        const value = { 'content-type': 'application/json; charset=utf-8' };
+        if (apiToken.value.trim()) value.authorization = `Bearer ${apiToken.value.trim()}`;
+        return value;
+      }
+      function endpoint(path) { return new URL(path, apiUrl.value.trim() || 'http://localhost:8787').toString(); }
+      async function request(path, options = {}) {
+        const response = await fetch(endpoint(path), { ...options, headers: { ...headers(), ...(options.headers || {}) } });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.json();
+      }
+      async function load() {
+        setNotice('', '');
+        loading.hidden = false;
+        tabs.hidden = true;
+        content.innerHTML = '';
+        try {
+          const [settings, featureFlags, stats, users, supportTickets, appErrors, subscriptions] = await Promise.all([
+            request('/api/settings'),
+            request('/api/feature-flags'),
+            request('/api/stats'),
+            request('/api/users'),
+            request('/api/support-tickets'),
+            request('/api/app-errors'),
+            request('/api/subscriptions'),
+          ]);
+          state.data = { settings, featureFlags, stats, users, supportTickets, appErrors, subscriptions };
+          loading.hidden = true;
+          renderTabs();
+          render();
+        } catch (error) {
+          loading.hidden = true;
+          setNotice('Could not connect to the server. Start backend/server.js and try again.', 'error');
+        }
+      }
+      function setNotice(message, type) {
+        notice.hidden = !message;
+        notice.className = `card ${type || ''}`;
+        notice.textContent = message;
+      }
+      function renderTabs() {
+        tabs.hidden = false;
+        tabs.innerHTML = sections.map((section) => `<button class="tab ${state.section === section ? 'active' : ''}" data-section="${section}">${section}</button>`).join('');
+        tabs.querySelectorAll('button').forEach((button) => button.addEventListener('click', () => {
+          state.section = button.dataset.section;
+          renderTabs();
+          render();
+        }));
+      }
+      function render() {
+        const name = state.section.replace(/\s+/g, '');
+        const renderer = renderers[name] || renderers.Dashboard;
+        content.innerHTML = renderer();
+        bindActions();
+      }
+      const metric = (title, value) => `<div class="card"><p class="muted">${title}</p><h2>${value ?? 0}</h2></div>`;
+      const row = (label, value) => `<div class="row"><span>${label}</span><span class="muted">${value || 'No data yet'}</span></div>`;
+      const flag = (key, label) => `<label class="row switch"><span>${label}</span><input type="checkbox" data-flag="${key}" ${state.data.featureFlags[key] ? 'checked' : ''}></label>`;
+      const renderers = {
+        Dashboard() {
+          const s = state.data.stats;
+          return `<section>
+            <div class="grid">
+              ${metric('Users', s.users)}${metric('Documents', s.documents)}${metric('Scans', s.scans)}
+              ${metric('Free users', s.freeUsers)}${metric('Premium users', s.premiumUsers)}${metric('Created PDFs', s.createdPdfs)}
+            </div>
+            <div class="card">${row('Most used tools', Array.isArray(s.topTools) ? s.topTools.join(', ') : '')}${row('Ads', state.data.featureFlags.adsEnabled ? 'Enabled' : 'Disabled')}${row('OCR', state.data.featureFlags.ocrEnabled ? 'Enabled' : 'Disabled')}</div>
+          </section>`;
+        },
+        FeatureFlags() {
+          return `<section class="card">
+            ${flag('adsEnabled', 'Ads')}${flag('ocrEnabled', 'OCR')}${flag('ocrPremiumOnly', 'OCR Premium only')}${flag('ocrWithScanCreditEnabled', 'Allow OCR with scan_credit')}${flag('advancedPdfToolsEnabled', 'Advanced PDF tools')}${flag('watermarkEnabled', 'Watermark')}
+            ${row('OCR provider', state.data.featureFlags.azureOcrProvider || 'Azure Document Intelligence')}
+            ${row('OCR model', state.data.featureFlags.azureOcrModel || 'prebuilt-read')}
+            ${row('Azure OCR status', state.data.featureFlags.azureOcrEnabled ? 'Enabled' : 'Disabled')}
+            <label class="row"><span>Free daily limit</span><input style="max-width:120px" type="number" min="1" data-number-flag="freeDailyScanLimit" value="${state.data.featureFlags.freeDailyScanLimit || 10}"></label>
+            <label class="row"><span>Free Image to PDF limit</span><input style="max-width:120px" type="number" min="1" data-number-flag="freeImageToPdfLimit" value="${state.data.featureFlags.freeImageToPdfLimit || 12}"></label>
+            <label class="row"><span>Free folder limit</span><input style="max-width:120px" type="number" min="1" data-number-flag="freeFolderLimit" value="${state.data.featureFlags.freeFolderLimit || 3}"></label>
+            <label class="row"><span>Free daily OCR limit</span><input style="max-width:120px" type="number" min="1" data-number-flag="freeDailyOcrLimit" value="${state.data.featureFlags.freeDailyOcrLimit || 3}"></label>
+            <label class="row"><span>Premium monthly OCR limit</span><input style="max-width:120px" type="number" min="1" data-number-flag="premiumMonthlyOcrLimit" value="${state.data.featureFlags.premiumMonthlyOcrLimit || 500}"></label>
+            <label class="row"><span>Premium yearly OCR limit</span><input style="max-width:120px" type="number" min="1" data-number-flag="premiumYearlyOcrLimit" value="${state.data.featureFlags.premiumYearlyOcrLimit || 6000}"></label>
+            <button data-save-flags>Save changes</button>
+          </section>`;
+        },
+        Ads() {
+          return `<section>
+            <div class="card">${row('Android App ID', 'ca-app-pub-5375559288118322~5149137479')}${row('iOS App ID', 'ca-app-pub-5375559288118322~8298044990')}${row('Premium users see no ads', 'Enabled')}</div>
+            <div class="card">${flag('bannerEnabled', 'Banner')}${flag('interstitialAfterExportEnabled', 'Interstitial')}${flag('rewardedAdsEnabled', 'Rewarded')}${flag('homeBannerAdsEnabled', 'Home banner')}${flag('filesBannerAdsEnabled', 'Files banner')}${flag('toolsBannerAdsEnabled', 'Tools banner')}<button data-save-flags>Save changes</button></div>
+          </section>`;
+        },
+        Subscriptions() {
+          const plans = state.data.subscriptions.plans || [];
+          return `<section>${plans.map((plan) => `<div class="card">${row('Plan', plan.id)}${row('Active', plan.active ? 'Yes' : 'No')}${row('Product ID', plan.productId)}</div>`).join('') || '<div class="card">No plans configured.</div>'}<div class="card">${row('Free trial', state.data.subscriptions.freeTrialEnabled ? 'Enabled' : 'Disabled')}<button data-verify-subscription>Verify subscription</button></div></section>`;
+        },
+        Support() {
+          const tickets = state.data.supportTickets;
+          return `<section>${tickets.map((ticket) => `<div class="card"><h3>${ticket.message || 'Support ticket'}</h3><p class="muted">${ticket.createdAt || ''}</p><span class="pill">${ticket.status || 'open'}</span> <button class="secondary" data-close-ticket="${ticket.id}">Close</button></div>`).join('') || '<div class="card">No support tickets yet.</div>'}<button data-create-ticket>Create local ticket</button></section>`;
+        },
+        AppMessages() {
+          const settings = state.data.settings;
+          return `<section class="card">
+            <label>General app message<textarea data-setting="appMessage">${settings.appMessage || ''}</textarea></label>
+            <label>Maintenance alert<textarea data-setting="maintenanceAlert">${settings.maintenanceAlert || ''}</textarea></label>
+            <label>Special offer<textarea data-setting="specialOffer">${settings.specialOffer || ''}</textarea></label>
+            <button data-save-settings>Save messages</button>
+          </section>`;
+        },
+        Privacy() {
+          return `<section class="card">${row('Privacy notes', state.data.settings.privacy)}${row('User files upload policy', 'Files stay on the user device by default.')}${row('Backend URL', apiUrl.value)}</section>`;
+        }
+      };
+      function bindActions() {
+        document.querySelectorAll('[data-flag]').forEach((input) => input.addEventListener('change', () => state.data.featureFlags[input.dataset.flag] = input.checked));
+        document.querySelectorAll('[data-number-flag]').forEach((input) => input.addEventListener('change', () => state.data.featureFlags[input.dataset.numberFlag] = Number(input.value)));
+        document.querySelectorAll('[data-save-flags]').forEach((button) => button.addEventListener('click', async () => {
+          try { state.data.featureFlags = await request('/api/feature-flags', { method: 'PUT', body: JSON.stringify(state.data.featureFlags) }); setNotice('Feature flags saved.', 'success'); }
+          catch { setNotice('Could not save feature flags.', 'error'); }
+        }));
+        document.querySelectorAll('[data-save-settings]').forEach((button) => button.addEventListener('click', async () => {
+          document.querySelectorAll('[data-setting]').forEach((input) => state.data.settings[input.dataset.setting] = input.value);
+          try { state.data.settings = await request('/api/settings', { method: 'PUT', body: JSON.stringify(state.data.settings) }); setNotice('Messages saved.', 'success'); }
+          catch { setNotice('Could not save messages.', 'error'); }
+        }));
+        document.querySelectorAll('[data-create-ticket]').forEach((button) => button.addEventListener('click', async () => {
+          try { await request('/api/support-tickets', { method: 'POST', body: JSON.stringify({ message: 'Local admin test ticket' }) }); setNotice('Ticket created.', 'success'); await load(); }
+          catch { setNotice('Could not create ticket.', 'error'); }
+        }));
+        document.querySelectorAll('[data-close-ticket]').forEach((button) => button.addEventListener('click', async () => {
+          try { await request(`/api/support-tickets/${encodeURIComponent(button.dataset.closeTicket)}`, { method: 'PUT', body: JSON.stringify({ status: 'closed' }) }); setNotice('Ticket updated.', 'success'); await load(); }
+          catch { setNotice('Could not update ticket.', 'error'); }
+        }));
+        document.querySelectorAll('[data-verify-subscription]').forEach((button) => button.addEventListener('click', async () => {
+          try { const result = await request('/api/subscription/verify', { method: 'POST', body: '{}' }); setNotice(`Subscription verifier: ${result.source || 'ok'}.`, 'success'); }
+          catch { setNotice('Could not verify subscription.', 'error'); }
+        }));
+      }
+      load();
+    </script>
+  </body>
+</html>

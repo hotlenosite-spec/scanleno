@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "822545969886",
+    "project_id": "scanleno-37d42",
+    "storage_bucket": "scanleno-37d42.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:822545969886:android:6f7a593d6d273c36fb484f",
+        "android_client_info": {
+          "package_name": "com.hotleno.scanleno"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "822545969886-r2p4dqnc2ihp6l6km0h7cf3j2uo4itde.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hotleno.scanleno",
+            "certificate_hash": "833ca2f5d93938fb3c2374dc6ce0b89f44467256"
+          }
+        },
+        {
+          "client_id": "822545969886-jh5ub2vehms5s4mj10agjvjt7r3gdnfn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiOy-s6IzH2g7x5nNVUinNbQk3X6UK78M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "822545969886-jh5ub2vehms5s4mj10agjvjt7r3gdnfn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "822545969886-9v7gf0rhit387d6bkeru2mf8a1lbqfr5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.hotleno.scanleno"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

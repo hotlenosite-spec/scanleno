@@ -1,0 +1,113 @@
+{
+  "settings": {
+    "appName": "ScanLeno",
+    "environment": "development",
+    "privacy": "Documents are not uploaded to this backend by default.",
+    "appMessage": "",
+    "maintenanceAlert": "",
+    "specialOffer": ""
+  },
+  "featureFlags": {
+    "ocrEnabled": false,
+    "ocrPremiumOnly": true,
+    "ocrAsPremium": true,
+    "adsEnabled": true,
+    "bannerEnabled": true,
+    "bannerAdsEnabled": true,
+    "interstitialAfterExportEnabled": true,
+    "interstitialAdsEnabled": true,
+    "rewardedAdsEnabled": true,
+    "homeBannerAdsEnabled": true,
+    "filesBannerAdsEnabled": true,
+    "toolsBannerAdsEnabled": true,
+    "annualOffersEnabled": true,
+    "advancedPdfToolsEnabled": false,
+    "watermarkEnabled": false,
+    "exportWatermarkEnabled": false,
+    "freeDailyScanLimit": 10,
+    "freeImageToPdfLimit": 12,
+    "freeFolderLimit": 3,
+    "ocrWithScanCreditEnabled": true,
+    "ocrScanCreditEnabled": true,
+    "freeDailyOcrLimit": 3,
+    "premiumMonthlyOcrLimit": 500,
+    "premiumYearlyOcrLimit": 6000,
+    "azureOcrEnabled": false,
+    "azureOcrProvider": "Azure Document Intelligence",
+    "azureOcrModel": "prebuilt-read"
+  },
+  "stats": {
+    "users": 2,
+    "activeUsers": 0,
+    "documents": 0,
+    "scans": 0,
+    "createdPdfs": 0,
+    "freeUsers": 1,
+    "premiumUsers": 1,
+    "topTools": []
+  },
+  "subscriptions": {
+    "plans": [
+      {
+        "id": "free",
+        "active": true,
+        "productId": null
+      },
+      {
+        "id": "monthly",
+        "active": false,
+        "productId": "scanleno_premium_monthly"
+      },
+      {
+        "id": "annual",
+        "active": false,
+        "productId": "scanleno_premium_annual"
+      }
+    ],
+    "freeTrialEnabled": false
+  },
+  "supportTickets": [],
+  "appErrors": [],
+  "users": [
+    {
+      "uid": "VTn0796Rtzglenuq7b38P5wjSAH3",
+      "email": null,
+      "displayName": null,
+      "photoUrl": null,
+      "provider": "anonymous",
+      "isAnonymous": true,
+      "platform": "android",
+      "updatedAt": "2026-06-27T14:36:22.353Z",
+      "lastLoginAt": "2026-06-27T14:36:22.353Z",
+      "plan": "yearly",
+      "premiumActive": true,
+      "premiumExpiresAt": null,
+      "monthlyOcrUsed": 0,
+      "monthlyOcrLimit": 1000,
+      "scanCredit": 100,
+      "disabled": false,
+      "role": "owner",
+      "createdAt": "2026-06-27T14:36:07.855Z"
+    },
+    {
+      "uid": "ftSbWs0lOXVpSp9Kbmw5RQFlmD23",
+      "email": "test123@scanleno.com",
+      "displayName": null,
+      "photoUrl": null,
+      "provider": "password",
+      "isAnonymous": false,
+      "platform": "web",
+      "updatedAt": "2026-06-27T14:49:33.925Z",
+      "lastLoginAt": "2026-06-27T14:49:33.925Z",
+      "plan": "free",
+      "premiumActive": false,
+      "premiumExpiresAt": null,
+      "monthlyOcrUsed": 0,
+      "monthlyOcrLimit": 0,
+      "scanCredit": 0,
+      "disabled": false,
+      "role": "user",
+      "createdAt": "2026-06-27T14:49:32.426Z"
+    }
+  ]
+}

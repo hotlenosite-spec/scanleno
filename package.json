@@ -1,0 +1,11 @@
+{
+  "name": "scanleno-tools",
+  "private": true,
+  "scripts": {
+    "firebase:bootstrap": "node scripts/firebase-bootstrap.js"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.6.0",
+    "sql.js": "^1.14.1"
+  }
+}

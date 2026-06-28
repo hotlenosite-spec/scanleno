@@ -1,0 +1,33 @@
+# ScanLeno Production Checklist
+
+- Run `flutter gen-l10n`.
+- Run `flutter analyze`.
+- Run `flutter test`.
+- Verify Arabic RTL and English LTR.
+- Verify camera scan, gallery import, edge crop, enhancement, export, share, files, signature, premium, ads visibility, and feature flags.
+- Android release requires Android SDK and signing configuration.
+- iOS release requires macOS, Xcode, App Store product setup, and signing.
+- Chrome/Web must be checked after isolating mobile-only plugins behind web-safe adapters.
+- Drift/SQLite is native on Android/iOS. Web persistence uses Drift IndexedDB and requires bundling `sql.js` locally in `web/` before production web runtime testing.
+- Store product IDs and ad unit IDs must come from environment/configuration, not source code.
+- Verify Firebase Auth is configured for Anonymous, Email/Password, Google, and Apple providers as needed.
+- Verify Firestore security rules from `firebase/firestore.rules` are deployed before release.
+- Verify Firestore stores only `users/{uid}` account metadata, never document contents or local paths.
+- Verify Firebase Storage is not enabled or used for user documents.
+- Verify backend protected/admin endpoints accept Firebase ID tokens and enforce admin/owner role where required.
+- Test Google Sign-In and AdMob on an Android emulator with updated Google Play services or on a real Android device. The emulator warning `Google Play services out of date` is not a Firestore permissions issue.
+- Verify AdMob debug builds use test ad unit IDs.
+- Verify AdMob release builds use production ad unit IDs.
+- Verify Premium users do not see banner, interstitial, or rewarded ads.
+- Verify banners appear only on Home, Files, and Tools.
+- Verify interstitial ads appear only after successful export.
+- Verify rewarded ads add exactly one `scan_credit` in the local Drift database.
+- Do not upload user documents to the backend by default.
+- Create `backend/.env` from `backend/.env.example` and store `AZURE_DOCUMENT_INTELLIGENCE_KEY` there only.
+- Verify Flutter does not contain Azure keys or call Azure directly.
+- Verify OCR calls `POST /api/ocr/analyze` through the backend.
+- Verify OCR sends only the selected page/image, not all user files.
+- Verify backend does not save OCR images or log document contents.
+- Verify OCR is available to Premium users and to free users only with one `scan_credit`.
+- Verify successful OCR stores `ocrText`, provider, model, created time, language, confidence, and page index in Drift/SQLite.
+- Verify Admin shows Azure OCR status/provider/model without revealing the Azure key.

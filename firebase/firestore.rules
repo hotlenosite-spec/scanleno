@@ -1,0 +1,74 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isSelf(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && (
+          request.auth.token.owner == true
+          || request.auth.token.admin == true
+          || request.auth.token.role == 'owner'
+          || request.auth.token.role == 'admin'
+        );
+    }
+
+    function userEditableKeysOnly() {
+      return request.resource.data.diff(resource.data).changedKeys()
+        .hasOnly(['displayName', 'photoUrl', 'lastLoginAt', 'updatedAt']);
+    }
+
+    function selfCreateKeysOnly(uid) {
+      return request.resource.data.keys().hasOnly([
+        'uid',
+        'email',
+        'displayName',
+        'photoUrl',
+        'provider',
+        'isAnonymous',
+        'plan',
+        'premiumActive',
+        'premiumExpiresAt',
+        'platform',
+        'monthlyOcrUsed',
+        'monthlyOcrLimit',
+        'scanCredit',
+        'createdAt',
+        'updatedAt',
+        'lastLoginAt',
+        'disabled',
+        'role'
+      ])
+      && request.resource.data.uid == uid
+      && request.resource.data.plan == 'free'
+      && request.resource.data.premiumActive == false
+      && request.resource.data.premiumExpiresAt == null
+      && request.resource.data.monthlyOcrUsed == 0
+      && request.resource.data.monthlyOcrLimit == 0
+      && request.resource.data.scanCredit == 0
+      && request.resource.data.role == 'user'
+      && request.resource.data.disabled == false;
+    }
+
+    match /users/{uid} {
+      allow create: if (isSelf(uid) && selfCreateKeysOnly(uid)) || isAdmin();
+
+      allow read: if isSelf(uid) || isAdmin();
+
+      allow update: if (isSelf(uid) && userEditableKeysOnly()) || isAdmin();
+
+      allow delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

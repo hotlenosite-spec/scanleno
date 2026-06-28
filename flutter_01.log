@@ -1,0 +1,108 @@
+Flutter crash report.
+Please report a bug at https://github.com/flutter/flutter/issues.
+
+## command
+
+flutter gen-l10n
+
+## exception
+
+ProcessException: ProcessException: `dart format` failed with exit code 65
+
+stdout:
+Formatted no files in 0.01 seconds.
+
+
+stderr:
+Could not format because the source could not be parsed:
+
+line 135, column 14 of c:/development/ScanLeno/lib/core/localization/generated/scan_leno_localizations_ar.dart: 'continue' can't be used as an identifier because it's a keyword.
+    â•·
+135 â”‚   String get continue => 'ظ…طھط§ط¨ط¹ط©';
+    â”‚              ^^^^^^^^
+    â•µ
+Could not format because the source could not be parsed:
+
+line 135, column 14 of c:/development/ScanLeno/lib/core/localization/generated/scan_leno_localizations_en.dart: 'continue' can't be used as an identifier because it's a keyword.
+    â•·
+135 â”‚   String get continue => 'Continue';
+    â”‚              ^^^^^^^^
+    â•µ
+Could not format because the source could not be parsed:
+
+line 348, column 14 of c:/development/ScanLeno/lib/core/localization/generated/scan_leno_localizations.dart: 'continue' can't be used as an identifier because it's a keyword.
+    â•·
+348 â”‚   String get continue;
+    â”‚              ^^^^^^^^
+    â•µ
+
+  Command: C:\development\flutter\bin\cache\dart-sdk\bin\dart.exe C:\development\flutter\bin\cache\dart-sdk\bin\dart.exe format C:\development\ScanLeno\lib\core\localization\generated\scan_leno_localizations_ar.dart C:\development\ScanLeno\lib\core\localization\generated\scan_leno_localizations_en.dart C:\development\ScanLeno\lib\core\localization\generated\scan_leno_localizations.dart
+
+```
+#0      generateLocalizations (package:flutter_tools/src/localizations/gen_l10n.dart:96:7)
+<asynchronous suspension>
+#1      GenerateLocalizationsCommand.runCommand (package:flutter_tools/src/commands/generate_localizations.dart:263:5)
+<asynchronous suspension>
+#2      FlutterCommand.run.<anonymous closure> (package:flutter_tools/src/runner/flutter_command.dart:1590:27)
+<asynchronous suspension>
+#3      AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:154:19)
+<asynchronous suspension>
+#4      CommandRunner.runCommand (package:args/command_runner.dart:212:13)
+<asynchronous suspension>
+#5      FlutterCommandRunner.runCommand.<anonymous closure> (package:flutter_tools/src/runner/flutter_command_runner.dart:496:9)
+<asynchronous suspension>
+#6      AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:154:19)
+<asynchronous suspension>
+#7      FlutterCommandRunner.runCommand (package:flutter_tools/src/runner/flutter_command_runner.dart:431:5)
+<asynchronous suspension>
+#8      FlutterCommandRunner.run.<anonymous closure> (package:flutter_tools/src/runner/flutter_command_runner.dart:307:33)
+<asynchronous suspension>
+#9      run.<anonymous closure>.<anonymous closure> (package:flutter_tools/runner.dart:104:11)
+<asynchronous suspension>
+#10     AppContext.run.<anonymous closure> (package:flutter_tools/src/base/context.dart:154:19)
+<asynchronous suspension>
+#11     main (package:flutter_tools/executable.dart:103:3)
+<asynchronous suspension>
+```
+
+## flutter doctor
+
+```
+[✓] Flutter (Channel stable, 3.41.7, on Microsoft Windows [Version 10.0.26200.8655], locale ar-SA) [498ms]
+    • Flutter version 3.41.7 on channel stable at C:\development\flutter
+    • Upstream repository https://github.com/flutter/flutter.git
+    • Framework revision cc0734ac71 (2 months ago), 2026-04-15 21:21:08 -0700
+    • Engine revision 59aa584fdf
+    • Dart version 3.11.5
+    • DevTools version 2.54.2
+    • Feature flags: enable-web, enable-linux-desktop, enable-macos-desktop, enable-windows-desktop, enable-android, enable-ios, cli-animations, enable-native-assets, omit-legacy-version-file, enable-lldb-debugging, enable-uiscene-migration
+
+[✓] Windows Version (Windows 11 or higher, 25H2, 2009) [1,185ms]
+
+[✗] Android toolchain - develop for Android devices [252ms]
+    ✗ Unable to locate Android SDK.
+      Install Android Studio from: https://developer.android.com/studio/index.html
+      On first launch it will assist you in installing the Android SDK components.
+      (or visit https://flutter.dev/to/windows-android-setup for detailed instructions).
+      If the Android SDK has been installed to a custom location, please use
+      `flutter config --android-sdk` to update to that location.
+
+
+[✓] Chrome - develop for the web [206ms]
+    • Chrome at C:\Users\Real_11-04-2026\AppData\Local\Google\Chrome\Application\chrome.exe
+
+[✓] Visual Studio - develop Windows apps (Visual Studio Build Tools 2026 18.5.0) [205ms]
+    • Visual Studio at C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools
+    • Visual Studio Build Tools 2026 version 18.5.11709.299
+    • Windows 10 SDK version 10.0.26100.0
+
+[✓] Connected device (3 available) [120ms]
+    • Windows (desktop) • windows • windows-x64    • Microsoft Windows [Version 10.0.26200.8655]
+    • Chrome (web)      • chrome  • web-javascript • Google Chrome 149.0.7827.115
+    • Edge (web)        • edge    • web-javascript • Microsoft Edge 149.0.4022.80
+
+[✓] Network resources [944ms]
+    • All expected network resources are available.
+
+! Doctor found issues in 1 category.
+```
