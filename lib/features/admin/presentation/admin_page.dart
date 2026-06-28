@@ -895,7 +895,7 @@ class _PrivacySection extends StatelessWidget {
               const Divider(),
               _InfoRow(label: l.userFilesUploadPolicy, value: l.filesStayOnDevice),
               const Divider(),
-              _InfoRow(label: l.backendBaseUrl, value: scanLenoConfig.backendBaseUrl.isEmpty ? 'http://localhost:8787' : scanLenoConfig.backendBaseUrl),
+              _InfoRow(label: l.backendBaseUrl, value: scanLenoConfig.effectiveBackendBaseUrl),
             ],
           ),
         ),

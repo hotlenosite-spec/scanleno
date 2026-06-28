@@ -138,10 +138,7 @@ abstract final class FeatureFlags {
   }
 
   static Uri _uri(String path) {
-    final base = scanLenoConfig.backendBaseUrl.trim().isEmpty
-        ? 'http://localhost:8787'
-        : scanLenoConfig.backendBaseUrl.trim();
-    return Uri.parse(base).resolve(path);
+    return scanLenoConfig.backendUri(path);
   }
 
   static Map<String, Object?> _normalize(Map<String, Object?> raw) {

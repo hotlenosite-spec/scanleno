@@ -95,7 +95,7 @@ OCR is routed through the backend only. Flutter never contains the Azure key.
 - Put Azure values in `backend/.env`; never commit that file.
 - `AZURE_DOCUMENT_INTELLIGENCE_KEY` must stay server-side.
 - OCR sends only the selected page/image requested by the user.
-- The backend forwards that page to Azure Document Intelligence using `prebuilt-read`.
+- The backend forwards that page to Azure Document Intelligence using `prebuilt-layout`.
 - The backend does not save uploaded OCR images.
 - The extracted text is returned to the app and saved locally in Drift/SQLite with OCR metadata.
 - Premium users can use OCR. Free users can use OCR only when they have one rewarded `scan_credit`.

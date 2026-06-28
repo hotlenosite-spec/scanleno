@@ -1199,11 +1199,221 @@ abstract class ScanLenoLocalizations {
   /// **'Priority support'**
   String get premiumFeature4;
 
+  /// No description provided for @premiumRequiredTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium feature'**
+  String get premiumRequiredTitle;
+
+  /// No description provided for @premiumRequiredMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This feature requires an active ScanLeno Premium subscription.'**
+  String get premiumRequiredMessage;
+
+  /// No description provided for @freeDailyScanLimitReached.
+  ///
+  /// In en, this message translates to:
+  /// **'You have reached today’s free scan limit. Subscribe to keep scanning without daily limits.'**
+  String get freeDailyScanLimitReached;
+
+  /// No description provided for @freeFolderLimitReached.
+  ///
+  /// In en, this message translates to:
+  /// **'You have reached the free folder limit. Subscribe to organize more folders.'**
+  String get freeFolderLimitReached;
+
+  /// No description provided for @premiumRequiredForAdvancedPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced PDF tools are included with ScanLeno Premium.'**
+  String get premiumRequiredForAdvancedPdf;
+
+  /// No description provided for @premiumRequiredForUnlimitedScans.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlimited scans and imports are included with ScanLeno Premium.'**
+  String get premiumRequiredForUnlimitedScans;
+
+  /// No description provided for @premiumRequiredForOcr.
+  ///
+  /// In en, this message translates to:
+  /// **'Text recognition is available with Premium, or with one OCR credit from a rewarded ad.'**
+  String get premiumRequiredForOcr;
+
+  /// No description provided for @subscribeToContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribe to continue'**
+  String get subscribeToContinue;
+
+  /// No description provided for @unlockPremiumFeatures.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock Premium features'**
+  String get unlockPremiumFeatures;
+
+  /// No description provided for @watchAdForOneOcrCredit.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch an ad for one OCR credit'**
+  String get watchAdForOneOcrCredit;
+
+  /// No description provided for @premiumSubscribeNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribe now'**
+  String get premiumSubscribeNow;
+
+  /// No description provided for @premiumMaybeLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get premiumMaybeLater;
+
+  /// No description provided for @premiumOcrCreditMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You can use one scan credit for this OCR request. The credit is only consumed after successful text recognition.'**
+  String get premiumOcrCreditMessage;
+
+  /// No description provided for @premiumOcrNoCreditMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'OCR is available for Premium users, or you can watch a rewarded ad to earn one OCR credit.'**
+  String get premiumOcrNoCreditMessage;
+
+  /// No description provided for @premiumFeatureLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Feature unavailable'**
+  String get premiumFeatureLocked;
+
+  /// No description provided for @premiumFeatureLockedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This feature is currently disabled and cannot be opened right now.'**
+  String get premiumFeatureLockedMessage;
+
+  /// No description provided for @premiumUnlockAdvancedTools.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade to unlock advanced PDF tools.'**
+  String get premiumUnlockAdvancedTools;
+
   /// No description provided for @subscriptionCached.
   ///
   /// In en, this message translates to:
   /// **'Subscription will be verified by the store/backend when configured.'**
   String get subscriptionCached;
+
+  /// No description provided for @subscriptionUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription is not available right now.'**
+  String get subscriptionUnavailable;
+
+  /// No description provided for @subscriptionComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscriptions will be enabled soon.'**
+  String get subscriptionComingSoon;
+
+  /// No description provided for @subscriptionProductsNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Store products were not found yet.'**
+  String get subscriptionProductsNotFound;
+
+  /// No description provided for @subscriptionPurchaseStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase started. Complete it in the store.'**
+  String get subscriptionPurchaseStarted;
+
+  /// No description provided for @subscriptionPurchasePending.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase is pending confirmation.'**
+  String get subscriptionPurchasePending;
+
+  /// No description provided for @subscriptionVerificationPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase received. Premium will activate after verification.'**
+  String get subscriptionVerificationPending;
+
+  /// No description provided for @subscriptionPurchaseFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase failed. Please try again.'**
+  String get subscriptionPurchaseFailed;
+
+  /// No description provided for @subscriptionPurchaseCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase was cancelled.'**
+  String get subscriptionPurchaseCancelled;
+
+  /// No description provided for @subscriptionRestorePurchases.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore purchases'**
+  String get subscriptionRestorePurchases;
+
+  /// No description provided for @subscriptionRestoreSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchases restored.'**
+  String get subscriptionRestoreSuccess;
+
+  /// No description provided for @subscriptionRestoreNothingFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No active purchases were found.'**
+  String get subscriptionRestoreNothingFound;
+
+  /// No description provided for @subscriptionActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium is active.'**
+  String get subscriptionActive;
+
+  /// No description provided for @subscriptionExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Your subscription has expired.'**
+  String get subscriptionExpired;
+
+  /// No description provided for @premiumMonthlyPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly plan'**
+  String get premiumMonthlyPlan;
+
+  /// No description provided for @premiumYearlyPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Yearly plan'**
+  String get premiumYearlyPlan;
+
+  /// No description provided for @premiumPriceUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Price unavailable'**
+  String get premiumPriceUnavailable;
+
+  /// No description provided for @premiumStoreNotReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Store is not ready yet.'**
+  String get premiumStoreNotReady;
+
+  /// No description provided for @bestValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Best value'**
+  String get bestValue;
 
   /// No description provided for @adPlacement.
   ///
@@ -1222,6 +1432,84 @@ abstract class ScanLenoLocalizations {
   /// In en, this message translates to:
   /// **'Watch a rewarded ad to add one scan credit.'**
   String get scanCreditReward;
+
+  /// No description provided for @watchAdForOcrCredit.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch an ad for OCR credit'**
+  String get watchAdForOcrCredit;
+
+  /// No description provided for @rewardedAdNotReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Rewarded ad is not ready yet.'**
+  String get rewardedAdNotReady;
+
+  /// No description provided for @rewardedCreditPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Your reward is being verified.'**
+  String get rewardedCreditPending;
+
+  /// No description provided for @rewardedCreditGranted.
+  ///
+  /// In en, this message translates to:
+  /// **'OCR credit confirmed.'**
+  String get rewardedCreditGranted;
+
+  /// No description provided for @rewardedCreditRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Reward verification was rejected.'**
+  String get rewardedCreditRejected;
+
+  /// No description provided for @rewardedCreditExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Reward session expired. Please try again.'**
+  String get rewardedCreditExpired;
+
+  /// No description provided for @rewardedVerificationFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not verify the reward. Please try again.'**
+  String get rewardedVerificationFailed;
+
+  /// No description provided for @ocrCreditAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'One OCR credit was added.'**
+  String get ocrCreditAdded;
+
+  /// No description provided for @ocrCreditRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'One OCR credit is required.'**
+  String get ocrCreditRequired;
+
+  /// No description provided for @premiumOrRewardRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribe or watch a rewarded ad to use OCR.'**
+  String get premiumOrRewardRequired;
+
+  /// No description provided for @rewardEarnedWaitingForVerification.
+  ///
+  /// In en, this message translates to:
+  /// **'Reward earned. Waiting for server verification.'**
+  String get rewardEarnedWaitingForVerification;
+
+  /// No description provided for @rewardedSsvNotConfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'Reward verification is not configured yet.'**
+  String get rewardedSsvNotConfigured;
+
+  /// No description provided for @rewardedLimitReached.
+  ///
+  /// In en, this message translates to:
+  /// **'Reward limit reached. Please try again later.'**
+  String get rewardedLimitReached;
 
   /// No description provided for @adminLogin.
   ///

@@ -37,10 +37,7 @@ class AdminApiService {
   final http.Client _client;
 
   Uri _uri(String path) {
-    final base = scanLenoConfig.backendBaseUrl.trim().isEmpty
-        ? 'http://localhost:8787'
-        : scanLenoConfig.backendBaseUrl.trim();
-    return Uri.parse(base).resolve(path);
+    return scanLenoConfig.backendUri(path);
   }
 
   Future<AdminOverview> loadOverview() async {

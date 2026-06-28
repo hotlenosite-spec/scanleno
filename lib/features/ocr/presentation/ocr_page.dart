@@ -12,7 +12,8 @@ import '../../../core/theme/app_tokens.dart';
 import '../../../core/widgets/app_screen.dart';
 import '../../ads/application/ad_service.dart';
 import '../../files/application/local_file_repository.dart';
-import '../../premium/application/subscription_service.dart';
+import '../../premium/application/premium_access_service.dart';
+import '../../premium/presentation/premium_gate_dialog.dart';
 import '../../scanner/application/document_draft_controller.dart';
 import '../application/ocr_backend_service.dart';
 
@@ -30,8 +31,9 @@ class _OcrPageState extends State<OcrPage> {
   final ocrService = OcrBackendService();
   bool loading = false;
   bool loadedAccess = false;
-  bool isPremium = false;
   int scanCredits = 0;
+  PremiumAccessResult? accessResult;
+  bool gateShown = false;
   String? provider;
   String? model;
   String? language;
@@ -51,22 +53,45 @@ class _OcrPageState extends State<OcrPage> {
   }
 
   Future<void> _loadAccess() async {
-    await subscriptionService.initialize();
     final credits = await repository.getScanCredits();
+    final access = await premiumAccessService.canAccessPremiumFeature(
+      PremiumFeature.ocr,
+    );
     if (!mounted) return;
     setState(() {
-      isPremium = subscriptionService.isPremium;
       scanCredits = credits;
+      accessResult = access;
       loadedAccess = true;
     });
+    if (!access.allowed && !gateShown) {
+      gateShown = true;
+      await showPremiumGateDialog(
+        context,
+        feature: PremiumFeature.ocr,
+        result: access,
+        onEarnScanCredit: _earnCredit,
+      );
+    }
   }
 
   Future<void> _analyze() async {
     if (!documentDraft.hasPages || loading) return;
-    final freeAllowed = !FeatureFlags.ocrPremiumOnly;
-    final hasCredit =
-        FeatureFlags.ocrWithScanCreditEnabled && scanCredits > 0 && !isPremium;
-    if (!isPremium && !freeAllowed && !hasCredit) return;
+    final access = await premiumAccessService.canAccessPremiumFeature(
+      PremiumFeature.ocr,
+    );
+    if (!mounted) return;
+    setState(() {
+      accessResult = access;
+    });
+    if (!access.allowed) {
+      await showPremiumGateDialog(
+        context,
+        feature: PremiumFeature.ocr,
+        result: access,
+        onEarnScanCredit: _earnCredit,
+      );
+      return;
+    }
 
     setState(() => loading = true);
     try {
@@ -87,8 +112,8 @@ class _OcrPageState extends State<OcrPage> {
         documentId: documentId,
         pageIndex: documentDraft.currentIndex,
         imageFile: pageFile,
-        isPremium: isPremium,
-        scanCreditAvailable: hasCredit,
+        isPremium: access.isPremiumUser,
+        scanCreditAvailable: access.canUseScanCredit,
       );
       textController.text = result.text;
       provider = result.provider;
@@ -108,7 +133,14 @@ class _OcrPageState extends State<OcrPage> {
         );
       }
       if (result.creditConsumed) {
-        await repository.consumeScanCredit();
+        if (result.remainingScanCredit != null) {
+          await repository.saveSetting(
+            'scan_credit',
+            result.remainingScanCredit.toString(),
+          );
+        } else {
+          await repository.consumeScanCredit();
+        }
         scanCredits = await repository.getScanCredits();
       }
       if (mounted) {
@@ -117,7 +149,7 @@ class _OcrPageState extends State<OcrPage> {
         ).showSnackBar(SnackBar(content: Text(context.l10n.recognitionComplete)));
       }
     } on OcrBackendException catch (error) {
-      if (mounted) _showError(_messageForError(error.code));
+      if (mounted) await _handleBackendError(error.code);
     } catch (_) {
       if (mounted) _showError(context.l10n.ocrFailed);
     } finally {
@@ -160,7 +192,10 @@ class _OcrPageState extends State<OcrPage> {
   }
 
   Future<void> _earnCredit() async {
-    await adService.showRewardedForScanCredit();
+    _showError(context.l10n.rewardEarnedWaitingForVerification);
+    final result = await adService.showRewardedForScanCredit();
+    if (!mounted) return;
+    _showError(_rewardMessage(result.status));
     await Future<void>.delayed(const Duration(milliseconds: 600));
     await _loadAccess();
   }
@@ -168,11 +203,11 @@ class _OcrPageState extends State<OcrPage> {
   @override
   Widget build(BuildContext context) {
     final l = context.l10n;
-    final freeAllowed = !FeatureFlags.ocrPremiumOnly;
+    final access = accessResult;
     final canAnalyze = FeatureFlags.ocrEnabled &&
         loadedAccess &&
         documentDraft.hasPages &&
-        (isPremium || freeAllowed || scanCredits > 0);
+        (access?.allowed ?? false);
     return AppScreen(
       title: l.ocrResult,
       showBack: true,
@@ -225,7 +260,7 @@ class _OcrPageState extends State<OcrPage> {
                 icon: Icons.lock_clock_outlined,
                 title: l.featureDisabled,
               )
-            else if (!isPremium && !freeAllowed && scanCredits <= 0)
+            else if (!(access?.allowed ?? false))
               _AccessCard(onEarnCredit: _earnCredit)
             else
               FilledButton.icon(
@@ -300,11 +335,42 @@ class _OcrPageState extends State<OcrPage> {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
   }
 
-  String _messageForError(String code) {
-    return switch (code) {
-      'ocr_forbidden' => context.l10n.scanCreditRequired,
+  Future<void> _handleBackendError(String code) async {
+    if (code == 'premium_required' ||
+        code == 'ocr_credit_required' ||
+        code == 'auth_required') {
+      final access = await premiumAccessService.canAccessPremiumFeature(
+        PremiumFeature.ocr,
+      );
+      if (!mounted) return;
+      await showPremiumGateDialog(
+        context,
+        feature: PremiumFeature.ocr,
+        result: access,
+        onEarnScanCredit: _earnCredit,
+      );
+      return;
+    }
+    final message = switch (code) {
+      'ocr_disabled' => context.l10n.featureDisabled,
       'ocr_rate_limited' => context.l10n.ocrRateLimited,
+      'ocr_unavailable' => context.l10n.ocrFailed,
+      'azure_ocr_failed' => context.l10n.ocrFailed,
       _ => context.l10n.ocrFailed,
+    };
+    _showError(message);
+  }
+
+  String _rewardMessage(RewardedCreditStatus status) {
+    return switch (status) {
+      RewardedCreditStatus.granted => context.l10n.ocrCreditAdded,
+      RewardedCreditStatus.pending => context.l10n.rewardedCreditPending,
+      RewardedCreditStatus.rejected => context.l10n.rewardedCreditRejected,
+      RewardedCreditStatus.expired => context.l10n.rewardedCreditExpired,
+      RewardedCreditStatus.notReady => context.l10n.rewardedAdNotReady,
+      RewardedCreditStatus.verificationFailed =>
+        context.l10n.rewardedVerificationFailed,
+      RewardedCreditStatus.limitReached => context.l10n.rewardedLimitReached,
     };
   }
 }
@@ -341,7 +407,7 @@ class _AccessCard extends StatelessWidget {
               Expanded(
                 child: OutlinedButton(
                   onPressed: onEarnCredit,
-                  child: Text(l.earnScanCredit),
+                  child: Text(l.watchAdForOneOcrCredit),
                 ),
               ),
               const SizedBox(width: AppSpacing.sm),
@@ -380,7 +446,7 @@ class _OcrMeta extends StatelessWidget {
         children: [
           _MetaRow(label: l.provider, value: provider ?? 'azure_document_intelligence'),
           const Divider(),
-          _MetaRow(label: l.model, value: model ?? 'prebuilt-read'),
+          _MetaRow(label: l.model, value: model ?? 'prebuilt-layout'),
           if (language != null) ...[
             const Divider(),
             _MetaRow(label: l.language, value: language!),

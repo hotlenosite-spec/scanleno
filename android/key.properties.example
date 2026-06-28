@@ -1,0 +1,7 @@
+# Copy this file to android/key.properties before building release.
+# Do not commit android/key.properties or the keystore file.
+
+storeFile=upload-keystore.jks
+storePassword=CHANGE_ME
+keyAlias=upload
+keyPassword=CHANGE_ME

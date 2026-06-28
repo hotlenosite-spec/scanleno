@@ -563,8 +563,128 @@ class ScanLenoLocalizationsEn extends ScanLenoLocalizations {
   String get premiumFeature4 => 'Priority support';
 
   @override
+  String get premiumRequiredTitle => 'Premium feature';
+
+  @override
+  String get premiumRequiredMessage =>
+      'This feature requires an active ScanLeno Premium subscription.';
+
+  @override
+  String get freeDailyScanLimitReached =>
+      'You have reached today’s free scan limit. Subscribe to keep scanning without daily limits.';
+
+  @override
+  String get freeFolderLimitReached =>
+      'You have reached the free folder limit. Subscribe to organize more folders.';
+
+  @override
+  String get premiumRequiredForAdvancedPdf =>
+      'Advanced PDF tools are included with ScanLeno Premium.';
+
+  @override
+  String get premiumRequiredForUnlimitedScans =>
+      'Unlimited scans and imports are included with ScanLeno Premium.';
+
+  @override
+  String get premiumRequiredForOcr =>
+      'Text recognition is available with Premium, or with one OCR credit from a rewarded ad.';
+
+  @override
+  String get subscribeToContinue => 'Subscribe to continue';
+
+  @override
+  String get unlockPremiumFeatures => 'Unlock Premium features';
+
+  @override
+  String get watchAdForOneOcrCredit => 'Watch an ad for one OCR credit';
+
+  @override
+  String get premiumSubscribeNow => 'Subscribe now';
+
+  @override
+  String get premiumMaybeLater => 'Later';
+
+  @override
+  String get premiumOcrCreditMessage =>
+      'You can use one scan credit for this OCR request. The credit is only consumed after successful text recognition.';
+
+  @override
+  String get premiumOcrNoCreditMessage =>
+      'OCR is available for Premium users, or you can watch a rewarded ad to earn one OCR credit.';
+
+  @override
+  String get premiumFeatureLocked => 'Feature unavailable';
+
+  @override
+  String get premiumFeatureLockedMessage =>
+      'This feature is currently disabled and cannot be opened right now.';
+
+  @override
+  String get premiumUnlockAdvancedTools =>
+      'Upgrade to unlock advanced PDF tools.';
+
+  @override
   String get subscriptionCached =>
       'Subscription will be verified by the store/backend when configured.';
+
+  @override
+  String get subscriptionUnavailable =>
+      'Subscription is not available right now.';
+
+  @override
+  String get subscriptionComingSoon => 'Subscriptions will be enabled soon.';
+
+  @override
+  String get subscriptionProductsNotFound =>
+      'Store products were not found yet.';
+
+  @override
+  String get subscriptionPurchaseStarted =>
+      'Purchase started. Complete it in the store.';
+
+  @override
+  String get subscriptionPurchasePending => 'Purchase is pending confirmation.';
+
+  @override
+  String get subscriptionVerificationPending =>
+      'Purchase received. Premium will activate after verification.';
+
+  @override
+  String get subscriptionPurchaseFailed => 'Purchase failed. Please try again.';
+
+  @override
+  String get subscriptionPurchaseCancelled => 'Purchase was cancelled.';
+
+  @override
+  String get subscriptionRestorePurchases => 'Restore purchases';
+
+  @override
+  String get subscriptionRestoreSuccess => 'Purchases restored.';
+
+  @override
+  String get subscriptionRestoreNothingFound =>
+      'No active purchases were found.';
+
+  @override
+  String get subscriptionActive => 'Premium is active.';
+
+  @override
+  String get subscriptionExpired => 'Your subscription has expired.';
+
+  @override
+  String get premiumMonthlyPlan => 'Monthly plan';
+
+  @override
+  String get premiumYearlyPlan => 'Yearly plan';
+
+  @override
+  String get premiumPriceUnavailable => 'Price unavailable';
+
+  @override
+  String get premiumStoreNotReady => 'Store is not ready yet.';
+
+  @override
+  String get bestValue => 'Best value';
 
   @override
   String get adPlacement => 'Ad placement';
@@ -574,6 +694,51 @@ class ScanLenoLocalizationsEn extends ScanLenoLocalizations {
 
   @override
   String get scanCreditReward => 'Watch a rewarded ad to add one scan credit.';
+
+  @override
+  String get watchAdForOcrCredit => 'Watch an ad for OCR credit';
+
+  @override
+  String get rewardedAdNotReady => 'Rewarded ad is not ready yet.';
+
+  @override
+  String get rewardedCreditPending => 'Your reward is being verified.';
+
+  @override
+  String get rewardedCreditGranted => 'OCR credit confirmed.';
+
+  @override
+  String get rewardedCreditRejected => 'Reward verification was rejected.';
+
+  @override
+  String get rewardedCreditExpired =>
+      'Reward session expired. Please try again.';
+
+  @override
+  String get rewardedVerificationFailed =>
+      'Could not verify the reward. Please try again.';
+
+  @override
+  String get ocrCreditAdded => 'One OCR credit was added.';
+
+  @override
+  String get ocrCreditRequired => 'One OCR credit is required.';
+
+  @override
+  String get premiumOrRewardRequired =>
+      'Subscribe or watch a rewarded ad to use OCR.';
+
+  @override
+  String get rewardEarnedWaitingForVerification =>
+      'Reward earned. Waiting for server verification.';
+
+  @override
+  String get rewardedSsvNotConfigured =>
+      'Reward verification is not configured yet.';
+
+  @override
+  String get rewardedLimitReached =>
+      'Reward limit reached. Please try again later.';
 
   @override
   String get adminLogin => 'Admin login';

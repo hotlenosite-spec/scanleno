@@ -21,7 +21,7 @@ AdMob support includes banner, interstitial, and rewarded placements through the
 ScanLeno OCR is implemented through the backend using Azure Document Intelligence.
 
 - Provider: Azure Document Intelligence.
-- Model: `prebuilt-read`.
+- Model: `prebuilt-layout`.
 - Flutter sends only the selected page/image to `POST /api/ocr/analyze`.
 - Premium users can run OCR directly.
 - Free users can run OCR only when they have one local `scan_credit` from a rewarded ad.

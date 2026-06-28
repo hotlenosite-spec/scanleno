@@ -7,7 +7,9 @@ import '../../../core/localization/app_localizations.dart';
 import '../../../core/routing/app_routes.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../files/application/local_file_repository.dart';
+import '../../premium/application/premium_access_service.dart';
 import '../../premium/application/subscription_service.dart';
+import '../../premium/presentation/premium_gate_dialog.dart';
 import '../application/document_draft_controller.dart';
 
 class CapturePage extends StatefulWidget {
@@ -64,7 +66,7 @@ class _CapturePageState extends State<CapturePage> {
     await subscriptionService.initialize();
     if (!subscriptionService.isPremium &&
         files.length > FeatureFlags.freeImageToPdfLimit) {
-      if (mounted) _showLimit(context.l10n.imageToPdfLimitReached);
+      if (mounted) await _showScanLimit();
       return;
     }
     if (!subscriptionService.isPremium) {
@@ -85,12 +87,30 @@ class _CapturePageState extends State<CapturePage> {
     final usage = await repository.getTodayUsage();
     final scanCount = usage?.scanCount ?? 0;
     if (scanCount < FeatureFlags.freeDailyScanLimit) return true;
-    if (mounted) _showLimit(context.l10n.dailyScanLimitReached);
+    if (mounted) {
+      final access = await premiumAccessService.canAccessPremiumFeature(
+        PremiumFeature.unlimitedScans,
+      );
+      if (!mounted) return false;
+      await showPremiumGateDialog(
+        context,
+        feature: PremiumFeature.unlimitedScans,
+        result: access.copyWith(messageKey: 'freeDailyScanLimitReached'),
+      );
+    }
     return false;
   }
 
-  void _showLimit(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+  Future<void> _showScanLimit() async {
+    final access = await premiumAccessService.canAccessPremiumFeature(
+      PremiumFeature.unlimitedScans,
+    );
+    if (!mounted) return;
+    await showPremiumGateDialog(
+      context,
+      feature: PremiumFeature.unlimitedScans,
+      result: access,
+    );
   }
 
   @override

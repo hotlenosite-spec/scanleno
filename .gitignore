@@ -6,10 +6,13 @@
 .pub-cache/
 .pub/
 build/
+flutter_*.log
 
 # Android
 android/.gradle/
+android/app/build/
 android/local.properties
+android/key.properties
 *.keystore
 *.jks
 key.properties
@@ -20,6 +23,16 @@ ios/.symlinks/
 ios/Flutter/Flutter.framework
 ios/Flutter/Flutter.podspec
 
+# Node / IDE / logs
+node_modules/
+.idea/
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+backend/data/scanleno.json
+
 # Secrets
 secrets/
 *service-account*.json
@@ -29,3 +42,7 @@ secrets/
 scanleno-37d42-*.json
 .env
 .env.*
+backend/.env
+backend/.env.*
+!.env.example
+!backend/.env.example

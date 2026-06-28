@@ -379,10 +379,7 @@ class FirebaseAuthService extends ChangeNotifier {
   }
 
   Uri _backendUri(String path) {
-    final base = scanLenoConfig.backendBaseUrl.trim().isEmpty
-        ? 'http://localhost:8787'
-        : scanLenoConfig.backendBaseUrl.trim();
-    return Uri.parse(base).resolve(path);
+    return scanLenoConfig.backendUri(path);
   }
 
   String _provider(User current) {

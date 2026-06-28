@@ -561,8 +561,126 @@ class ScanLenoLocalizationsAr extends ScanLenoLocalizations {
   String get premiumFeature4 => 'دعم أولوية';
 
   @override
+  String get premiumRequiredTitle => 'ميزة بريميوم';
+
+  @override
+  String get premiumRequiredMessage =>
+      'هذه الميزة تحتاج اشتراك ScanLeno Premium نشط.';
+
+  @override
+  String get freeDailyScanLimitReached =>
+      'وصلت إلى حد المسح المجاني لهذا اليوم. اشترك للمتابعة بدون حدود يومية.';
+
+  @override
+  String get freeFolderLimitReached =>
+      'وصلت إلى حد المجلدات المجانية. اشترك لتنظيم ملفاتك بمجلدات أكثر.';
+
+  @override
+  String get premiumRequiredForAdvancedPdf =>
+      'أدوات PDF المتقدمة متاحة ضمن ScanLeno Premium.';
+
+  @override
+  String get premiumRequiredForUnlimitedScans =>
+      'المسح والاستيراد بدون حدود متاحان ضمن ScanLeno Premium.';
+
+  @override
+  String get premiumRequiredForOcr =>
+      'استخراج النص متاح مع بريميوم، أو باستخدام رصيد OCR من إعلان مكافأة.';
+
+  @override
+  String get subscribeToContinue => 'اشترك للمتابعة';
+
+  @override
+  String get unlockPremiumFeatures => 'افتح ميزات بريميوم';
+
+  @override
+  String get watchAdForOneOcrCredit => 'شاهد إعلانًا لرصيد OCR واحد';
+
+  @override
+  String get premiumSubscribeNow => 'اشترك الآن';
+
+  @override
+  String get premiumMaybeLater => 'لاحقًا';
+
+  @override
+  String get premiumOcrCreditMessage =>
+      'يمكنك استخدام رصيد مسح واحد لهذا الطلب. لا يتم خصم الرصيد إلا بعد نجاح استخراج النص.';
+
+  @override
+  String get premiumOcrNoCreditMessage =>
+      'OCR متاح للمشتركين، أو يمكنك مشاهدة إعلان مكافأة للحصول على رصيد OCR واحد.';
+
+  @override
+  String get premiumFeatureLocked => 'الميزة غير متاحة';
+
+  @override
+  String get premiumFeatureLockedMessage =>
+      'هذه الميزة مغلقة حاليًا ولا يمكن فتحها الآن.';
+
+  @override
+  String get premiumUnlockAdvancedTools => 'اشترك لفتح أدوات PDF المتقدمة.';
+
+  @override
   String get subscriptionCached =>
       'سيتم التحقق من الاشتراك عبر المتجر أو السيرفر عند ربطهما.';
+
+  @override
+  String get subscriptionUnavailable => 'الاشتراك غير متاح حاليًا.';
+
+  @override
+  String get subscriptionComingSoon => 'سيتم تفعيل الاشتراكات قريبًا.';
+
+  @override
+  String get subscriptionProductsNotFound =>
+      'منتجات الاشتراك غير موجودة في المتجر بعد.';
+
+  @override
+  String get subscriptionPurchaseStarted =>
+      'بدأت عملية الشراء. أكملها من المتجر.';
+
+  @override
+  String get subscriptionPurchasePending => 'عملية الشراء بانتظار التأكيد.';
+
+  @override
+  String get subscriptionVerificationPending =>
+      'تم استلام عملية الشراء. سيتم تفعيل بريميوم بعد التحقق.';
+
+  @override
+  String get subscriptionPurchaseFailed => 'تعذر إتمام الشراء. حاول مرة أخرى.';
+
+  @override
+  String get subscriptionPurchaseCancelled => 'تم إلغاء عملية الشراء.';
+
+  @override
+  String get subscriptionRestorePurchases => 'استعادة المشتريات';
+
+  @override
+  String get subscriptionRestoreSuccess => 'تمت استعادة المشتريات.';
+
+  @override
+  String get subscriptionRestoreNothingFound =>
+      'لم يتم العثور على مشتريات نشطة.';
+
+  @override
+  String get subscriptionActive => 'بريميوم مفعل.';
+
+  @override
+  String get subscriptionExpired => 'انتهى اشتراكك.';
+
+  @override
+  String get premiumMonthlyPlan => 'الخطة الشهرية';
+
+  @override
+  String get premiumYearlyPlan => 'الخطة السنوية';
+
+  @override
+  String get premiumPriceUnavailable => 'السعر غير متاح';
+
+  @override
+  String get premiumStoreNotReady => 'المتجر غير جاهز بعد.';
+
+  @override
+  String get bestValue => 'الأفضل';
 
   @override
   String get adPlacement => 'مكان إعلان';
@@ -572,6 +690,48 @@ class ScanLenoLocalizationsAr extends ScanLenoLocalizations {
 
   @override
   String get scanCreditReward => 'شاهد إعلان مكافأة لإضافة رصيد مسح واحد.';
+
+  @override
+  String get watchAdForOcrCredit => 'شاهد إعلانًا للحصول على رصيد OCR';
+
+  @override
+  String get rewardedAdNotReady => 'إعلان المكافأة غير جاهز حاليًا.';
+
+  @override
+  String get rewardedCreditPending => 'جاري تأكيد المكافأة.';
+
+  @override
+  String get rewardedCreditGranted => 'تم تأكيد رصيد OCR.';
+
+  @override
+  String get rewardedCreditRejected => 'تم رفض تأكيد المكافأة.';
+
+  @override
+  String get rewardedCreditExpired => 'انتهت جلسة المكافأة. حاول مرة أخرى.';
+
+  @override
+  String get rewardedVerificationFailed =>
+      'تعذر تأكيد المكافأة. حاول مرة أخرى.';
+
+  @override
+  String get ocrCreditAdded => 'تمت إضافة رصيد OCR واحد.';
+
+  @override
+  String get ocrCreditRequired => 'تحتاج إلى رصيد OCR واحد.';
+
+  @override
+  String get premiumOrRewardRequired =>
+      'اشترك أو شاهد إعلان مكافأة لاستخدام OCR.';
+
+  @override
+  String get rewardEarnedWaitingForVerification =>
+      'تم الحصول على المكافأة. بانتظار تأكيد السيرفر.';
+
+  @override
+  String get rewardedSsvNotConfigured => 'تأكيد المكافآت غير مهيأ بعد.';
+
+  @override
+  String get rewardedLimitReached => 'وصلت إلى حد المكافآت. حاول لاحقًا.';
 
   @override
   String get adminLogin => 'تسجيل دخول المدير';

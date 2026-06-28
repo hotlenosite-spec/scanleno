@@ -146,7 +146,7 @@
           return `<section class="card">
             ${flag('adsEnabled', 'Ads')}${flag('ocrEnabled', 'OCR')}${flag('ocrPremiumOnly', 'OCR Premium only')}${flag('ocrWithScanCreditEnabled', 'Allow OCR with scan_credit')}${flag('advancedPdfToolsEnabled', 'Advanced PDF tools')}${flag('watermarkEnabled', 'Watermark')}
             ${row('OCR provider', state.data.featureFlags.azureOcrProvider || 'Azure Document Intelligence')}
-            ${row('OCR model', state.data.featureFlags.azureOcrModel || 'prebuilt-read')}
+            ${row('OCR model', state.data.featureFlags.azureOcrModel || 'prebuilt-layout')}
             ${row('Azure OCR status', state.data.featureFlags.azureOcrEnabled ? 'Enabled' : 'Disabled')}
             <label class="row"><span>Free daily limit</span><input style="max-width:120px" type="number" min="1" data-number-flag="freeDailyScanLimit" value="${state.data.featureFlags.freeDailyScanLimit || 10}"></label>
             <label class="row"><span>Free Image to PDF limit</span><input style="max-width:120px" type="number" min="1" data-number-flag="freeImageToPdfLimit" value="${state.data.featureFlags.freeImageToPdfLimit || 12}"></label>

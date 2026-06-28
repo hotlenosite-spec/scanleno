@@ -9,6 +9,8 @@ import '../../../core/routing/app_routes.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../core/widgets/app_screen.dart';
 import '../../ads/application/ad_service.dart';
+import '../../premium/application/premium_access_service.dart';
+import '../../premium/presentation/premium_gate_dialog.dart';
 import '../../premium/application/subscription_service.dart';
 import '../../scanner/application/document_draft_controller.dart';
 import '../application/document_export_service.dart';
@@ -57,8 +59,14 @@ class _ExportPageState extends State<ExportPage> {
           documentDraft.pages.length + files.length >
               FeatureFlags.freeImageToPdfLimit) {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(context.l10n.imageToPdfLimitReached)),
+          final access = await premiumAccessService.canAccessPremiumFeature(
+            PremiumFeature.unlimitedScans,
+          );
+          if (!mounted) return;
+          await showPremiumGateDialog(
+            context,
+            feature: PremiumFeature.unlimitedScans,
+            result: access,
           );
         }
         return;
@@ -103,6 +111,26 @@ class _ExportPageState extends State<ExportPage> {
     } finally {
       if (mounted) setState(() => saving = false);
     }
+  }
+
+  Future<void> _toggleOcr(bool value) async {
+    if (!value) {
+      setState(() => ocrRequested = false);
+      return;
+    }
+    final access = await premiumAccessService.canAccessPremiumFeature(
+      PremiumFeature.ocr,
+    );
+    if (!mounted) return;
+    if (!access.allowed) {
+      await showPremiumGateDialog(
+        context,
+        feature: PremiumFeature.ocr,
+        result: access,
+      );
+      return;
+    }
+    setState(() => ocrRequested = true);
   }
 
   Future<void> _share() async {
@@ -298,7 +326,7 @@ class _ExportPageState extends State<ExportPage> {
                       subtitle: FeatureFlags.ocrAsPremium
                           ? l.premiumFeature
                           : l.ocrComingSoon,
-                      onChanged: (value) => setState(() => ocrRequested = value),
+                      onChanged: _toggleOcr,
                     ),
                   ],
                 ),

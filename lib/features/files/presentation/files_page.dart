@@ -10,7 +10,9 @@ import '../../../core/theme/app_tokens.dart';
 import '../../../core/widgets/app_screen.dart';
 import '../../ads/application/ad_service.dart';
 import '../../ads/presentation/ad_banner_slot.dart';
+import '../../premium/application/premium_access_service.dart';
 import '../../premium/application/subscription_service.dart';
+import '../../premium/presentation/premium_gate_dialog.dart';
 import '../application/local_file_repository.dart';
 
 class FilesPage extends StatefulWidget {
@@ -180,9 +182,15 @@ class _FilesPageState extends State<FilesPage> {
     if (!context.mounted) return;
     if (!subscriptionService.isPremium &&
         customFolderCount >= FeatureFlags.freeFolderLimit) {
-      ScaffoldMessenger.of(
+      final access = await premiumAccessService.canAccessPremiumFeature(
+        PremiumFeature.unlimitedFolders,
+      );
+      if (!context.mounted) return;
+      await showPremiumGateDialog(
         context,
-      ).showSnackBar(SnackBar(content: Text(context.l10n.folderLimitReached)));
+        feature: PremiumFeature.unlimitedFolders,
+        result: access,
+      );
       return;
     }
     final name = await _textDialog(context, title: context.l10n.newFolder, label: context.l10n.folderName);
