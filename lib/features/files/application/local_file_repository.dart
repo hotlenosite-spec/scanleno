@@ -7,7 +7,7 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../../core/database/scanleno_database.dart';
 
-enum StoredDocumentType { pdf, image, text }
+enum StoredDocumentType { pdf, image, text, xlsx, docx }
 
 enum FileSortMode { newest, oldest, name, size }
 
@@ -51,8 +51,19 @@ class StoredDocument {
     this.ocrModel,
     this.ocrCreatedAt,
     this.ocrLanguage,
+    this.ocrDetectedLanguage,
     this.ocrConfidence,
     this.ocrPageIndex,
+    this.hasWatermark = false,
+    this.watermarkType,
+    this.originalDocumentId,
+    this.outputType,
+    this.conversionType,
+    this.conversionProvider,
+    this.conversionModel,
+    this.tablesCount,
+    this.paragraphsCount,
+    this.pagesProcessed,
     this.isFavorite = false,
     this.isDeleted = false,
     this.deletedAt,
@@ -73,8 +84,19 @@ class StoredDocument {
   final String? ocrModel;
   final DateTime? ocrCreatedAt;
   final String? ocrLanguage;
+  final String? ocrDetectedLanguage;
   final double? ocrConfidence;
   final int? ocrPageIndex;
+  final bool hasWatermark;
+  final String? watermarkType;
+  final String? originalDocumentId;
+  final String? outputType;
+  final String? conversionType;
+  final String? conversionProvider;
+  final String? conversionModel;
+  final int? tablesCount;
+  final int? paragraphsCount;
+  final int? pagesProcessed;
   final bool isFavorite;
   final bool isDeleted;
   final DateTime? deletedAt;
@@ -95,12 +117,114 @@ class StoredDocument {
     ocrModel: record.ocrModel,
     ocrCreatedAt: record.ocrCreatedAt,
     ocrLanguage: record.ocrLanguage,
+    ocrDetectedLanguage: record.ocrDetectedLanguage,
     ocrConfidence: record.ocrConfidence,
     ocrPageIndex: record.ocrPageIndex,
+    hasWatermark: record.hasWatermark,
+    watermarkType: record.watermarkType,
+    originalDocumentId: record.originalDocumentId,
+    outputType: record.outputType,
+    conversionType: record.conversionType,
+    conversionProvider: record.conversionProvider,
+    conversionModel: record.conversionModel,
+    tablesCount: record.tablesCount,
+    paragraphsCount: record.paragraphsCount,
+    pagesProcessed: record.pagesProcessed,
     isFavorite: record.isFavorite,
     isDeleted: record.isDeleted,
     deletedAt: record.deletedAt,
   );
+}
+
+class StoredTranslation {
+  const StoredTranslation({
+    required this.id,
+    required this.documentId,
+    required this.pageIndex,
+    required this.sourceLanguage,
+    required this.targetLanguage,
+    required this.sourceText,
+    required this.translatedText,
+    required this.provider,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  final String id;
+  final String? documentId;
+  final int pageIndex;
+  final String? sourceLanguage;
+  final String targetLanguage;
+  final String sourceText;
+  final String translatedText;
+  final String provider;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+
+  factory StoredTranslation.fromRecord(DocumentTranslationRecord record) {
+    return StoredTranslation(
+      id: record.id,
+      documentId: record.documentId,
+      pageIndex: record.pageIndex,
+      sourceLanguage: record.sourceLanguage,
+      targetLanguage: record.targetLanguage,
+      sourceText: record.sourceText,
+      translatedText: record.translatedText,
+      provider: record.provider,
+      createdAt: record.createdAt,
+      updatedAt: record.updatedAt,
+    );
+  }
+}
+
+class StoredSummary {
+  const StoredSummary({
+    required this.id,
+    required this.documentId,
+    required this.pageIndex,
+    required this.sourceLanguage,
+    required this.summaryLanguage,
+    required this.sourceTextLength,
+    required this.summaryText,
+    required this.summaryLength,
+    required this.provider,
+    required this.model,
+    required this.deployment,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  final String id;
+  final String? documentId;
+  final int pageIndex;
+  final String? sourceLanguage;
+  final String summaryLanguage;
+  final int sourceTextLength;
+  final String summaryText;
+  final String summaryLength;
+  final String provider;
+  final String model;
+  final String deployment;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+
+  factory StoredSummary.fromRecord(DocumentSummaryRecord record) {
+    return StoredSummary(
+      id: record.id,
+      documentId: record.documentId,
+      pageIndex: record.pageIndex,
+      sourceLanguage: record.sourceLanguage,
+      summaryLanguage: record.summaryLanguage,
+      sourceTextLength: record.sourceTextLength,
+      summaryText: record.summaryText,
+      summaryLength: record.summaryLength,
+      provider: record.provider,
+      model: record.model,
+      deployment: record.deployment,
+      createdAt: record.createdAt,
+      updatedAt: record.updatedAt,
+    );
+  }
 }
 
 class LocalFileState {
@@ -136,6 +260,16 @@ class LocalFileRepository {
     required StoredDocumentType type,
     required int pageCount,
     String? thumbnailPath,
+    bool hasWatermark = false,
+    String? watermarkType,
+    String? originalDocumentId,
+    String? outputType,
+    String? conversionType,
+    String? conversionProvider,
+    String? conversionModel,
+    int? tablesCount,
+    int? paragraphsCount,
+    int? pagesProcessed,
   }) async {
     await database.ensureDefaultFolders();
     final now = DateTime.now();
@@ -156,6 +290,16 @@ class LocalFileRepository {
           createdAt: now,
           updatedAt: now,
           thumbnailPath: Value(thumbnailPath),
+          hasWatermark: Value(hasWatermark),
+          watermarkType: Value(watermarkType),
+          originalDocumentId: Value(originalDocumentId),
+          outputType: Value(outputType),
+          conversionType: Value(conversionType),
+          conversionProvider: Value(conversionProvider),
+          conversionModel: Value(conversionModel),
+          tablesCount: Value(tablesCount),
+          paragraphsCount: Value(paragraphsCount),
+          pagesProcessed: Value(pagesProcessed),
         ),
       );
     }
@@ -231,6 +375,7 @@ class LocalFileRepository {
     required DateTime createdAt,
     required int pageIndex,
     String? language,
+    String? detectedLanguage,
     double? confidence,
   }) async {
     await _updateDocument(
@@ -241,6 +386,7 @@ class LocalFileRepository {
         ocrModel: Value(model),
         ocrCreatedAt: Value(createdAt),
         ocrLanguage: Value(language),
+        ocrDetectedLanguage: Value(detectedLanguage),
         ocrConfidence: Value(confidence),
         ocrPageIndex: Value(pageIndex),
       ),
@@ -260,6 +406,75 @@ class LocalFileRepository {
           ..where((row) => row.localPath.equals(localPath)))
         .getSingleOrNull();
     return document == null ? null : StoredDocument.fromRecord(document);
+  }
+
+  Future<List<StoredDocument>> documentsWithOcrText() async {
+    final documents = await (database.select(database.documents)
+          ..where((row) => row.ocrText.isNotNull() & row.isDeleted.equals(false)))
+        .get();
+    return documents
+        .where((record) => (record.ocrText ?? '').trim().isNotEmpty)
+        .where((record) => File(record.localPath).existsSync())
+        .map(StoredDocument.fromRecord)
+        .toList();
+  }
+
+  Future<void> saveTranslation({
+    String? documentId,
+    required int pageIndex,
+    String? sourceLanguage,
+    required String targetLanguage,
+    required String sourceText,
+    required String translatedText,
+    required String provider,
+  }) async {
+    final now = DateTime.now();
+    await database.into(database.documentTranslations).insert(
+      DocumentTranslationsCompanion.insert(
+        id: now.microsecondsSinceEpoch.toString(),
+        documentId: Value(documentId),
+        pageIndex: Value(pageIndex),
+        sourceLanguage: Value(sourceLanguage),
+        targetLanguage: targetLanguage,
+        sourceText: sourceText,
+        translatedText: translatedText,
+        provider: provider,
+        createdAt: now,
+        updatedAt: now,
+      ),
+    );
+  }
+
+  Future<void> saveSummary({
+    String? documentId,
+    required int pageIndex,
+    String? sourceLanguage,
+    required String summaryLanguage,
+    required int sourceTextLength,
+    required String summaryText,
+    required String summaryLength,
+    required String provider,
+    required String model,
+    required String deployment,
+  }) async {
+    final now = DateTime.now();
+    await database.into(database.documentSummaries).insert(
+      DocumentSummariesCompanion.insert(
+        id: now.microsecondsSinceEpoch.toString(),
+        documentId: Value(documentId),
+        pageIndex: Value(pageIndex),
+        sourceLanguage: Value(sourceLanguage),
+        summaryLanguage: summaryLanguage,
+        sourceTextLength: sourceTextLength,
+        summaryText: summaryText,
+        summaryLength: summaryLength,
+        provider: provider,
+        model: model,
+        deployment: deployment,
+        createdAt: now,
+        updatedAt: now,
+      ),
+    );
   }
 
   Future<void> incrementDailyUsage({
@@ -382,6 +597,8 @@ class LocalFileRepository {
         'pdf' => StoredDocumentType.pdf,
         'jpg' || 'jpeg' || 'png' => StoredDocumentType.image,
         'txt' => StoredDocumentType.text,
+        'xlsx' => StoredDocumentType.xlsx,
+        'docx' => StoredDocumentType.docx,
         _ => null,
       };
       if (type == null) continue;

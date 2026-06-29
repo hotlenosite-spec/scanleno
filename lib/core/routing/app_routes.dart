@@ -13,4 +13,9 @@ abstract final class AppRoutes {
   static const premium = '/premium';
   static const admin = '/admin';
   static const ads = '/ads';
+  static const watermark = '/watermark';
+  static const translate = '/translate';
+  static const aiSummary = '/ai-summary';
+  static const pdfToExcel = '/pdf-to-excel';
+  static const pdfToWord = '/pdf-to-word';
 }

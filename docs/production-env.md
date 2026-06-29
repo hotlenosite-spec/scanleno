@@ -46,8 +46,37 @@ Required:
 - `SCANLENO_ALLOWED_ORIGINS=https://app.scanleno.com`
 - `AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT`
 - `AZURE_DOCUMENT_INTELLIGENCE_KEY`
-- `AZURE_DOCUMENT_INTELLIGENCE_MODEL=prebuilt-layout`
+- `AZURE_DOCUMENT_INTELLIGENCE_MODEL=prebuilt-read`
+- `AZURE_DOCUMENT_INTELLIGENCE_READ_MODEL=prebuilt-read`
+- `AZURE_DOCUMENT_INTELLIGENCE_LAYOUT_MODEL=prebuilt-layout`
 - `AZURE_DOCUMENT_INTELLIGENCE_API_VERSION=2024-11-30`
+
+Azure Translator, when translation is enabled:
+
+- `AZURE_TRANSLATOR_ENABLED=true`
+- `AZURE_TRANSLATOR_ENDPOINT=https://api.cognitive.microsofttranslator.com/`
+- `AZURE_TRANSLATOR_REGION=global`
+- `AZURE_TRANSLATOR_KEY`
+- `SCANLENO_TRANSLATE_MAX_TEXT_CHARS=10000`
+- `SCANLENO_TRANSLATE_USER_RATE_LIMIT_PER_MINUTE=20`
+- `SCANLENO_TRANSLATE_IP_RATE_LIMIT_PER_MINUTE=40`
+
+Azure OpenAI / Azure AI Foundry, when AI Summary is enabled:
+
+- `AZURE_AI_SUMMARY_ENABLED=true`
+- `AZURE_AI_PROJECT_ENDPOINT`
+- `AZURE_OPENAI_ENDPOINT=https://scanleno-ai-summary.openai.azure.com/openai/v1`
+- `AZURE_OPENAI_DEPLOYMENT=scanleno-gpt-4o-mini`
+- `AZURE_OPENAI_MODEL=gpt-4o-mini`
+- `AZURE_OPENAI_API_VERSION=2024-12-01-preview`
+- `AZURE_OPENAI_KEY`
+- `SCANLENO_AI_SUMMARY_MAX_TEXT_CHARS=12000`
+- `SCANLENO_AI_SUMMARY_USER_RATE_LIMIT_PER_MINUTE=10`
+- `SCANLENO_AI_SUMMARY_IP_RATE_LIMIT_PER_MINUTE=20`
+
+If the `scanleno-gpt-4o-mini` deployment does not exist in Azure AI Foundry,
+create a deployment with that name or update `AZURE_OPENAI_DEPLOYMENT` in the
+backend environment. Do not put Azure OpenAI keys in Flutter or Git.
 
 Recommended:
 
@@ -64,6 +93,21 @@ AdMob rewarded SSV:
 - `REWARDED_CREDIT_ITEM=scan_credit`
 - `REWARDED_CREDIT_AMOUNT=1`
 - `REWARDED_CUSTOM_DATA_SECRET`
+
+Stripe Web subscriptions:
+
+- `STRIPE_WEB_ENABLED=true` only for ScanLeno Web subscription checkout
+- `STRIPE_MODE=live`
+- `STRIPE_SECRET_KEY` from backend secrets only
+- `STRIPE_PUBLISHABLE_KEY`
+- `STRIPE_WEBHOOK_SECRET`
+- `STRIPE_SCANLENO_MONTHLY_PRICE_ID`
+- `STRIPE_SCANLENO_YEARLY_PRICE_ID`
+- `STRIPE_SUCCESS_URL`
+- `STRIPE_CANCEL_URL`
+
+Stripe is not used for mobile subscriptions. iOS uses Apple In-App Purchase,
+and Android uses Google Play Billing. See `docs/stripe-web-env.md`.
 
 Do not store Azure keys, store credentials, or service account JSON files in
 Flutter code or public repositories.

@@ -37,12 +37,15 @@ class _OcrPageState extends State<OcrPage> {
   String? provider;
   String? model;
   String? language;
+  String? detectedLanguage;
   double? confidence;
+  String selectedLanguage = 'auto';
 
   @override
   void initState() {
     super.initState();
     _loadAccess();
+    _loadLanguagePreference();
   }
 
   @override
@@ -72,6 +75,16 @@ class _OcrPageState extends State<OcrPage> {
         onEarnScanCredit: _earnCredit,
       );
     }
+  }
+
+  Future<void> _loadLanguagePreference() async {
+    final saved = await repository.getSetting('ocr_language_hint');
+    final fallback = FeatureFlags.defaultOcrLanguage;
+    final value = _ocrLanguages.any((item) => item.code == saved)
+        ? saved
+        : (_ocrLanguages.any((item) => item.code == fallback) ? fallback : 'auto');
+    if (!mounted) return;
+    setState(() => selectedLanguage = value ?? 'auto');
   }
 
   Future<void> _analyze() async {
@@ -108,18 +121,27 @@ class _OcrPageState extends State<OcrPage> {
         document = await repository.findDocumentByPath(page.path);
       }
       final documentId = document?.id ?? page.path.hashCode.toString();
+      final languageForRequest =
+          !FeatureFlags.allowAutoLanguageDetection && selectedLanguage == 'auto'
+              ? 'en'
+              : selectedLanguage;
       final result = await ocrService.analyzePage(
         documentId: documentId,
         pageIndex: documentDraft.currentIndex,
         imageFile: pageFile,
         isPremium: access.isPremiumUser,
         scanCreditAvailable: access.canUseScanCredit,
+        languageHint: languageForRequest,
+        model: 'read',
+        detectLanguage: languageForRequest == 'auto',
       );
       textController.text = result.text;
       provider = result.provider;
       model = result.model;
       language = result.language;
+      detectedLanguage = result.detectedLanguage;
       confidence = result.confidence;
+      await repository.saveSetting('ocr_language_hint', languageForRequest);
       if (document != null) {
         await repository.saveOcrResult(
           documentId: document.id,
@@ -128,7 +150,8 @@ class _OcrPageState extends State<OcrPage> {
           model: result.model,
           createdAt: result.createdAt,
           pageIndex: result.pageIndex,
-          language: result.language,
+          language: result.languageHint ?? languageForRequest,
+          detectedLanguage: result.detectedLanguage ?? result.language,
           confidence: result.confidence,
         );
       }
@@ -208,6 +231,14 @@ class _OcrPageState extends State<OcrPage> {
         loadedAccess &&
         documentDraft.hasPages &&
         (access?.allowed ?? false);
+    final availableOcrLanguages = FeatureFlags.allowAutoLanguageDetection
+        ? _ocrLanguages
+        : _ocrLanguages.where((item) => item.code != 'auto').toList();
+    final safeSelectedLanguage = availableOcrLanguages.any(
+      (item) => item.code == selectedLanguage,
+    )
+        ? selectedLanguage
+        : 'en';
     return AppScreen(
       title: l.ocrResult,
       showBack: true,
@@ -262,7 +293,26 @@ class _OcrPageState extends State<OcrPage> {
               )
             else if (!(access?.allowed ?? false))
               _AccessCard(onEarnCredit: _earnCredit)
-            else
+            else ...[
+              DropdownButtonFormField<String>(
+                initialValue: safeSelectedLanguage,
+                decoration: InputDecoration(labelText: l.ocrLanguage),
+                items: [
+                  for (final language in availableOcrLanguages)
+                    DropdownMenuItem(
+                      value: language.code,
+                      child: Text(language.label(context)),
+                    ),
+                ],
+                onChanged: loading
+                    ? null
+                    : (value) async {
+                        if (value == null) return;
+                        setState(() => selectedLanguage = value);
+                        await repository.saveSetting('ocr_language_hint', value);
+                      },
+              ),
+              const SizedBox(height: AppSpacing.md),
               FilledButton.icon(
                 onPressed: canAnalyze && !loading ? _analyze : null,
                 icon: loading
@@ -274,6 +324,7 @@ class _OcrPageState extends State<OcrPage> {
                     : const Icon(Icons.document_scanner_outlined),
                 label: Text(loading ? l.loading : l.extractTextNow),
               ),
+            ],
             const SizedBox(height: AppSpacing.md),
             if (textController.text.trim().isNotEmpty) ...[
               SoftCard(
@@ -294,7 +345,7 @@ class _OcrPageState extends State<OcrPage> {
                 ),
               ),
               const SizedBox(height: AppSpacing.md),
-              _OcrMeta(provider: provider, model: model, language: language, confidence: confidence),
+              _OcrMeta(provider: provider, model: model, language: language, detectedLanguage: detectedLanguage, confidence: confidence),
               const SizedBox(height: AppSpacing.md),
               TextField(
                 controller: searchController,
@@ -430,12 +481,14 @@ class _OcrMeta extends StatelessWidget {
     required this.provider,
     required this.model,
     required this.language,
+    required this.detectedLanguage,
     required this.confidence,
   });
 
   final String? provider;
   final String? model;
   final String? language;
+  final String? detectedLanguage;
   final double? confidence;
 
   @override
@@ -446,10 +499,14 @@ class _OcrMeta extends StatelessWidget {
         children: [
           _MetaRow(label: l.provider, value: provider ?? 'azure_document_intelligence'),
           const Divider(),
-          _MetaRow(label: l.model, value: model ?? 'prebuilt-layout'),
+          _MetaRow(label: l.model, value: model ?? 'prebuilt-read'),
           if (language != null) ...[
             const Divider(),
             _MetaRow(label: l.language, value: language!),
+          ],
+          if (detectedLanguage != null) ...[
+            const Divider(),
+            _MetaRow(label: l.ocrDetectedLanguage, value: detectedLanguage!),
           ],
           if (confidence != null) ...[
             const Divider(),
@@ -463,6 +520,59 @@ class _OcrMeta extends StatelessWidget {
     );
   }
 }
+
+class _OcrLanguageOption {
+  const _OcrLanguageOption(this.code, this.labelKey);
+
+  final String code;
+  final String labelKey;
+
+  String label(BuildContext context) {
+    final l = context.l10n;
+    return switch (labelKey) {
+      'autoDetect' => l.autoDetect,
+      'arabic' => l.arabic,
+      'english' => l.english,
+      'turkish' => l.turkish,
+      'french' => l.french,
+      'spanish' => l.spanish,
+      'german' => l.german,
+      'italian' => l.italian,
+      'portuguese' => l.portuguese,
+      'chineseSimplified' => l.chineseSimplified,
+      'chineseTraditional' => l.chineseTraditional,
+      'japanese' => l.japanese,
+      'korean' => l.korean,
+      'hindi' => l.hindi,
+      'urdu' => l.urdu,
+      'indonesian' => l.indonesian,
+      'malay' => l.malay,
+      'russian' => l.russian,
+      _ => code,
+    };
+  }
+}
+
+const _ocrLanguages = [
+  _OcrLanguageOption('auto', 'autoDetect'),
+  _OcrLanguageOption('ar', 'arabic'),
+  _OcrLanguageOption('en', 'english'),
+  _OcrLanguageOption('tr', 'turkish'),
+  _OcrLanguageOption('fr', 'french'),
+  _OcrLanguageOption('es', 'spanish'),
+  _OcrLanguageOption('de', 'german'),
+  _OcrLanguageOption('it', 'italian'),
+  _OcrLanguageOption('pt', 'portuguese'),
+  _OcrLanguageOption('zh-Hans', 'chineseSimplified'),
+  _OcrLanguageOption('zh-Hant', 'chineseTraditional'),
+  _OcrLanguageOption('ja', 'japanese'),
+  _OcrLanguageOption('ko', 'korean'),
+  _OcrLanguageOption('hi', 'hindi'),
+  _OcrLanguageOption('ur', 'urdu'),
+  _OcrLanguageOption('id', 'indonesian'),
+  _OcrLanguageOption('ms', 'malay'),
+  _OcrLanguageOption('ru', 'russian'),
+];
 
 class _MetaRow extends StatelessWidget {
   const _MetaRow({required this.label, required this.value});

@@ -2332,6 +2332,948 @@ abstract class ScanLenoLocalizations {
   /// In en, this message translates to:
   /// **'Role'**
   String get role;
+
+  /// No description provided for @selectFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Select file'**
+  String get selectFile;
+
+  /// No description provided for @watermarkType.
+  ///
+  /// In en, this message translates to:
+  /// **'Watermark type'**
+  String get watermarkType;
+
+  /// No description provided for @text.
+  ///
+  /// In en, this message translates to:
+  /// **'Text'**
+  String get text;
+
+  /// No description provided for @logoImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Logo image'**
+  String get logoImage;
+
+  /// No description provided for @watermarkText.
+  ///
+  /// In en, this message translates to:
+  /// **'Watermark text'**
+  String get watermarkText;
+
+  /// No description provided for @chooseLogo.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose logo'**
+  String get chooseLogo;
+
+  /// No description provided for @logoSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'Logo selected'**
+  String get logoSelected;
+
+  /// No description provided for @opacity.
+  ///
+  /// In en, this message translates to:
+  /// **'Opacity'**
+  String get opacity;
+
+  /// No description provided for @rotation.
+  ///
+  /// In en, this message translates to:
+  /// **'Rotation'**
+  String get rotation;
+
+  /// No description provided for @fontSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Font size'**
+  String get fontSize;
+
+  /// No description provided for @position.
+  ///
+  /// In en, this message translates to:
+  /// **'Position'**
+  String get position;
+
+  /// No description provided for @center.
+  ///
+  /// In en, this message translates to:
+  /// **'Center'**
+  String get center;
+
+  /// No description provided for @top.
+  ///
+  /// In en, this message translates to:
+  /// **'Top'**
+  String get top;
+
+  /// No description provided for @bottom.
+  ///
+  /// In en, this message translates to:
+  /// **'Bottom'**
+  String get bottom;
+
+  /// No description provided for @right.
+  ///
+  /// In en, this message translates to:
+  /// **'Right'**
+  String get right;
+
+  /// No description provided for @left.
+  ///
+  /// In en, this message translates to:
+  /// **'Left'**
+  String get left;
+
+  /// No description provided for @repeatOnPage.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat on page'**
+  String get repeatOnPage;
+
+  /// No description provided for @applyToAllPages.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply to all pages'**
+  String get applyToAllPages;
+
+  /// No description provided for @saveCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Save copy'**
+  String get saveCopy;
+
+  /// No description provided for @watermarkAddedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Watermark added successfully.'**
+  String get watermarkAddedSuccess;
+
+  /// No description provided for @watermarkAddFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not add watermark. Please try again.'**
+  String get watermarkAddFailed;
+
+  /// No description provided for @watermarkDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Watermark is disabled from the admin panel.'**
+  String get watermarkDisabled;
+
+  /// No description provided for @freeVersionWatermark.
+  ///
+  /// In en, this message translates to:
+  /// **'Free exports include a ScanLeno watermark.'**
+  String get freeVersionWatermark;
+
+  /// No description provided for @noWatermarkForPremium.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium users can export without the default watermark.'**
+  String get noWatermarkForPremium;
+
+  /// No description provided for @watermarkUnsupportedPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Existing PDF files cannot be edited directly yet. Use Save & Export to create a watermarked PDF from scanned pages.'**
+  String get watermarkUnsupportedPdf;
+
+  /// No description provided for @preview.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview'**
+  String get preview;
+
+  /// No description provided for @noFilesYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No files yet.'**
+  String get noFilesYet;
+
+  /// No description provided for @aiTranslate.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Translate'**
+  String get aiTranslate;
+
+  /// No description provided for @documentTranslate.
+  ///
+  /// In en, this message translates to:
+  /// **'Document Translate'**
+  String get documentTranslate;
+
+  /// No description provided for @translate.
+  ///
+  /// In en, this message translates to:
+  /// **'Translate'**
+  String get translate;
+
+  /// No description provided for @translateSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Text source'**
+  String get translateSource;
+
+  /// No description provided for @ocrSavedText.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved OCR text'**
+  String get ocrSavedText;
+
+  /// No description provided for @manualText.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual text'**
+  String get manualText;
+
+  /// No description provided for @sourceLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Source language'**
+  String get sourceLanguage;
+
+  /// No description provided for @targetLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Target language'**
+  String get targetLanguage;
+
+  /// No description provided for @autoDetect.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto Detect'**
+  String get autoDetect;
+
+  /// No description provided for @translatedText.
+  ///
+  /// In en, this message translates to:
+  /// **'Translated text'**
+  String get translatedText;
+
+  /// No description provided for @translateComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Translation complete.'**
+  String get translateComplete;
+
+  /// No description provided for @translateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Translation failed. Please try again.'**
+  String get translateFailed;
+
+  /// No description provided for @translateDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Translation is disabled from the admin panel.'**
+  String get translateDisabled;
+
+  /// No description provided for @emptyTranslateText.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter text to translate.'**
+  String get emptyTranslateText;
+
+  /// No description provided for @translateTextTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'The text is too long to translate at once.'**
+  String get translateTextTooLong;
+
+  /// No description provided for @unsupportedLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'This language is not supported yet.'**
+  String get unsupportedLanguage;
+
+  /// No description provided for @translateRateLimited.
+  ///
+  /// In en, this message translates to:
+  /// **'Translation is temporarily limited. Please try again later.'**
+  String get translateRateLimited;
+
+  /// No description provided for @premiumRequiredForTranslate.
+  ///
+  /// In en, this message translates to:
+  /// **'Translation is available with Premium, or with one scan credit when enabled.'**
+  String get premiumRequiredForTranslate;
+
+  /// No description provided for @translateCreditMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You can use one scan credit for this translation. The credit is only consumed after a successful translation.'**
+  String get translateCreditMessage;
+
+  /// No description provided for @watchAdForOneTranslateCredit.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch an ad for one translate credit'**
+  String get watchAdForOneTranslateCredit;
+
+  /// No description provided for @translatePremiumOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Translation Premium only'**
+  String get translatePremiumOnly;
+
+  /// No description provided for @translateWithScanCredit.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow translation with scan_credit'**
+  String get translateWithScanCredit;
+
+  /// No description provided for @freeDailyTranslateLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Free daily translation limit'**
+  String get freeDailyTranslateLimit;
+
+  /// No description provided for @premiumMonthlyTranslateLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium monthly translation limit'**
+  String get premiumMonthlyTranslateLimit;
+
+  /// No description provided for @translatorProvider.
+  ///
+  /// In en, this message translates to:
+  /// **'Translator provider'**
+  String get translatorProvider;
+
+  /// No description provided for @translatorRegion.
+  ///
+  /// In en, this message translates to:
+  /// **'Translator region'**
+  String get translatorRegion;
+
+  /// No description provided for @copied.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied.'**
+  String get copied;
+
+  /// No description provided for @aiSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Summary'**
+  String get aiSummary;
+
+  /// No description provided for @documentSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Document Summary'**
+  String get documentSummary;
+
+  /// No description provided for @summarySource.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary source'**
+  String get summarySource;
+
+  /// No description provided for @summarize.
+  ///
+  /// In en, this message translates to:
+  /// **'Summarize'**
+  String get summarize;
+
+  /// No description provided for @summaryLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary language'**
+  String get summaryLanguage;
+
+  /// No description provided for @summaryLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary length'**
+  String get summaryLength;
+
+  /// No description provided for @sameAsDocument.
+  ///
+  /// In en, this message translates to:
+  /// **'Same as document'**
+  String get sameAsDocument;
+
+  /// No description provided for @arabic.
+  ///
+  /// In en, this message translates to:
+  /// **'Arabic'**
+  String get arabic;
+
+  /// No description provided for @english.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get english;
+
+  /// No description provided for @summaryShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Short'**
+  String get summaryShort;
+
+  /// No description provided for @summaryMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get summaryMedium;
+
+  /// No description provided for @summaryDetailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Detailed'**
+  String get summaryDetailed;
+
+  /// No description provided for @originalText.
+  ///
+  /// In en, this message translates to:
+  /// **'Original text'**
+  String get originalText;
+
+  /// No description provided for @summaryText.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary'**
+  String get summaryText;
+
+  /// No description provided for @aiSummaryComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary created.'**
+  String get aiSummaryComplete;
+
+  /// No description provided for @aiSummaryFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not summarize the text. Please try again.'**
+  String get aiSummaryFailed;
+
+  /// No description provided for @aiSummaryDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Summary is disabled from the admin panel.'**
+  String get aiSummaryDisabled;
+
+  /// No description provided for @emptySummaryText.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter text to summarize.'**
+  String get emptySummaryText;
+
+  /// No description provided for @aiSummaryTextTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'The text is too long to summarize at once.'**
+  String get aiSummaryTextTooLong;
+
+  /// No description provided for @invalidSummaryLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a valid summary length.'**
+  String get invalidSummaryLength;
+
+  /// No description provided for @aiSummaryRateLimited.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Summary is temporarily limited. Please try again later.'**
+  String get aiSummaryRateLimited;
+
+  /// No description provided for @premiumRequiredForAiSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Summary is available with Premium, or with one scan credit when enabled.'**
+  String get premiumRequiredForAiSummary;
+
+  /// No description provided for @aiSummaryCreditMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You can use one scan credit for this summary. The credit is only consumed after a successful summary.'**
+  String get aiSummaryCreditMessage;
+
+  /// No description provided for @watchAdForOneAiSummaryCredit.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch an ad for one summary credit'**
+  String get watchAdForOneAiSummaryCredit;
+
+  /// No description provided for @aiSummaryPremiumOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Summary Premium only'**
+  String get aiSummaryPremiumOnly;
+
+  /// No description provided for @aiSummaryWithScanCredit.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow AI Summary with scan_credit'**
+  String get aiSummaryWithScanCredit;
+
+  /// No description provided for @freeDailySummaryLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Free daily summary limit'**
+  String get freeDailySummaryLimit;
+
+  /// No description provided for @premiumMonthlySummaryLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium monthly summary limit'**
+  String get premiumMonthlySummaryLimit;
+
+  /// No description provided for @aiSummaryProvider.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Summary provider'**
+  String get aiSummaryProvider;
+
+  /// No description provided for @aiSummaryModel.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Summary model'**
+  String get aiSummaryModel;
+
+  /// No description provided for @aiSummaryDeployment.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Summary deployment'**
+  String get aiSummaryDeployment;
+
+  /// No description provided for @ocrLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'OCR language'**
+  String get ocrLanguage;
+
+  /// No description provided for @ocrDetectedLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Detected language'**
+  String get ocrDetectedLanguage;
+
+  /// No description provided for @defaultOcrLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Default OCR language'**
+  String get defaultOcrLanguage;
+
+  /// No description provided for @allowAutoLanguageDetection.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow auto language detection'**
+  String get allowAutoLanguageDetection;
+
+  /// No description provided for @ocrReadModel.
+  ///
+  /// In en, this message translates to:
+  /// **'OCR read model'**
+  String get ocrReadModel;
+
+  /// No description provided for @ocrLayoutModel.
+  ///
+  /// In en, this message translates to:
+  /// **'OCR layout model'**
+  String get ocrLayoutModel;
+
+  /// No description provided for @turkish.
+  ///
+  /// In en, this message translates to:
+  /// **'Turkish'**
+  String get turkish;
+
+  /// No description provided for @french.
+  ///
+  /// In en, this message translates to:
+  /// **'French'**
+  String get french;
+
+  /// No description provided for @spanish.
+  ///
+  /// In en, this message translates to:
+  /// **'Spanish'**
+  String get spanish;
+
+  /// No description provided for @german.
+  ///
+  /// In en, this message translates to:
+  /// **'German'**
+  String get german;
+
+  /// No description provided for @italian.
+  ///
+  /// In en, this message translates to:
+  /// **'Italian'**
+  String get italian;
+
+  /// No description provided for @portuguese.
+  ///
+  /// In en, this message translates to:
+  /// **'Portuguese'**
+  String get portuguese;
+
+  /// No description provided for @chineseSimplified.
+  ///
+  /// In en, this message translates to:
+  /// **'Chinese Simplified'**
+  String get chineseSimplified;
+
+  /// No description provided for @chineseTraditional.
+  ///
+  /// In en, this message translates to:
+  /// **'Chinese Traditional'**
+  String get chineseTraditional;
+
+  /// No description provided for @japanese.
+  ///
+  /// In en, this message translates to:
+  /// **'Japanese'**
+  String get japanese;
+
+  /// No description provided for @korean.
+  ///
+  /// In en, this message translates to:
+  /// **'Korean'**
+  String get korean;
+
+  /// No description provided for @hindi.
+  ///
+  /// In en, this message translates to:
+  /// **'Hindi'**
+  String get hindi;
+
+  /// No description provided for @urdu.
+  ///
+  /// In en, this message translates to:
+  /// **'Urdu'**
+  String get urdu;
+
+  /// No description provided for @indonesian.
+  ///
+  /// In en, this message translates to:
+  /// **'Indonesian'**
+  String get indonesian;
+
+  /// No description provided for @malay.
+  ///
+  /// In en, this message translates to:
+  /// **'Malay'**
+  String get malay;
+
+  /// No description provided for @russian.
+  ///
+  /// In en, this message translates to:
+  /// **'Russian'**
+  String get russian;
+
+  /// No description provided for @pdfToExcel.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF to Excel'**
+  String get pdfToExcel;
+
+  /// No description provided for @convertToExcel.
+  ///
+  /// In en, this message translates to:
+  /// **'Convert to Excel'**
+  String get convertToExcel;
+
+  /// No description provided for @selectPdfFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Select PDF file'**
+  String get selectPdfFile;
+
+  /// No description provided for @noPdfFilesYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No PDF files yet.'**
+  String get noPdfFilesYet;
+
+  /// No description provided for @extractAllTables.
+  ///
+  /// In en, this message translates to:
+  /// **'Extract all tables'**
+  String get extractAllTables;
+
+  /// No description provided for @oneTablePerSheet.
+  ///
+  /// In en, this message translates to:
+  /// **'One table per sheet'**
+  String get oneTablePerSheet;
+
+  /// No description provided for @includeTextSheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Add text sheet'**
+  String get includeTextSheet;
+
+  /// No description provided for @pdfToExcelComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Excel file created.'**
+  String get pdfToExcelComplete;
+
+  /// No description provided for @pdfToExcelFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not convert this PDF to Excel. Please try again.'**
+  String get pdfToExcelFailed;
+
+  /// No description provided for @pdfToExcelDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF to Excel is disabled from the admin panel.'**
+  String get pdfToExcelDisabled;
+
+  /// No description provided for @pdfToExcelRateLimited.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF to Excel is temporarily limited. Please try again later.'**
+  String get pdfToExcelRateLimited;
+
+  /// No description provided for @invalidPdfFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a valid PDF file.'**
+  String get invalidPdfFile;
+
+  /// No description provided for @tablesExtracted.
+  ///
+  /// In en, this message translates to:
+  /// **'Tables extracted'**
+  String get tablesExtracted;
+
+  /// No description provided for @pagesProcessed.
+  ///
+  /// In en, this message translates to:
+  /// **'Pages processed'**
+  String get pagesProcessed;
+
+  /// No description provided for @excelWorkbook.
+  ///
+  /// In en, this message translates to:
+  /// **'Excel workbook'**
+  String get excelWorkbook;
+
+  /// No description provided for @openFileUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'This file cannot be opened on this device right now.'**
+  String get openFileUnavailable;
+
+  /// No description provided for @premiumRequiredForPdfToExcel.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF to Excel is available with Premium, or with one scan credit when enabled.'**
+  String get premiumRequiredForPdfToExcel;
+
+  /// No description provided for @pdfToExcelCreditMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You can use one scan credit for this conversion. The credit is only consumed after a successful Excel file is created.'**
+  String get pdfToExcelCreditMessage;
+
+  /// No description provided for @watchAdForOnePdfToExcelCredit.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch an ad for one Excel conversion credit'**
+  String get watchAdForOnePdfToExcelCredit;
+
+  /// No description provided for @pdfToExcelPremiumOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF to Excel Premium only'**
+  String get pdfToExcelPremiumOnly;
+
+  /// No description provided for @pdfToExcelWithScanCredit.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow PDF to Excel with scan_credit'**
+  String get pdfToExcelWithScanCredit;
+
+  /// No description provided for @freeDailyPdfToExcelLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Free daily PDF to Excel limit'**
+  String get freeDailyPdfToExcelLimit;
+
+  /// No description provided for @premiumMonthlyPdfToExcelLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium monthly PDF to Excel limit'**
+  String get premiumMonthlyPdfToExcelLimit;
+
+  /// No description provided for @pdfToExcelProvider.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF to Excel provider'**
+  String get pdfToExcelProvider;
+
+  /// No description provided for @pdfToExcelModel.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF to Excel model'**
+  String get pdfToExcelModel;
+
+  /// No description provided for @pdfToWord.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF to Word'**
+  String get pdfToWord;
+
+  /// No description provided for @convertToWord.
+  ///
+  /// In en, this message translates to:
+  /// **'Convert to Word'**
+  String get convertToWord;
+
+  /// No description provided for @preserveParagraphs.
+  ///
+  /// In en, this message translates to:
+  /// **'Preserve paragraphs'**
+  String get preserveParagraphs;
+
+  /// No description provided for @includeTables.
+  ///
+  /// In en, this message translates to:
+  /// **'Include tables'**
+  String get includeTables;
+
+  /// No description provided for @includePageBreaks.
+  ///
+  /// In en, this message translates to:
+  /// **'Add page breaks'**
+  String get includePageBreaks;
+
+  /// No description provided for @includeHeadings.
+  ///
+  /// In en, this message translates to:
+  /// **'Detect headings'**
+  String get includeHeadings;
+
+  /// No description provided for @textDirection.
+  ///
+  /// In en, this message translates to:
+  /// **'Text direction'**
+  String get textDirection;
+
+  /// No description provided for @autoTextDirection.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto'**
+  String get autoTextDirection;
+
+  /// No description provided for @rtlDirection.
+  ///
+  /// In en, this message translates to:
+  /// **'Right to left'**
+  String get rtlDirection;
+
+  /// No description provided for @ltrDirection.
+  ///
+  /// In en, this message translates to:
+  /// **'Left to right'**
+  String get ltrDirection;
+
+  /// No description provided for @pdfToWordComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Word file created.'**
+  String get pdfToWordComplete;
+
+  /// No description provided for @pdfToWordFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not convert this PDF to Word. Please try again.'**
+  String get pdfToWordFailed;
+
+  /// No description provided for @pdfToWordDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF to Word is disabled from the admin panel.'**
+  String get pdfToWordDisabled;
+
+  /// No description provided for @pdfToWordRateLimited.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF to Word is temporarily limited. Please try again later.'**
+  String get pdfToWordRateLimited;
+
+  /// No description provided for @pdfToWordInsufficientText.
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough text could be extracted for a Word document.'**
+  String get pdfToWordInsufficientText;
+
+  /// No description provided for @paragraphsConverted.
+  ///
+  /// In en, this message translates to:
+  /// **'Paragraphs converted'**
+  String get paragraphsConverted;
+
+  /// No description provided for @wordDocument.
+  ///
+  /// In en, this message translates to:
+  /// **'Word document'**
+  String get wordDocument;
+
+  /// No description provided for @premiumRequiredForPdfToWord.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF to Word is available with Premium, or with one scan credit when enabled.'**
+  String get premiumRequiredForPdfToWord;
+
+  /// No description provided for @pdfToWordCreditMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You can use one scan credit for this conversion. The credit is only consumed after a successful Word file is created.'**
+  String get pdfToWordCreditMessage;
+
+  /// No description provided for @watchAdForOnePdfToWordCredit.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch an ad for one Word conversion credit'**
+  String get watchAdForOnePdfToWordCredit;
+
+  /// No description provided for @pdfToWordPremiumOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF to Word Premium only'**
+  String get pdfToWordPremiumOnly;
+
+  /// No description provided for @pdfToWordWithScanCredit.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow PDF to Word with scan_credit'**
+  String get pdfToWordWithScanCredit;
+
+  /// No description provided for @freeDailyPdfToWordLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Free daily PDF to Word limit'**
+  String get freeDailyPdfToWordLimit;
+
+  /// No description provided for @premiumMonthlyPdfToWordLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium monthly PDF to Word limit'**
+  String get premiumMonthlyPdfToWordLimit;
+
+  /// No description provided for @pdfToWordProvider.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF to Word provider'**
+  String get pdfToWordProvider;
+
+  /// No description provided for @pdfToWordModel.
+  ///
+  /// In en, this message translates to:
+  /// **'PDF to Word model'**
+  String get pdfToWordModel;
 }
 
 class _ScanLenoLocalizationsDelegate

@@ -5,7 +5,10 @@
     "firebase:bootstrap": "node scripts/firebase-bootstrap.js"
   },
   "dependencies": {
+    "docx": "^9.7.1",
+    "exceljs": "^4.4.0",
     "firebase-admin": "^13.6.0",
-    "sql.js": "^1.14.1"
+    "sql.js": "^1.14.1",
+    "stripe": "^22.3.0"
   }
 }

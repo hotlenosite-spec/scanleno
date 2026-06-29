@@ -13,6 +13,8 @@ import '../../premium/application/premium_access_service.dart';
 import '../../premium/presentation/premium_gate_dialog.dart';
 import '../../premium/application/subscription_service.dart';
 import '../../scanner/application/document_draft_controller.dart';
+import '../../watermark/application/watermark_service.dart';
+import '../../watermark/domain/watermark_options.dart';
 import '../application/document_export_service.dart';
 
 class ExportPage extends StatefulWidget {
@@ -26,12 +28,14 @@ class _ExportPageState extends State<ExportPage> {
   final fileNameController = TextEditingController();
   final picker = ImagePicker();
   final service = DocumentExportService();
+  final watermarkService = WatermarkService();
 
   ExportFormat format = ExportFormat.pdf;
   ExportPageSize pageSize = ExportPageSize.a4;
   ExportQuality quality = ExportQuality.high;
   bool passwordEnabled = false;
   bool ocrRequested = false;
+  bool watermarkRequested = false;
   bool saving = false;
   bool initializedName = false;
   List<File> savedFiles = const [];
@@ -78,21 +82,35 @@ class _ExportPageState extends State<ExportPage> {
   Future<List<File>> _save() async {
     setState(() => saving = true);
     try {
-      final files = await service.save(
-        pages: documentDraft.pages,
-        options: DocumentExportOptions(
-          fileName: fileNameController.text,
+      final shouldUseWatermark = await _shouldApplyWatermark();
+      final files = shouldUseWatermark
+          ? await watermarkService.saveWatermarkedDraft(
+              pages: documentDraft.pages,
+              exportOptions: DocumentExportOptions(
+                fileName: fileNameController.text,
+                format: format,
+                pageSize: pageSize,
+                quality: quality,
+              ),
+              watermark: _defaultExportWatermark(),
+            )
+          : await service.save(
+              pages: documentDraft.pages,
+              options: DocumentExportOptions(
+                fileName: fileNameController.text,
+                format: format,
+                pageSize: pageSize,
+                quality: quality,
+              ),
+            );
+      if (!shouldUseWatermark) {
+        await service.registerExportedFiles(
+          files: files,
           format: format,
-          pageSize: pageSize,
-          quality: quality,
-        ),
-      );
-      await service.registerExportedFiles(
-        files: files,
-        format: format,
-        pageCount: documentDraft.pages.length,
-        thumbnailPath: documentDraft.pages.first.path,
-      );
+          pageCount: documentDraft.pages.length,
+          thumbnailPath: documentDraft.pages.first.path,
+        );
+      }
       await adService.showInterstitialAfterExport();
       savedFiles = files;
       if (mounted) {
@@ -111,6 +129,27 @@ class _ExportPageState extends State<ExportPage> {
     } finally {
       if (mounted) setState(() => saving = false);
     }
+  }
+
+  Future<bool> _shouldApplyWatermark() async {
+    if (!FeatureFlags.exportWatermarkEnabled) return false;
+    await subscriptionService.initialize();
+    if (!subscriptionService.isPremium) {
+      return FeatureFlags.freeExportWatermarkRequired;
+    }
+    return watermarkRequested;
+  }
+
+  WatermarkOptions _defaultExportWatermark() {
+    final position = WatermarkPosition.values.firstWhere(
+      (item) => item.name == FeatureFlags.defaultWatermarkPosition,
+      orElse: () => WatermarkPosition.center,
+    );
+    return WatermarkOptions.scanLenoDefault().copyWith(
+      text: FeatureFlags.defaultWatermarkText,
+      opacity: FeatureFlags.defaultWatermarkOpacity,
+      position: position,
+    );
   }
 
   Future<void> _toggleOcr(bool value) async {
@@ -328,6 +367,23 @@ class _ExportPageState extends State<ExportPage> {
                           : l.ocrComingSoon,
                       onChanged: _toggleOcr,
                     ),
+                    if (FeatureFlags.exportWatermarkEnabled) ...[
+                      const Divider(),
+                      _SwitchRow(
+                        label: l.addWatermark,
+                        icon: Icons.opacity_rounded,
+                        value: (!subscriptionService.isPremium &&
+                                FeatureFlags.freeExportWatermarkRequired) ||
+                            watermarkRequested,
+                        enabled: subscriptionService.isPremium &&
+                            FeatureFlags.premiumCustomWatermarkEnabled,
+                        subtitle: subscriptionService.isPremium
+                            ? l.noWatermarkForPremium
+                            : l.freeVersionWatermark,
+                        onChanged: (value) =>
+                            setState(() => watermarkRequested = value),
+                      ),
+                    ],
                   ],
                 ),
               ),

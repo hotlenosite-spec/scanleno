@@ -533,8 +533,73 @@ class _FeatureFlagsSection extends StatelessWidget {
         _SwitchCard(l.ocrExtraction, _flag('ocrEnabled'), (value) => onChanged('ocrEnabled', value)),
         _SwitchCard(l.ocrPremiumMode, _flag('ocrPremiumOnly'), (value) => onChanged('ocrPremiumOnly', value)),
         _SwitchCard(l.ocrScanCreditAccess, _flag('ocrWithScanCreditEnabled'), (value) => onChanged('ocrWithScanCreditEnabled', value)),
+        _SwitchCard(l.allowAutoLanguageDetection, _flag('allowAutoLanguageDetection'), (value) => onChanged('allowAutoLanguageDetection', value)),
+        _SwitchCard(l.aiTranslate, _flag('translateEnabled'), (value) => onChanged('translateEnabled', value)),
+        _SwitchCard(l.translatePremiumOnly, _flag('translatePremiumOnly'), (value) => onChanged('translatePremiumOnly', value)),
+        _SwitchCard(l.translateWithScanCredit, _flag('translateWithScanCreditEnabled'), (value) => onChanged('translateWithScanCreditEnabled', value)),
+        _SwitchCard(l.aiSummary, _flag('aiSummaryEnabled'), (value) => onChanged('aiSummaryEnabled', value)),
+        _SwitchCard(l.aiSummaryPremiumOnly, _flag('aiSummaryPremiumOnly'), (value) => onChanged('aiSummaryPremiumOnly', value)),
+        _SwitchCard(l.aiSummaryWithScanCredit, _flag('aiSummaryWithScanCreditEnabled'), (value) => onChanged('aiSummaryWithScanCreditEnabled', value)),
+        _SwitchCard(l.pdfToExcel, _flag('pdfToExcelEnabled'), (value) => onChanged('pdfToExcelEnabled', value)),
+        _SwitchCard(l.pdfToExcelPremiumOnly, _flag('pdfToExcelPremiumOnly'), (value) => onChanged('pdfToExcelPremiumOnly', value)),
+        _SwitchCard(l.pdfToExcelWithScanCredit, _flag('pdfToExcelWithScanCreditEnabled'), (value) => onChanged('pdfToExcelWithScanCreditEnabled', value)),
+        _SwitchCard(l.pdfToWord, _flag('pdfToWordEnabled'), (value) => onChanged('pdfToWordEnabled', value)),
+        _SwitchCard(l.pdfToWordPremiumOnly, _flag('pdfToWordPremiumOnly'), (value) => onChanged('pdfToWordPremiumOnly', value)),
+        _SwitchCard(l.pdfToWordWithScanCredit, _flag('pdfToWordWithScanCreditEnabled'), (value) => onChanged('pdfToWordWithScanCreditEnabled', value)),
         _SwitchCard(l.advancedPdfTools, _flag('advancedPdfToolsEnabled'), (value) => onChanged('advancedPdfToolsEnabled', value)),
         _SwitchCard(l.watermark, _flag('watermarkEnabled'), (value) => onChanged('watermarkEnabled', value)),
+        _SwitchCard(l.freeVersionWatermark, _flag('freeExportWatermarkRequired'), (value) => onChanged('freeExportWatermarkRequired', value)),
+        _SwitchCard(l.noWatermarkForPremium, _flag('premiumCustomWatermarkEnabled'), (value) => onChanged('premiumCustomWatermarkEnabled', value)),
+        const SizedBox(height: AppSpacing.sm),
+        SoftCard(
+          child: TextFormField(
+            initialValue: _text(flags['defaultWatermarkText']).isEmpty
+                ? 'ScanLeno'
+                : _text(flags['defaultWatermarkText']),
+            decoration: InputDecoration(labelText: l.watermarkText),
+            onChanged: (value) => onChanged('defaultWatermarkText', value),
+          ),
+        ),
+        const SizedBox(height: AppSpacing.sm),
+        SoftCard(
+          child: Row(
+            children: [
+              Expanded(child: Text(l.opacity)),
+              DropdownButton<double>(
+                value: _opacityFlag(),
+                underline: const SizedBox.shrink(),
+                items: const [0.10, 0.14, 0.20, 0.30, 0.40]
+                    .map((value) => DropdownMenuItem(value: value, child: Text('${(value * 100).round()}%')))
+                    .toList(),
+                onChanged: (value) {
+                  if (value != null) onChanged('defaultWatermarkOpacity', value);
+                },
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: AppSpacing.sm),
+        SoftCard(
+          child: Row(
+            children: [
+              Expanded(child: Text(l.position)),
+              DropdownButton<String>(
+                value: _positionFlag(),
+                underline: const SizedBox.shrink(),
+                items: [
+                  DropdownMenuItem(value: 'center', child: Text(l.center)),
+                  DropdownMenuItem(value: 'top', child: Text(l.top)),
+                  DropdownMenuItem(value: 'bottom', child: Text(l.bottom)),
+                  DropdownMenuItem(value: 'right', child: Text(l.right)),
+                  DropdownMenuItem(value: 'left', child: Text(l.left)),
+                ],
+                onChanged: (value) {
+                  if (value != null) onChanged('defaultWatermarkPosition', value);
+                },
+              ),
+            ],
+          ),
+        ),
         SoftCard(
           child: Column(
             children: [
@@ -542,7 +607,64 @@ class _FeatureFlagsSection extends StatelessWidget {
               const Divider(),
               _InfoRow(label: l.model, value: _text(flags['azureOcrModel'])),
               const Divider(),
+              _InfoRow(label: l.ocrReadModel, value: _text(flags['azureOcrReadModel'])),
+              const Divider(),
+              _InfoRow(label: l.ocrLayoutModel, value: _text(flags['azureOcrLayoutModel'])),
+              const Divider(),
               _InfoRow(label: l.azureOcrStatus, value: _boolLabel(context, flags['azureOcrEnabled'])),
+              const Divider(),
+              _InfoRow(label: l.translatorProvider, value: _text(flags['translatorProvider'])),
+              const Divider(),
+              _InfoRow(label: l.translatorRegion, value: _text(flags['translatorRegion'])),
+              const Divider(),
+              _InfoRow(label: l.aiSummaryProvider, value: _text(flags['aiSummaryProvider'])),
+              const Divider(),
+              _InfoRow(label: l.aiSummaryModel, value: _text(flags['aiSummaryModel'])),
+              const Divider(),
+              _InfoRow(label: l.aiSummaryDeployment, value: _text(flags['aiSummaryDeployment'])),
+              const Divider(),
+              _InfoRow(label: l.pdfToExcelProvider, value: _text(flags['pdfToExcelProvider'])),
+              const Divider(),
+              _InfoRow(label: l.pdfToExcelModel, value: _text(flags['pdfToExcelModel'])),
+              const Divider(),
+              _InfoRow(label: l.pdfToWordProvider, value: _text(flags['pdfToWordProvider'])),
+              const Divider(),
+              _InfoRow(label: l.pdfToWordModel, value: _text(flags['pdfToWordModel'])),
+            ],
+          ),
+        ),
+        const SizedBox(height: AppSpacing.sm),
+        SoftCard(
+          child: Row(
+            children: [
+              Expanded(child: Text(l.defaultOcrLanguage)),
+              DropdownButton<String>(
+                value: _ocrLanguageFlag(),
+                underline: const SizedBox.shrink(),
+                items: [
+                  DropdownMenuItem(value: 'auto', child: Text(l.autoDetect)),
+                  DropdownMenuItem(value: 'ar', child: Text(l.arabic)),
+                  DropdownMenuItem(value: 'en', child: Text(l.english)),
+                  DropdownMenuItem(value: 'tr', child: Text(l.turkish)),
+                  DropdownMenuItem(value: 'fr', child: Text(l.french)),
+                  DropdownMenuItem(value: 'es', child: Text(l.spanish)),
+                  DropdownMenuItem(value: 'de', child: Text(l.german)),
+                  DropdownMenuItem(value: 'it', child: Text(l.italian)),
+                  DropdownMenuItem(value: 'pt', child: Text(l.portuguese)),
+                  DropdownMenuItem(value: 'zh-Hans', child: Text(l.chineseSimplified)),
+                  DropdownMenuItem(value: 'zh-Hant', child: Text(l.chineseTraditional)),
+                  DropdownMenuItem(value: 'ja', child: Text(l.japanese)),
+                  DropdownMenuItem(value: 'ko', child: Text(l.korean)),
+                  DropdownMenuItem(value: 'hi', child: Text(l.hindi)),
+                  DropdownMenuItem(value: 'ur', child: Text(l.urdu)),
+                  DropdownMenuItem(value: 'id', child: Text(l.indonesian)),
+                  DropdownMenuItem(value: 'ms', child: Text(l.malay)),
+                  DropdownMenuItem(value: 'ru', child: Text(l.russian)),
+                ],
+                onChanged: (value) {
+                  if (value != null) onChanged('defaultOcrLanguage', value);
+                },
+              ),
             ],
           ),
         ),
@@ -622,6 +744,78 @@ class _FeatureFlagsSection extends StatelessWidget {
         SoftCard(
           child: Row(
             children: [
+              Expanded(child: Text(l.freeDailyTranslateLimit)),
+              DropdownButton<int>(
+                value: _intFlag('freeDailyTranslateLimit', FeatureFlags.freeDailyTranslateLimit),
+                underline: const SizedBox.shrink(),
+                items: const [1, 3, 5, 10]
+                    .map((value) => DropdownMenuItem(value: value, child: Text('$value')))
+                    .toList(),
+                onChanged: (value) {
+                  if (value != null) onChanged('freeDailyTranslateLimit', value);
+                },
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: AppSpacing.sm),
+        SoftCard(
+          child: Row(
+            children: [
+              Expanded(child: Text(l.freeDailySummaryLimit)),
+              DropdownButton<int>(
+                value: _intFlag('freeDailySummaryLimit', FeatureFlags.freeDailySummaryLimit),
+                underline: const SizedBox.shrink(),
+                items: const [1, 3, 5, 10]
+                    .map((value) => DropdownMenuItem(value: value, child: Text('$value')))
+                    .toList(),
+                onChanged: (value) {
+                  if (value != null) onChanged('freeDailySummaryLimit', value);
+                },
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: AppSpacing.sm),
+        SoftCard(
+          child: Row(
+            children: [
+              Expanded(child: Text(l.freeDailyPdfToExcelLimit)),
+              DropdownButton<int>(
+                value: _intFlag('freeDailyPdfToExcelLimit', FeatureFlags.freeDailyPdfToExcelLimit),
+                underline: const SizedBox.shrink(),
+                items: const [1, 3, 5, 10]
+                    .map((value) => DropdownMenuItem(value: value, child: Text('$value')))
+                    .toList(),
+                onChanged: (value) {
+                  if (value != null) onChanged('freeDailyPdfToExcelLimit', value);
+                },
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: AppSpacing.sm),
+        SoftCard(
+          child: Row(
+            children: [
+              Expanded(child: Text(l.freeDailyPdfToWordLimit)),
+              DropdownButton<int>(
+                value: _intFlag('freeDailyPdfToWordLimit', FeatureFlags.freeDailyPdfToWordLimit),
+                underline: const SizedBox.shrink(),
+                items: const [1, 3, 5, 10]
+                    .map((value) => DropdownMenuItem(value: value, child: Text('$value')))
+                    .toList(),
+                onChanged: (value) {
+                  if (value != null) onChanged('freeDailyPdfToWordLimit', value);
+                },
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: AppSpacing.sm),
+        SoftCard(
+          child: Row(
+            children: [
               Expanded(child: Text(l.premiumMonthlyOcrLimit)),
               DropdownButton<int>(
                 value: _intFlag('premiumMonthlyOcrLimit', FeatureFlags.premiumMonthlyOcrLimit),
@@ -631,6 +825,78 @@ class _FeatureFlagsSection extends StatelessWidget {
                     .toList(),
                 onChanged: (value) {
                   if (value != null) onChanged('premiumMonthlyOcrLimit', value);
+                },
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: AppSpacing.sm),
+        SoftCard(
+          child: Row(
+            children: [
+              Expanded(child: Text(l.premiumMonthlyTranslateLimit)),
+              DropdownButton<int>(
+                value: _intFlag('premiumMonthlyTranslateLimit', FeatureFlags.premiumMonthlyTranslateLimit),
+                underline: const SizedBox.shrink(),
+                items: const [100, 250, 500, 1000]
+                    .map((value) => DropdownMenuItem(value: value, child: Text('$value')))
+                    .toList(),
+                onChanged: (value) {
+                  if (value != null) onChanged('premiumMonthlyTranslateLimit', value);
+                },
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: AppSpacing.sm),
+        SoftCard(
+          child: Row(
+            children: [
+              Expanded(child: Text(l.premiumMonthlySummaryLimit)),
+              DropdownButton<int>(
+                value: _intFlag('premiumMonthlySummaryLimit', FeatureFlags.premiumMonthlySummaryLimit),
+                underline: const SizedBox.shrink(),
+                items: const [100, 250, 500, 1000]
+                    .map((value) => DropdownMenuItem(value: value, child: Text('$value')))
+                    .toList(),
+                onChanged: (value) {
+                  if (value != null) onChanged('premiumMonthlySummaryLimit', value);
+                },
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: AppSpacing.sm),
+        SoftCard(
+          child: Row(
+            children: [
+              Expanded(child: Text(l.premiumMonthlyPdfToExcelLimit)),
+              DropdownButton<int>(
+                value: _intFlag('premiumMonthlyPdfToExcelLimit', FeatureFlags.premiumMonthlyPdfToExcelLimit),
+                underline: const SizedBox.shrink(),
+                items: const [50, 100, 200, 500]
+                    .map((value) => DropdownMenuItem(value: value, child: Text('$value')))
+                    .toList(),
+                onChanged: (value) {
+                  if (value != null) onChanged('premiumMonthlyPdfToExcelLimit', value);
+                },
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: AppSpacing.sm),
+        SoftCard(
+          child: Row(
+            children: [
+              Expanded(child: Text(l.premiumMonthlyPdfToWordLimit)),
+              DropdownButton<int>(
+                value: _intFlag('premiumMonthlyPdfToWordLimit', FeatureFlags.premiumMonthlyPdfToWordLimit),
+                underline: const SizedBox.shrink(),
+                items: const [50, 100, 200, 500]
+                    .map((value) => DropdownMenuItem(value: value, child: Text('$value')))
+                    .toList(),
+                onChanged: (value) {
+                  if (value != null) onChanged('premiumMonthlyPdfToWordLimit', value);
                 },
               ),
             ],
@@ -666,6 +932,52 @@ class _FeatureFlagsSection extends StatelessWidget {
 
   bool _flag(String key) => flags[key] as bool? ?? false;
   int _intFlag(String key, int fallback) => flags[key] as int? ?? fallback;
+  double _doubleFlag(String key, double fallback) {
+    final value = flags[key];
+    if (value is num) return value.toDouble();
+    if (value is String) return double.tryParse(value) ?? fallback;
+    return fallback;
+  }
+
+  double _opacityFlag() {
+    const allowed = [0.10, 0.14, 0.20, 0.30, 0.40];
+    final value = _doubleFlag(
+      'defaultWatermarkOpacity',
+      FeatureFlags.defaultWatermarkOpacity,
+    );
+    return allowed.contains(value) ? value : 0.14;
+  }
+
+  String _positionFlag() {
+    const allowed = ['center', 'top', 'bottom', 'right', 'left'];
+    final value = _text(flags['defaultWatermarkPosition']);
+    return allowed.contains(value) ? value : 'center';
+  }
+
+  String _ocrLanguageFlag() {
+    const allowed = [
+      'auto',
+      'ar',
+      'en',
+      'tr',
+      'fr',
+      'es',
+      'de',
+      'it',
+      'pt',
+      'zh-Hans',
+      'zh-Hant',
+      'ja',
+      'ko',
+      'hi',
+      'ur',
+      'id',
+      'ms',
+      'ru',
+    ];
+    final value = _text(flags['defaultOcrLanguage']);
+    return allowed.contains(value) ? value : 'auto';
+  }
 }
 
 class _AdsSection extends StatelessWidget {

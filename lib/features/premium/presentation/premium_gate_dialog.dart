@@ -52,7 +52,11 @@ Future<void> showPremiumGateDialog(
             const SizedBox(height: AppSpacing.md),
             Text(message, style: const TextStyle(color: AppColors.muted)),
             const SizedBox(height: AppSpacing.lg),
-            if (feature == PremiumFeature.ocr &&
+            if ((feature == PremiumFeature.ocr ||
+                    feature == PremiumFeature.translate ||
+                    feature == PremiumFeature.aiSummary ||
+                    feature == PremiumFeature.pdfToExcel ||
+                    feature == PremiumFeature.pdfToWord) &&
                 onEarnScanCredit != null &&
                 result.reason == PremiumAccessReason.premiumRequired) ...[
               SizedBox(
@@ -63,7 +67,13 @@ Future<void> showPremiumGateDialog(
                     await onEarnScanCredit();
                   },
                   icon: const Icon(Icons.play_circle_outline_rounded),
-                  label: Text(l.watchAdForOneOcrCredit),
+                  label: Text(switch (feature) {
+                    PremiumFeature.translate => l.watchAdForOneTranslateCredit,
+                    PremiumFeature.aiSummary => l.watchAdForOneAiSummaryCredit,
+                    PremiumFeature.pdfToExcel => l.watchAdForOnePdfToExcelCredit,
+                    PremiumFeature.pdfToWord => l.watchAdForOnePdfToWordCredit,
+                    _ => l.watchAdForOneOcrCredit,
+                  }),
                 ),
               ),
               const SizedBox(height: AppSpacing.sm),
@@ -104,6 +114,14 @@ String _messageForResult(
   return switch (result.messageKey) {
     'premiumOcrCreditMessage' => l.premiumOcrCreditMessage,
     'premiumRequiredForOcr' => l.premiumRequiredForOcr,
+    'premiumRequiredForTranslate' => l.premiumRequiredForTranslate,
+    'translateCreditMessage' => l.translateCreditMessage,
+    'premiumRequiredForAiSummary' => l.premiumRequiredForAiSummary,
+    'aiSummaryCreditMessage' => l.aiSummaryCreditMessage,
+    'premiumRequiredForPdfToExcel' => l.premiumRequiredForPdfToExcel,
+    'pdfToExcelCreditMessage' => l.pdfToExcelCreditMessage,
+    'premiumRequiredForPdfToWord' => l.premiumRequiredForPdfToWord,
+    'pdfToWordCreditMessage' => l.pdfToWordCreditMessage,
     'premiumOcrNoCreditMessage' => l.premiumOcrNoCreditMessage,
     'premiumFeatureLocked' => l.premiumFeatureLockedMessage,
     'premiumUnlockAdvancedTools' => l.premiumUnlockAdvancedTools,

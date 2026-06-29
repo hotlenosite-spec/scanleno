@@ -95,7 +95,9 @@ OCR is routed through the backend only. Flutter never contains the Azure key.
 - Put Azure values in `backend/.env`; never commit that file.
 - `AZURE_DOCUMENT_INTELLIGENCE_KEY` must stay server-side.
 - OCR sends only the selected page/image requested by the user.
-- The backend forwards that page to Azure Document Intelligence using `prebuilt-layout`.
+- The backend forwards that page to Azure Document Intelligence using `prebuilt-read` for standard OCR and `prebuilt-layout` when layout/table extraction is needed.
+- Advanced OCR languages support Auto Detect, Arabic, English, Turkish, French, Spanish, German, Italian, Portuguese, Chinese Simplified, Chinese Traditional, Japanese, Korean, Hindi, Urdu, Indonesian, Malay, and Russian.
+- The selected OCR language is sent as a language hint when applicable; Auto Detect lets Azure detect the language.
 - The backend does not save uploaded OCR images.
 - The extracted text is returned to the app and saved locally in Drift/SQLite with OCR metadata.
 - Premium users can use OCR. Free users can use OCR only when they have one rewarded `scan_credit`.
@@ -109,6 +111,33 @@ cp .env.example .env
 node server.js
 flutter run -d chrome --dart-define=SCANLENO_BACKEND_URL=http://localhost:8787
 ```
+
+## PDF to Excel
+
+PDF to Excel is routed through the backend only and uses Azure Document
+Intelligence `prebuilt-layout` to extract tables.
+
+- Flutter sends only the selected PDF.
+- The backend does not store the original PDF.
+- The backend generates a real `.xlsx` workbook with `exceljs`.
+- The generated workbook is returned to the app, saved locally, registered in
+  Drift/SQLite, and can be shared.
+- Free/Premium access and `scan_credit` are enforced server-side.
+
+## PDF to Word
+
+PDF to Word is routed through the backend only and uses Azure Document
+Intelligence `prebuilt-layout` to extract editable text and tables.
+
+- Flutter sends only the selected PDF.
+- The backend does not store the original PDF.
+- The backend generates a real editable `.docx` file with the `docx` package.
+- Paragraphs, page breaks, headings, and tables are preserved where Azure
+  returns enough layout information.
+- Arabic and English are supported, including automatic RTL handling for Arabic.
+- The generated Word file is returned to the app, saved locally, registered in
+  Drift/SQLite, and can be shared.
+- Free/Premium access and `scan_credit` are enforced server-side.
 
 ## Documentation
 

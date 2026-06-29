@@ -1159,4 +1159,499 @@ class ScanLenoLocalizationsAr extends ScanLenoLocalizations {
 
   @override
   String get role => 'الدور';
+
+  @override
+  String get selectFile => 'اختيار ملف';
+
+  @override
+  String get watermarkType => 'نوع العلامة المائية';
+
+  @override
+  String get text => 'نص';
+
+  @override
+  String get logoImage => 'شعار / صورة';
+
+  @override
+  String get watermarkText => 'نص العلامة المائية';
+
+  @override
+  String get chooseLogo => 'اختيار شعار';
+
+  @override
+  String get logoSelected => 'تم اختيار الشعار';
+
+  @override
+  String get opacity => 'الشفافية';
+
+  @override
+  String get rotation => 'الدوران';
+
+  @override
+  String get fontSize => 'حجم الخط';
+
+  @override
+  String get position => 'الموضع';
+
+  @override
+  String get center => 'الوسط';
+
+  @override
+  String get top => 'أعلى';
+
+  @override
+  String get bottom => 'أسفل';
+
+  @override
+  String get right => 'يمين';
+
+  @override
+  String get left => 'يسار';
+
+  @override
+  String get repeatOnPage => 'تكرار على الصفحة';
+
+  @override
+  String get applyToAllPages => 'تطبيق على كل الصفحات';
+
+  @override
+  String get saveCopy => 'حفظ نسخة';
+
+  @override
+  String get watermarkAddedSuccess => 'تمت إضافة العلامة المائية بنجاح.';
+
+  @override
+  String get watermarkAddFailed => 'تعذر إضافة العلامة المائية. حاول مرة أخرى.';
+
+  @override
+  String get watermarkDisabled => 'العلامة المائية غير مفعلة من لوحة التحكم.';
+
+  @override
+  String get freeVersionWatermark =>
+      'تصدير النسخة المجانية يتضمن علامة ScanLeno المائية.';
+
+  @override
+  String get noWatermarkForPremium =>
+      'يمكن لمستخدمي بريميوم التصدير بدون العلامة الافتراضية.';
+
+  @override
+  String get watermarkUnsupportedPdf =>
+      'لا يمكن تعديل ملفات PDF الموجودة مباشرة حاليًا. استخدم حفظ وتصدير لإنشاء PDF بعلامة مائية من الصفحات الممسوحة.';
+
+  @override
+  String get preview => 'معاينة';
+
+  @override
+  String get noFilesYet => 'لا توجد ملفات بعد.';
+
+  @override
+  String get aiTranslate => 'الترجمة الذكية';
+
+  @override
+  String get documentTranslate => 'ترجمة المستند';
+
+  @override
+  String get translate => 'ترجمة';
+
+  @override
+  String get translateSource => 'مصدر النص';
+
+  @override
+  String get ocrSavedText => 'نص OCR محفوظ';
+
+  @override
+  String get manualText => 'نص يدوي';
+
+  @override
+  String get sourceLanguage => 'لغة المصدر';
+
+  @override
+  String get targetLanguage => 'لغة الهدف';
+
+  @override
+  String get autoDetect => 'اكتشاف تلقائي';
+
+  @override
+  String get translatedText => 'النص المترجم';
+
+  @override
+  String get translateComplete => 'تمت الترجمة بنجاح.';
+
+  @override
+  String get translateFailed => 'تعذرت الترجمة. حاول مرة أخرى.';
+
+  @override
+  String get translateDisabled => 'الترجمة غير مفعلة من لوحة التحكم.';
+
+  @override
+  String get emptyTranslateText => 'أدخل نصًا للترجمة.';
+
+  @override
+  String get translateTextTooLong => 'النص طويل جدًا للترجمة دفعة واحدة.';
+
+  @override
+  String get unsupportedLanguage => 'هذه اللغة غير مدعومة حاليًا.';
+
+  @override
+  String get translateRateLimited => 'الترجمة محدودة مؤقتًا. حاول لاحقًا.';
+
+  @override
+  String get premiumRequiredForTranslate =>
+      'الترجمة متاحة مع بريميوم، أو باستخدام رصيد مسح واحد عند تفعيل ذلك.';
+
+  @override
+  String get translateCreditMessage =>
+      'يمكنك استخدام رصيد مسح واحد لهذه الترجمة. لا يتم خصم الرصيد إلا بعد نجاح الترجمة.';
+
+  @override
+  String get watchAdForOneTranslateCredit =>
+      'شاهد إعلانًا للحصول على رصيد ترجمة';
+
+  @override
+  String get translatePremiumOnly => 'الترجمة للبريميوم فقط';
+
+  @override
+  String get translateWithScanCredit => 'السماح بالترجمة عبر scan_credit';
+
+  @override
+  String get freeDailyTranslateLimit => 'حد الترجمة اليومي للمجاني';
+
+  @override
+  String get premiumMonthlyTranslateLimit => 'حد الترجمة الشهري للبريميوم';
+
+  @override
+  String get translatorProvider => 'مزود الترجمة';
+
+  @override
+  String get translatorRegion => 'منطقة الترجمة';
+
+  @override
+  String get copied => 'تم النسخ.';
+
+  @override
+  String get aiSummary => '????? ???';
+
+  @override
+  String get documentSummary => '????? ???????';
+
+  @override
+  String get summarySource => '???? ???????';
+
+  @override
+  String get summarize => '?????';
+
+  @override
+  String get summaryLanguage => '??? ??????';
+
+  @override
+  String get summaryLength => '??? ??????';
+
+  @override
+  String get sameAsDocument => '??? ??? ???????';
+
+  @override
+  String get arabic => '???????';
+
+  @override
+  String get english => '??????????';
+
+  @override
+  String get summaryShort => '????';
+
+  @override
+  String get summaryMedium => '?????';
+
+  @override
+  String get summaryDetailed => '????';
+
+  @override
+  String get originalText => '???? ??????';
+
+  @override
+  String get summaryText => '??????';
+
+  @override
+  String get aiSummaryComplete => '?? ????? ??????.';
+
+  @override
+  String get aiSummaryFailed => '???? ????? ????. ???? ??? ????.';
+
+  @override
+  String get aiSummaryDisabled => '??????? ????? ??? ????? ?? ???? ??????.';
+
+  @override
+  String get emptySummaryText => '???? ???? ???????.';
+
+  @override
+  String get aiSummaryTextTooLong => '???? ???? ???? ??????? ???? ?????.';
+
+  @override
+  String get invalidSummaryLength => '???? ??? ???? ????.';
+
+  @override
+  String get aiSummaryRateLimited => '??????? ????? ????? ??????. ???? ??????.';
+
+  @override
+  String get premiumRequiredForAiSummary =>
+      '??????? ????? ???? ?? ???????? ?? ???????? ???? ??? ???? ??? ????? ???.';
+
+  @override
+  String get aiSummaryCreditMessage =>
+      '????? ??????? ???? ??? ???? ???? ??????. ?? ??? ??? ?????? ??? ??? ???? ???????.';
+
+  @override
+  String get watchAdForOneAiSummaryCredit =>
+      '???? ??????? ?????? ??? ???? ?????';
+
+  @override
+  String get aiSummaryPremiumOnly => '??????? ????? ????????? ???';
+
+  @override
+  String get aiSummaryWithScanCredit => '?????? ???????? ??? scan_credit';
+
+  @override
+  String get freeDailySummaryLimit => '?? ??????? ?????? ???????';
+
+  @override
+  String get premiumMonthlySummaryLimit => '?? ??????? ?????? ?????????';
+
+  @override
+  String get aiSummaryProvider => '???? ??????? ?????';
+
+  @override
+  String get aiSummaryModel => '????? ??????? ?????';
+
+  @override
+  String get aiSummaryDeployment => 'Deployment ??????? ?????';
+
+  @override
+  String get ocrLanguage => 'لغة OCR';
+
+  @override
+  String get ocrDetectedLanguage => 'اللغة المكتشفة';
+
+  @override
+  String get defaultOcrLanguage => 'لغة OCR الافتراضية';
+
+  @override
+  String get allowAutoLanguageDetection => 'السماح باكتشاف اللغة تلقائيًا';
+
+  @override
+  String get ocrReadModel => 'نموذج قراءة OCR';
+
+  @override
+  String get ocrLayoutModel => 'نموذج Layout OCR';
+
+  @override
+  String get turkish => 'التركية';
+
+  @override
+  String get french => 'الفرنسية';
+
+  @override
+  String get spanish => 'الإسبانية';
+
+  @override
+  String get german => 'الألمانية';
+
+  @override
+  String get italian => 'الإيطالية';
+
+  @override
+  String get portuguese => 'البرتغالية';
+
+  @override
+  String get chineseSimplified => 'الصينية المبسطة';
+
+  @override
+  String get chineseTraditional => 'الصينية التقليدية';
+
+  @override
+  String get japanese => 'اليابانية';
+
+  @override
+  String get korean => 'الكورية';
+
+  @override
+  String get hindi => 'الهندية';
+
+  @override
+  String get urdu => 'الأردية';
+
+  @override
+  String get indonesian => 'الإندونيسية';
+
+  @override
+  String get malay => 'الماليزية';
+
+  @override
+  String get russian => 'الروسية';
+
+  @override
+  String get pdfToExcel => '????? PDF ??? Excel';
+
+  @override
+  String get convertToExcel => '????? ??? Excel';
+
+  @override
+  String get selectPdfFile => '???? ??? PDF';
+
+  @override
+  String get noPdfFilesYet => '?? ???? ????? PDF ???.';
+
+  @override
+  String get extractAllTables => '??????? ?? ???????';
+
+  @override
+  String get oneTablePerSheet => '?? ???? ?? Sheet ?????';
+
+  @override
+  String get includeTextSheet => '????? Sheet ??????';
+
+  @override
+  String get pdfToExcelComplete => '?? ????? ??? Excel.';
+
+  @override
+  String get pdfToExcelFailed => '???? ????? ??? PDF ??? Excel. ???? ??? ????.';
+
+  @override
+  String get pdfToExcelDisabled =>
+      '????? PDF ??? Excel ??? ????? ?? ???? ??????.';
+
+  @override
+  String get pdfToExcelRateLimited =>
+      '????? PDF ??? Excel ????? ??????. ???? ??????.';
+
+  @override
+  String get invalidPdfFile => '???? ??? PDF ??????.';
+
+  @override
+  String get tablesExtracted => '??????? ?????????';
+
+  @override
+  String get pagesProcessed => '??????? ????????';
+
+  @override
+  String get excelWorkbook => '??? Excel';
+
+  @override
+  String get openFileUnavailable => '?? ???? ??? ??? ????? ??? ?????? ??????.';
+
+  @override
+  String get premiumRequiredForPdfToExcel =>
+      '????? PDF ??? Excel ???? ?? ???????? ?? ???????? ???? ??? ???? ??? ????? ???.';
+
+  @override
+  String get pdfToExcelCreditMessage =>
+      '????? ??????? ???? ??? ???? ???? ???????. ?? ??? ??? ?????? ??? ??? ????? ??? Excel ?????.';
+
+  @override
+  String get watchAdForOnePdfToExcelCredit =>
+      '???? ??????? ?????? ??? ???? ????? Excel';
+
+  @override
+  String get pdfToExcelPremiumOnly => '????? PDF ??? Excel ????????? ???';
+
+  @override
+  String get pdfToExcelWithScanCredit =>
+      '?????? ?????? PDF ??? Excel ??? scan_credit';
+
+  @override
+  String get freeDailyPdfToExcelLimit =>
+      '?? ????? PDF ??? Excel ?????? ???????';
+
+  @override
+  String get premiumMonthlyPdfToExcelLimit =>
+      '?? ????? PDF ??? Excel ?????? ?????????';
+
+  @override
+  String get pdfToExcelProvider => '???? ????? PDF ??? Excel';
+
+  @override
+  String get pdfToExcelModel => '????? ????? PDF ??? Excel';
+
+  @override
+  String get pdfToWord => 'تحويل PDF إلى Word';
+
+  @override
+  String get convertToWord => 'تحويل إلى Word';
+
+  @override
+  String get preserveParagraphs => 'الحفاظ على الفقرات';
+
+  @override
+  String get includeTables => 'تضمين الجداول';
+
+  @override
+  String get includePageBreaks => 'إضافة فواصل صفحات';
+
+  @override
+  String get includeHeadings => 'اكتشاف العناوين';
+
+  @override
+  String get textDirection => 'اتجاه النص';
+
+  @override
+  String get autoTextDirection => 'تلقائي';
+
+  @override
+  String get rtlDirection => 'من اليمين إلى اليسار';
+
+  @override
+  String get ltrDirection => 'من اليسار إلى اليمين';
+
+  @override
+  String get pdfToWordComplete => 'تم إنشاء ملف Word.';
+
+  @override
+  String get pdfToWordFailed => 'تعذر تحويل هذا الملف إلى Word. حاول مرة أخرى.';
+
+  @override
+  String get pdfToWordDisabled =>
+      'ميزة تحويل PDF إلى Word غير مفعّلة من لوحة التحكم.';
+
+  @override
+  String get pdfToWordRateLimited =>
+      'تحويل PDF إلى Word محدود مؤقتًا. حاول لاحقًا.';
+
+  @override
+  String get pdfToWordInsufficientText =>
+      'تعذر استخراج نص كافٍ لإنشاء ملف Word.';
+
+  @override
+  String get paragraphsConverted => 'الفقرات المحولة';
+
+  @override
+  String get wordDocument => 'مستند Word';
+
+  @override
+  String get premiumRequiredForPdfToWord =>
+      'تحويل PDF إلى Word متاح مع بريميوم، أو باستخدام رصيد مسح واحد عند تفعيل ذلك.';
+
+  @override
+  String get pdfToWordCreditMessage =>
+      'يمكنك استخدام رصيد مسح واحد لهذا التحويل. يتم خصم الرصيد فقط بعد إنشاء ملف Word بنجاح.';
+
+  @override
+  String get watchAdForOnePdfToWordCredit =>
+      'شاهد إعلانًا للحصول على رصيد تحويل Word';
+
+  @override
+  String get pdfToWordPremiumOnly => 'تحويل PDF إلى Word للبريميوم فقط';
+
+  @override
+  String get pdfToWordWithScanCredit =>
+      'السماح بتحويل PDF إلى Word عبر scan_credit';
+
+  @override
+  String get freeDailyPdfToWordLimit => 'حد PDF إلى Word اليومي للمجاني';
+
+  @override
+  String get premiumMonthlyPdfToWordLimit => 'حد PDF إلى Word الشهري للبريميوم';
+
+  @override
+  String get pdfToWordProvider => 'مزود تحويل PDF إلى Word';
+
+  @override
+  String get pdfToWordModel => 'نموذج تحويل PDF إلى Word';
 }

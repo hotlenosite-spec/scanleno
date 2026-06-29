@@ -527,6 +527,17 @@ class $DocumentsTable extends Documents
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _ocrDetectedLanguageMeta =
+      const VerificationMeta('ocrDetectedLanguage');
+  @override
+  late final GeneratedColumn<String> ocrDetectedLanguage =
+      GeneratedColumn<String>(
+        'ocr_detected_language',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
   static const VerificationMeta _ocrConfidenceMeta = const VerificationMeta(
     'ocrConfidence',
   );
@@ -544,6 +555,120 @@ class $DocumentsTable extends Documents
   @override
   late final GeneratedColumn<int> ocrPageIndex = GeneratedColumn<int>(
     'ocr_page_index',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _hasWatermarkMeta = const VerificationMeta(
+    'hasWatermark',
+  );
+  @override
+  late final GeneratedColumn<bool> hasWatermark = GeneratedColumn<bool>(
+    'has_watermark',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("has_watermark" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _watermarkTypeMeta = const VerificationMeta(
+    'watermarkType',
+  );
+  @override
+  late final GeneratedColumn<String> watermarkType = GeneratedColumn<String>(
+    'watermark_type',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _originalDocumentIdMeta =
+      const VerificationMeta('originalDocumentId');
+  @override
+  late final GeneratedColumn<String> originalDocumentId =
+      GeneratedColumn<String>(
+        'original_document_id',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _outputTypeMeta = const VerificationMeta(
+    'outputType',
+  );
+  @override
+  late final GeneratedColumn<String> outputType = GeneratedColumn<String>(
+    'output_type',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _conversionTypeMeta = const VerificationMeta(
+    'conversionType',
+  );
+  @override
+  late final GeneratedColumn<String> conversionType = GeneratedColumn<String>(
+    'conversion_type',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _conversionProviderMeta =
+      const VerificationMeta('conversionProvider');
+  @override
+  late final GeneratedColumn<String> conversionProvider =
+      GeneratedColumn<String>(
+        'conversion_provider',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _conversionModelMeta = const VerificationMeta(
+    'conversionModel',
+  );
+  @override
+  late final GeneratedColumn<String> conversionModel = GeneratedColumn<String>(
+    'conversion_model',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _tablesCountMeta = const VerificationMeta(
+    'tablesCount',
+  );
+  @override
+  late final GeneratedColumn<int> tablesCount = GeneratedColumn<int>(
+    'tables_count',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _paragraphsCountMeta = const VerificationMeta(
+    'paragraphsCount',
+  );
+  @override
+  late final GeneratedColumn<int> paragraphsCount = GeneratedColumn<int>(
+    'paragraphs_count',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _pagesProcessedMeta = const VerificationMeta(
+    'pagesProcessed',
+  );
+  @override
+  late final GeneratedColumn<int> pagesProcessed = GeneratedColumn<int>(
+    'pages_processed',
     aliasedName,
     true,
     type: DriftSqlType.int,
@@ -569,8 +694,19 @@ class $DocumentsTable extends Documents
     ocrModel,
     ocrCreatedAt,
     ocrLanguage,
+    ocrDetectedLanguage,
     ocrConfidence,
     ocrPageIndex,
+    hasWatermark,
+    watermarkType,
+    originalDocumentId,
+    outputType,
+    conversionType,
+    conversionProvider,
+    conversionModel,
+    tablesCount,
+    paragraphsCount,
+    pagesProcessed,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -715,6 +851,15 @@ class $DocumentsTable extends Documents
         ),
       );
     }
+    if (data.containsKey('ocr_detected_language')) {
+      context.handle(
+        _ocrDetectedLanguageMeta,
+        ocrDetectedLanguage.isAcceptableOrUnknown(
+          data['ocr_detected_language']!,
+          _ocrDetectedLanguageMeta,
+        ),
+      );
+    }
     if (data.containsKey('ocr_confidence')) {
       context.handle(
         _ocrConfidenceMeta,
@@ -730,6 +875,93 @@ class $DocumentsTable extends Documents
         ocrPageIndex.isAcceptableOrUnknown(
           data['ocr_page_index']!,
           _ocrPageIndexMeta,
+        ),
+      );
+    }
+    if (data.containsKey('has_watermark')) {
+      context.handle(
+        _hasWatermarkMeta,
+        hasWatermark.isAcceptableOrUnknown(
+          data['has_watermark']!,
+          _hasWatermarkMeta,
+        ),
+      );
+    }
+    if (data.containsKey('watermark_type')) {
+      context.handle(
+        _watermarkTypeMeta,
+        watermarkType.isAcceptableOrUnknown(
+          data['watermark_type']!,
+          _watermarkTypeMeta,
+        ),
+      );
+    }
+    if (data.containsKey('original_document_id')) {
+      context.handle(
+        _originalDocumentIdMeta,
+        originalDocumentId.isAcceptableOrUnknown(
+          data['original_document_id']!,
+          _originalDocumentIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('output_type')) {
+      context.handle(
+        _outputTypeMeta,
+        outputType.isAcceptableOrUnknown(data['output_type']!, _outputTypeMeta),
+      );
+    }
+    if (data.containsKey('conversion_type')) {
+      context.handle(
+        _conversionTypeMeta,
+        conversionType.isAcceptableOrUnknown(
+          data['conversion_type']!,
+          _conversionTypeMeta,
+        ),
+      );
+    }
+    if (data.containsKey('conversion_provider')) {
+      context.handle(
+        _conversionProviderMeta,
+        conversionProvider.isAcceptableOrUnknown(
+          data['conversion_provider']!,
+          _conversionProviderMeta,
+        ),
+      );
+    }
+    if (data.containsKey('conversion_model')) {
+      context.handle(
+        _conversionModelMeta,
+        conversionModel.isAcceptableOrUnknown(
+          data['conversion_model']!,
+          _conversionModelMeta,
+        ),
+      );
+    }
+    if (data.containsKey('tables_count')) {
+      context.handle(
+        _tablesCountMeta,
+        tablesCount.isAcceptableOrUnknown(
+          data['tables_count']!,
+          _tablesCountMeta,
+        ),
+      );
+    }
+    if (data.containsKey('paragraphs_count')) {
+      context.handle(
+        _paragraphsCountMeta,
+        paragraphsCount.isAcceptableOrUnknown(
+          data['paragraphs_count']!,
+          _paragraphsCountMeta,
+        ),
+      );
+    }
+    if (data.containsKey('pages_processed')) {
+      context.handle(
+        _pagesProcessedMeta,
+        pagesProcessed.isAcceptableOrUnknown(
+          data['pages_processed']!,
+          _pagesProcessedMeta,
         ),
       );
     }
@@ -814,6 +1046,10 @@ class $DocumentsTable extends Documents
         DriftSqlType.string,
         data['${effectivePrefix}ocr_language'],
       ),
+      ocrDetectedLanguage: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}ocr_detected_language'],
+      ),
       ocrConfidence: attachedDatabase.typeMapping.read(
         DriftSqlType.double,
         data['${effectivePrefix}ocr_confidence'],
@@ -821,6 +1057,46 @@ class $DocumentsTable extends Documents
       ocrPageIndex: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}ocr_page_index'],
+      ),
+      hasWatermark: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}has_watermark'],
+      )!,
+      watermarkType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}watermark_type'],
+      ),
+      originalDocumentId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}original_document_id'],
+      ),
+      outputType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}output_type'],
+      ),
+      conversionType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}conversion_type'],
+      ),
+      conversionProvider: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}conversion_provider'],
+      ),
+      conversionModel: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}conversion_model'],
+      ),
+      tablesCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}tables_count'],
+      ),
+      paragraphsCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}paragraphs_count'],
+      ),
+      pagesProcessed: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}pages_processed'],
       ),
     );
   }
@@ -850,8 +1126,19 @@ class DocumentRecord extends DataClass implements Insertable<DocumentRecord> {
   final String? ocrModel;
   final DateTime? ocrCreatedAt;
   final String? ocrLanguage;
+  final String? ocrDetectedLanguage;
   final double? ocrConfidence;
   final int? ocrPageIndex;
+  final bool hasWatermark;
+  final String? watermarkType;
+  final String? originalDocumentId;
+  final String? outputType;
+  final String? conversionType;
+  final String? conversionProvider;
+  final String? conversionModel;
+  final int? tablesCount;
+  final int? paragraphsCount;
+  final int? pagesProcessed;
   const DocumentRecord({
     required this.id,
     required this.name,
@@ -871,8 +1158,19 @@ class DocumentRecord extends DataClass implements Insertable<DocumentRecord> {
     this.ocrModel,
     this.ocrCreatedAt,
     this.ocrLanguage,
+    this.ocrDetectedLanguage,
     this.ocrConfidence,
     this.ocrPageIndex,
+    required this.hasWatermark,
+    this.watermarkType,
+    this.originalDocumentId,
+    this.outputType,
+    this.conversionType,
+    this.conversionProvider,
+    this.conversionModel,
+    this.tablesCount,
+    this.paragraphsCount,
+    this.pagesProcessed,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -911,11 +1209,42 @@ class DocumentRecord extends DataClass implements Insertable<DocumentRecord> {
     if (!nullToAbsent || ocrLanguage != null) {
       map['ocr_language'] = Variable<String>(ocrLanguage);
     }
+    if (!nullToAbsent || ocrDetectedLanguage != null) {
+      map['ocr_detected_language'] = Variable<String>(ocrDetectedLanguage);
+    }
     if (!nullToAbsent || ocrConfidence != null) {
       map['ocr_confidence'] = Variable<double>(ocrConfidence);
     }
     if (!nullToAbsent || ocrPageIndex != null) {
       map['ocr_page_index'] = Variable<int>(ocrPageIndex);
+    }
+    map['has_watermark'] = Variable<bool>(hasWatermark);
+    if (!nullToAbsent || watermarkType != null) {
+      map['watermark_type'] = Variable<String>(watermarkType);
+    }
+    if (!nullToAbsent || originalDocumentId != null) {
+      map['original_document_id'] = Variable<String>(originalDocumentId);
+    }
+    if (!nullToAbsent || outputType != null) {
+      map['output_type'] = Variable<String>(outputType);
+    }
+    if (!nullToAbsent || conversionType != null) {
+      map['conversion_type'] = Variable<String>(conversionType);
+    }
+    if (!nullToAbsent || conversionProvider != null) {
+      map['conversion_provider'] = Variable<String>(conversionProvider);
+    }
+    if (!nullToAbsent || conversionModel != null) {
+      map['conversion_model'] = Variable<String>(conversionModel);
+    }
+    if (!nullToAbsent || tablesCount != null) {
+      map['tables_count'] = Variable<int>(tablesCount);
+    }
+    if (!nullToAbsent || paragraphsCount != null) {
+      map['paragraphs_count'] = Variable<int>(paragraphsCount);
+    }
+    if (!nullToAbsent || pagesProcessed != null) {
+      map['pages_processed'] = Variable<int>(pagesProcessed);
     }
     return map;
   }
@@ -956,12 +1285,43 @@ class DocumentRecord extends DataClass implements Insertable<DocumentRecord> {
       ocrLanguage: ocrLanguage == null && nullToAbsent
           ? const Value.absent()
           : Value(ocrLanguage),
+      ocrDetectedLanguage: ocrDetectedLanguage == null && nullToAbsent
+          ? const Value.absent()
+          : Value(ocrDetectedLanguage),
       ocrConfidence: ocrConfidence == null && nullToAbsent
           ? const Value.absent()
           : Value(ocrConfidence),
       ocrPageIndex: ocrPageIndex == null && nullToAbsent
           ? const Value.absent()
           : Value(ocrPageIndex),
+      hasWatermark: Value(hasWatermark),
+      watermarkType: watermarkType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(watermarkType),
+      originalDocumentId: originalDocumentId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(originalDocumentId),
+      outputType: outputType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(outputType),
+      conversionType: conversionType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(conversionType),
+      conversionProvider: conversionProvider == null && nullToAbsent
+          ? const Value.absent()
+          : Value(conversionProvider),
+      conversionModel: conversionModel == null && nullToAbsent
+          ? const Value.absent()
+          : Value(conversionModel),
+      tablesCount: tablesCount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tablesCount),
+      paragraphsCount: paragraphsCount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(paragraphsCount),
+      pagesProcessed: pagesProcessed == null && nullToAbsent
+          ? const Value.absent()
+          : Value(pagesProcessed),
     );
   }
 
@@ -989,8 +1349,25 @@ class DocumentRecord extends DataClass implements Insertable<DocumentRecord> {
       ocrModel: serializer.fromJson<String?>(json['ocrModel']),
       ocrCreatedAt: serializer.fromJson<DateTime?>(json['ocrCreatedAt']),
       ocrLanguage: serializer.fromJson<String?>(json['ocrLanguage']),
+      ocrDetectedLanguage: serializer.fromJson<String?>(
+        json['ocrDetectedLanguage'],
+      ),
       ocrConfidence: serializer.fromJson<double?>(json['ocrConfidence']),
       ocrPageIndex: serializer.fromJson<int?>(json['ocrPageIndex']),
+      hasWatermark: serializer.fromJson<bool>(json['hasWatermark']),
+      watermarkType: serializer.fromJson<String?>(json['watermarkType']),
+      originalDocumentId: serializer.fromJson<String?>(
+        json['originalDocumentId'],
+      ),
+      outputType: serializer.fromJson<String?>(json['outputType']),
+      conversionType: serializer.fromJson<String?>(json['conversionType']),
+      conversionProvider: serializer.fromJson<String?>(
+        json['conversionProvider'],
+      ),
+      conversionModel: serializer.fromJson<String?>(json['conversionModel']),
+      tablesCount: serializer.fromJson<int?>(json['tablesCount']),
+      paragraphsCount: serializer.fromJson<int?>(json['paragraphsCount']),
+      pagesProcessed: serializer.fromJson<int?>(json['pagesProcessed']),
     );
   }
   @override
@@ -1015,8 +1392,19 @@ class DocumentRecord extends DataClass implements Insertable<DocumentRecord> {
       'ocrModel': serializer.toJson<String?>(ocrModel),
       'ocrCreatedAt': serializer.toJson<DateTime?>(ocrCreatedAt),
       'ocrLanguage': serializer.toJson<String?>(ocrLanguage),
+      'ocrDetectedLanguage': serializer.toJson<String?>(ocrDetectedLanguage),
       'ocrConfidence': serializer.toJson<double?>(ocrConfidence),
       'ocrPageIndex': serializer.toJson<int?>(ocrPageIndex),
+      'hasWatermark': serializer.toJson<bool>(hasWatermark),
+      'watermarkType': serializer.toJson<String?>(watermarkType),
+      'originalDocumentId': serializer.toJson<String?>(originalDocumentId),
+      'outputType': serializer.toJson<String?>(outputType),
+      'conversionType': serializer.toJson<String?>(conversionType),
+      'conversionProvider': serializer.toJson<String?>(conversionProvider),
+      'conversionModel': serializer.toJson<String?>(conversionModel),
+      'tablesCount': serializer.toJson<int?>(tablesCount),
+      'paragraphsCount': serializer.toJson<int?>(paragraphsCount),
+      'pagesProcessed': serializer.toJson<int?>(pagesProcessed),
     };
   }
 
@@ -1039,8 +1427,19 @@ class DocumentRecord extends DataClass implements Insertable<DocumentRecord> {
     Value<String?> ocrModel = const Value.absent(),
     Value<DateTime?> ocrCreatedAt = const Value.absent(),
     Value<String?> ocrLanguage = const Value.absent(),
+    Value<String?> ocrDetectedLanguage = const Value.absent(),
     Value<double?> ocrConfidence = const Value.absent(),
     Value<int?> ocrPageIndex = const Value.absent(),
+    bool? hasWatermark,
+    Value<String?> watermarkType = const Value.absent(),
+    Value<String?> originalDocumentId = const Value.absent(),
+    Value<String?> outputType = const Value.absent(),
+    Value<String?> conversionType = const Value.absent(),
+    Value<String?> conversionProvider = const Value.absent(),
+    Value<String?> conversionModel = const Value.absent(),
+    Value<int?> tablesCount = const Value.absent(),
+    Value<int?> paragraphsCount = const Value.absent(),
+    Value<int?> pagesProcessed = const Value.absent(),
   }) => DocumentRecord(
     id: id ?? this.id,
     name: name ?? this.name,
@@ -1062,10 +1461,37 @@ class DocumentRecord extends DataClass implements Insertable<DocumentRecord> {
     ocrModel: ocrModel.present ? ocrModel.value : this.ocrModel,
     ocrCreatedAt: ocrCreatedAt.present ? ocrCreatedAt.value : this.ocrCreatedAt,
     ocrLanguage: ocrLanguage.present ? ocrLanguage.value : this.ocrLanguage,
+    ocrDetectedLanguage: ocrDetectedLanguage.present
+        ? ocrDetectedLanguage.value
+        : this.ocrDetectedLanguage,
     ocrConfidence: ocrConfidence.present
         ? ocrConfidence.value
         : this.ocrConfidence,
     ocrPageIndex: ocrPageIndex.present ? ocrPageIndex.value : this.ocrPageIndex,
+    hasWatermark: hasWatermark ?? this.hasWatermark,
+    watermarkType: watermarkType.present
+        ? watermarkType.value
+        : this.watermarkType,
+    originalDocumentId: originalDocumentId.present
+        ? originalDocumentId.value
+        : this.originalDocumentId,
+    outputType: outputType.present ? outputType.value : this.outputType,
+    conversionType: conversionType.present
+        ? conversionType.value
+        : this.conversionType,
+    conversionProvider: conversionProvider.present
+        ? conversionProvider.value
+        : this.conversionProvider,
+    conversionModel: conversionModel.present
+        ? conversionModel.value
+        : this.conversionModel,
+    tablesCount: tablesCount.present ? tablesCount.value : this.tablesCount,
+    paragraphsCount: paragraphsCount.present
+        ? paragraphsCount.value
+        : this.paragraphsCount,
+    pagesProcessed: pagesProcessed.present
+        ? pagesProcessed.value
+        : this.pagesProcessed,
   );
   DocumentRecord copyWithCompanion(DocumentsCompanion data) {
     return DocumentRecord(
@@ -1097,12 +1523,45 @@ class DocumentRecord extends DataClass implements Insertable<DocumentRecord> {
       ocrLanguage: data.ocrLanguage.present
           ? data.ocrLanguage.value
           : this.ocrLanguage,
+      ocrDetectedLanguage: data.ocrDetectedLanguage.present
+          ? data.ocrDetectedLanguage.value
+          : this.ocrDetectedLanguage,
       ocrConfidence: data.ocrConfidence.present
           ? data.ocrConfidence.value
           : this.ocrConfidence,
       ocrPageIndex: data.ocrPageIndex.present
           ? data.ocrPageIndex.value
           : this.ocrPageIndex,
+      hasWatermark: data.hasWatermark.present
+          ? data.hasWatermark.value
+          : this.hasWatermark,
+      watermarkType: data.watermarkType.present
+          ? data.watermarkType.value
+          : this.watermarkType,
+      originalDocumentId: data.originalDocumentId.present
+          ? data.originalDocumentId.value
+          : this.originalDocumentId,
+      outputType: data.outputType.present
+          ? data.outputType.value
+          : this.outputType,
+      conversionType: data.conversionType.present
+          ? data.conversionType.value
+          : this.conversionType,
+      conversionProvider: data.conversionProvider.present
+          ? data.conversionProvider.value
+          : this.conversionProvider,
+      conversionModel: data.conversionModel.present
+          ? data.conversionModel.value
+          : this.conversionModel,
+      tablesCount: data.tablesCount.present
+          ? data.tablesCount.value
+          : this.tablesCount,
+      paragraphsCount: data.paragraphsCount.present
+          ? data.paragraphsCount.value
+          : this.paragraphsCount,
+      pagesProcessed: data.pagesProcessed.present
+          ? data.pagesProcessed.value
+          : this.pagesProcessed,
     );
   }
 
@@ -1127,14 +1586,25 @@ class DocumentRecord extends DataClass implements Insertable<DocumentRecord> {
           ..write('ocrModel: $ocrModel, ')
           ..write('ocrCreatedAt: $ocrCreatedAt, ')
           ..write('ocrLanguage: $ocrLanguage, ')
+          ..write('ocrDetectedLanguage: $ocrDetectedLanguage, ')
           ..write('ocrConfidence: $ocrConfidence, ')
-          ..write('ocrPageIndex: $ocrPageIndex')
+          ..write('ocrPageIndex: $ocrPageIndex, ')
+          ..write('hasWatermark: $hasWatermark, ')
+          ..write('watermarkType: $watermarkType, ')
+          ..write('originalDocumentId: $originalDocumentId, ')
+          ..write('outputType: $outputType, ')
+          ..write('conversionType: $conversionType, ')
+          ..write('conversionProvider: $conversionProvider, ')
+          ..write('conversionModel: $conversionModel, ')
+          ..write('tablesCount: $tablesCount, ')
+          ..write('paragraphsCount: $paragraphsCount, ')
+          ..write('pagesProcessed: $pagesProcessed')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(
+  int get hashCode => Object.hashAll([
     id,
     name,
     fileType,
@@ -1153,9 +1623,20 @@ class DocumentRecord extends DataClass implements Insertable<DocumentRecord> {
     ocrModel,
     ocrCreatedAt,
     ocrLanguage,
+    ocrDetectedLanguage,
     ocrConfidence,
     ocrPageIndex,
-  );
+    hasWatermark,
+    watermarkType,
+    originalDocumentId,
+    outputType,
+    conversionType,
+    conversionProvider,
+    conversionModel,
+    tablesCount,
+    paragraphsCount,
+    pagesProcessed,
+  ]);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1178,8 +1659,19 @@ class DocumentRecord extends DataClass implements Insertable<DocumentRecord> {
           other.ocrModel == this.ocrModel &&
           other.ocrCreatedAt == this.ocrCreatedAt &&
           other.ocrLanguage == this.ocrLanguage &&
+          other.ocrDetectedLanguage == this.ocrDetectedLanguage &&
           other.ocrConfidence == this.ocrConfidence &&
-          other.ocrPageIndex == this.ocrPageIndex);
+          other.ocrPageIndex == this.ocrPageIndex &&
+          other.hasWatermark == this.hasWatermark &&
+          other.watermarkType == this.watermarkType &&
+          other.originalDocumentId == this.originalDocumentId &&
+          other.outputType == this.outputType &&
+          other.conversionType == this.conversionType &&
+          other.conversionProvider == this.conversionProvider &&
+          other.conversionModel == this.conversionModel &&
+          other.tablesCount == this.tablesCount &&
+          other.paragraphsCount == this.paragraphsCount &&
+          other.pagesProcessed == this.pagesProcessed);
 }
 
 class DocumentsCompanion extends UpdateCompanion<DocumentRecord> {
@@ -1201,8 +1693,19 @@ class DocumentsCompanion extends UpdateCompanion<DocumentRecord> {
   final Value<String?> ocrModel;
   final Value<DateTime?> ocrCreatedAt;
   final Value<String?> ocrLanguage;
+  final Value<String?> ocrDetectedLanguage;
   final Value<double?> ocrConfidence;
   final Value<int?> ocrPageIndex;
+  final Value<bool> hasWatermark;
+  final Value<String?> watermarkType;
+  final Value<String?> originalDocumentId;
+  final Value<String?> outputType;
+  final Value<String?> conversionType;
+  final Value<String?> conversionProvider;
+  final Value<String?> conversionModel;
+  final Value<int?> tablesCount;
+  final Value<int?> paragraphsCount;
+  final Value<int?> pagesProcessed;
   final Value<int> rowid;
   const DocumentsCompanion({
     this.id = const Value.absent(),
@@ -1223,8 +1726,19 @@ class DocumentsCompanion extends UpdateCompanion<DocumentRecord> {
     this.ocrModel = const Value.absent(),
     this.ocrCreatedAt = const Value.absent(),
     this.ocrLanguage = const Value.absent(),
+    this.ocrDetectedLanguage = const Value.absent(),
     this.ocrConfidence = const Value.absent(),
     this.ocrPageIndex = const Value.absent(),
+    this.hasWatermark = const Value.absent(),
+    this.watermarkType = const Value.absent(),
+    this.originalDocumentId = const Value.absent(),
+    this.outputType = const Value.absent(),
+    this.conversionType = const Value.absent(),
+    this.conversionProvider = const Value.absent(),
+    this.conversionModel = const Value.absent(),
+    this.tablesCount = const Value.absent(),
+    this.paragraphsCount = const Value.absent(),
+    this.pagesProcessed = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   DocumentsCompanion.insert({
@@ -1246,8 +1760,19 @@ class DocumentsCompanion extends UpdateCompanion<DocumentRecord> {
     this.ocrModel = const Value.absent(),
     this.ocrCreatedAt = const Value.absent(),
     this.ocrLanguage = const Value.absent(),
+    this.ocrDetectedLanguage = const Value.absent(),
     this.ocrConfidence = const Value.absent(),
     this.ocrPageIndex = const Value.absent(),
+    this.hasWatermark = const Value.absent(),
+    this.watermarkType = const Value.absent(),
+    this.originalDocumentId = const Value.absent(),
+    this.outputType = const Value.absent(),
+    this.conversionType = const Value.absent(),
+    this.conversionProvider = const Value.absent(),
+    this.conversionModel = const Value.absent(),
+    this.tablesCount = const Value.absent(),
+    this.paragraphsCount = const Value.absent(),
+    this.pagesProcessed = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : id = Value(id),
        name = Value(name),
@@ -1275,8 +1800,19 @@ class DocumentsCompanion extends UpdateCompanion<DocumentRecord> {
     Expression<String>? ocrModel,
     Expression<DateTime>? ocrCreatedAt,
     Expression<String>? ocrLanguage,
+    Expression<String>? ocrDetectedLanguage,
     Expression<double>? ocrConfidence,
     Expression<int>? ocrPageIndex,
+    Expression<bool>? hasWatermark,
+    Expression<String>? watermarkType,
+    Expression<String>? originalDocumentId,
+    Expression<String>? outputType,
+    Expression<String>? conversionType,
+    Expression<String>? conversionProvider,
+    Expression<String>? conversionModel,
+    Expression<int>? tablesCount,
+    Expression<int>? paragraphsCount,
+    Expression<int>? pagesProcessed,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -1298,8 +1834,21 @@ class DocumentsCompanion extends UpdateCompanion<DocumentRecord> {
       if (ocrModel != null) 'ocr_model': ocrModel,
       if (ocrCreatedAt != null) 'ocr_created_at': ocrCreatedAt,
       if (ocrLanguage != null) 'ocr_language': ocrLanguage,
+      if (ocrDetectedLanguage != null)
+        'ocr_detected_language': ocrDetectedLanguage,
       if (ocrConfidence != null) 'ocr_confidence': ocrConfidence,
       if (ocrPageIndex != null) 'ocr_page_index': ocrPageIndex,
+      if (hasWatermark != null) 'has_watermark': hasWatermark,
+      if (watermarkType != null) 'watermark_type': watermarkType,
+      if (originalDocumentId != null)
+        'original_document_id': originalDocumentId,
+      if (outputType != null) 'output_type': outputType,
+      if (conversionType != null) 'conversion_type': conversionType,
+      if (conversionProvider != null) 'conversion_provider': conversionProvider,
+      if (conversionModel != null) 'conversion_model': conversionModel,
+      if (tablesCount != null) 'tables_count': tablesCount,
+      if (paragraphsCount != null) 'paragraphs_count': paragraphsCount,
+      if (pagesProcessed != null) 'pages_processed': pagesProcessed,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -1323,8 +1872,19 @@ class DocumentsCompanion extends UpdateCompanion<DocumentRecord> {
     Value<String?>? ocrModel,
     Value<DateTime?>? ocrCreatedAt,
     Value<String?>? ocrLanguage,
+    Value<String?>? ocrDetectedLanguage,
     Value<double?>? ocrConfidence,
     Value<int?>? ocrPageIndex,
+    Value<bool>? hasWatermark,
+    Value<String?>? watermarkType,
+    Value<String?>? originalDocumentId,
+    Value<String?>? outputType,
+    Value<String?>? conversionType,
+    Value<String?>? conversionProvider,
+    Value<String?>? conversionModel,
+    Value<int?>? tablesCount,
+    Value<int?>? paragraphsCount,
+    Value<int?>? pagesProcessed,
     Value<int>? rowid,
   }) {
     return DocumentsCompanion(
@@ -1346,8 +1906,19 @@ class DocumentsCompanion extends UpdateCompanion<DocumentRecord> {
       ocrModel: ocrModel ?? this.ocrModel,
       ocrCreatedAt: ocrCreatedAt ?? this.ocrCreatedAt,
       ocrLanguage: ocrLanguage ?? this.ocrLanguage,
+      ocrDetectedLanguage: ocrDetectedLanguage ?? this.ocrDetectedLanguage,
       ocrConfidence: ocrConfidence ?? this.ocrConfidence,
       ocrPageIndex: ocrPageIndex ?? this.ocrPageIndex,
+      hasWatermark: hasWatermark ?? this.hasWatermark,
+      watermarkType: watermarkType ?? this.watermarkType,
+      originalDocumentId: originalDocumentId ?? this.originalDocumentId,
+      outputType: outputType ?? this.outputType,
+      conversionType: conversionType ?? this.conversionType,
+      conversionProvider: conversionProvider ?? this.conversionProvider,
+      conversionModel: conversionModel ?? this.conversionModel,
+      tablesCount: tablesCount ?? this.tablesCount,
+      paragraphsCount: paragraphsCount ?? this.paragraphsCount,
+      pagesProcessed: pagesProcessed ?? this.pagesProcessed,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -1409,11 +1980,46 @@ class DocumentsCompanion extends UpdateCompanion<DocumentRecord> {
     if (ocrLanguage.present) {
       map['ocr_language'] = Variable<String>(ocrLanguage.value);
     }
+    if (ocrDetectedLanguage.present) {
+      map['ocr_detected_language'] = Variable<String>(
+        ocrDetectedLanguage.value,
+      );
+    }
     if (ocrConfidence.present) {
       map['ocr_confidence'] = Variable<double>(ocrConfidence.value);
     }
     if (ocrPageIndex.present) {
       map['ocr_page_index'] = Variable<int>(ocrPageIndex.value);
+    }
+    if (hasWatermark.present) {
+      map['has_watermark'] = Variable<bool>(hasWatermark.value);
+    }
+    if (watermarkType.present) {
+      map['watermark_type'] = Variable<String>(watermarkType.value);
+    }
+    if (originalDocumentId.present) {
+      map['original_document_id'] = Variable<String>(originalDocumentId.value);
+    }
+    if (outputType.present) {
+      map['output_type'] = Variable<String>(outputType.value);
+    }
+    if (conversionType.present) {
+      map['conversion_type'] = Variable<String>(conversionType.value);
+    }
+    if (conversionProvider.present) {
+      map['conversion_provider'] = Variable<String>(conversionProvider.value);
+    }
+    if (conversionModel.present) {
+      map['conversion_model'] = Variable<String>(conversionModel.value);
+    }
+    if (tablesCount.present) {
+      map['tables_count'] = Variable<int>(tablesCount.value);
+    }
+    if (paragraphsCount.present) {
+      map['paragraphs_count'] = Variable<int>(paragraphsCount.value);
+    }
+    if (pagesProcessed.present) {
+      map['pages_processed'] = Variable<int>(pagesProcessed.value);
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -1442,8 +2048,19 @@ class DocumentsCompanion extends UpdateCompanion<DocumentRecord> {
           ..write('ocrModel: $ocrModel, ')
           ..write('ocrCreatedAt: $ocrCreatedAt, ')
           ..write('ocrLanguage: $ocrLanguage, ')
+          ..write('ocrDetectedLanguage: $ocrDetectedLanguage, ')
           ..write('ocrConfidence: $ocrConfidence, ')
           ..write('ocrPageIndex: $ocrPageIndex, ')
+          ..write('hasWatermark: $hasWatermark, ')
+          ..write('watermarkType: $watermarkType, ')
+          ..write('originalDocumentId: $originalDocumentId, ')
+          ..write('outputType: $outputType, ')
+          ..write('conversionType: $conversionType, ')
+          ..write('conversionProvider: $conversionProvider, ')
+          ..write('conversionModel: $conversionModel, ')
+          ..write('tablesCount: $tablesCount, ')
+          ..write('paragraphsCount: $paragraphsCount, ')
+          ..write('pagesProcessed: $pagesProcessed, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -2409,6 +3026,1431 @@ class DailyUsageCompanion extends UpdateCompanion<DailyUsageRecord> {
   }
 }
 
+class $DocumentTranslationsTable extends DocumentTranslations
+    with TableInfo<$DocumentTranslationsTable, DocumentTranslationRecord> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DocumentTranslationsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _documentIdMeta = const VerificationMeta(
+    'documentId',
+  );
+  @override
+  late final GeneratedColumn<String> documentId = GeneratedColumn<String>(
+    'document_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES documents (id)',
+    ),
+  );
+  static const VerificationMeta _pageIndexMeta = const VerificationMeta(
+    'pageIndex',
+  );
+  @override
+  late final GeneratedColumn<int> pageIndex = GeneratedColumn<int>(
+    'page_index',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _sourceLanguageMeta = const VerificationMeta(
+    'sourceLanguage',
+  );
+  @override
+  late final GeneratedColumn<String> sourceLanguage = GeneratedColumn<String>(
+    'source_language',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _targetLanguageMeta = const VerificationMeta(
+    'targetLanguage',
+  );
+  @override
+  late final GeneratedColumn<String> targetLanguage = GeneratedColumn<String>(
+    'target_language',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _sourceTextMeta = const VerificationMeta(
+    'sourceText',
+  );
+  @override
+  late final GeneratedColumn<String> sourceText = GeneratedColumn<String>(
+    'source_text',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _translatedTextMeta = const VerificationMeta(
+    'translatedText',
+  );
+  @override
+  late final GeneratedColumn<String> translatedText = GeneratedColumn<String>(
+    'translated_text',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _providerMeta = const VerificationMeta(
+    'provider',
+  );
+  @override
+  late final GeneratedColumn<String> provider = GeneratedColumn<String>(
+    'provider',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    documentId,
+    pageIndex,
+    sourceLanguage,
+    targetLanguage,
+    sourceText,
+    translatedText,
+    provider,
+    createdAt,
+    updatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'document_translations';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<DocumentTranslationRecord> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('document_id')) {
+      context.handle(
+        _documentIdMeta,
+        documentId.isAcceptableOrUnknown(data['document_id']!, _documentIdMeta),
+      );
+    }
+    if (data.containsKey('page_index')) {
+      context.handle(
+        _pageIndexMeta,
+        pageIndex.isAcceptableOrUnknown(data['page_index']!, _pageIndexMeta),
+      );
+    }
+    if (data.containsKey('source_language')) {
+      context.handle(
+        _sourceLanguageMeta,
+        sourceLanguage.isAcceptableOrUnknown(
+          data['source_language']!,
+          _sourceLanguageMeta,
+        ),
+      );
+    }
+    if (data.containsKey('target_language')) {
+      context.handle(
+        _targetLanguageMeta,
+        targetLanguage.isAcceptableOrUnknown(
+          data['target_language']!,
+          _targetLanguageMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_targetLanguageMeta);
+    }
+    if (data.containsKey('source_text')) {
+      context.handle(
+        _sourceTextMeta,
+        sourceText.isAcceptableOrUnknown(data['source_text']!, _sourceTextMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_sourceTextMeta);
+    }
+    if (data.containsKey('translated_text')) {
+      context.handle(
+        _translatedTextMeta,
+        translatedText.isAcceptableOrUnknown(
+          data['translated_text']!,
+          _translatedTextMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_translatedTextMeta);
+    }
+    if (data.containsKey('provider')) {
+      context.handle(
+        _providerMeta,
+        provider.isAcceptableOrUnknown(data['provider']!, _providerMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_providerMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  DocumentTranslationRecord map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DocumentTranslationRecord(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      documentId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}document_id'],
+      ),
+      pageIndex: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}page_index'],
+      )!,
+      sourceLanguage: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}source_language'],
+      ),
+      targetLanguage: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}target_language'],
+      )!,
+      sourceText: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}source_text'],
+      )!,
+      translatedText: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}translated_text'],
+      )!,
+      provider: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}provider'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $DocumentTranslationsTable createAlias(String alias) {
+    return $DocumentTranslationsTable(attachedDatabase, alias);
+  }
+}
+
+class DocumentTranslationRecord extends DataClass
+    implements Insertable<DocumentTranslationRecord> {
+  final String id;
+  final String? documentId;
+  final int pageIndex;
+  final String? sourceLanguage;
+  final String targetLanguage;
+  final String sourceText;
+  final String translatedText;
+  final String provider;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  const DocumentTranslationRecord({
+    required this.id,
+    this.documentId,
+    required this.pageIndex,
+    this.sourceLanguage,
+    required this.targetLanguage,
+    required this.sourceText,
+    required this.translatedText,
+    required this.provider,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    if (!nullToAbsent || documentId != null) {
+      map['document_id'] = Variable<String>(documentId);
+    }
+    map['page_index'] = Variable<int>(pageIndex);
+    if (!nullToAbsent || sourceLanguage != null) {
+      map['source_language'] = Variable<String>(sourceLanguage);
+    }
+    map['target_language'] = Variable<String>(targetLanguage);
+    map['source_text'] = Variable<String>(sourceText);
+    map['translated_text'] = Variable<String>(translatedText);
+    map['provider'] = Variable<String>(provider);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  DocumentTranslationsCompanion toCompanion(bool nullToAbsent) {
+    return DocumentTranslationsCompanion(
+      id: Value(id),
+      documentId: documentId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(documentId),
+      pageIndex: Value(pageIndex),
+      sourceLanguage: sourceLanguage == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sourceLanguage),
+      targetLanguage: Value(targetLanguage),
+      sourceText: Value(sourceText),
+      translatedText: Value(translatedText),
+      provider: Value(provider),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory DocumentTranslationRecord.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DocumentTranslationRecord(
+      id: serializer.fromJson<String>(json['id']),
+      documentId: serializer.fromJson<String?>(json['documentId']),
+      pageIndex: serializer.fromJson<int>(json['pageIndex']),
+      sourceLanguage: serializer.fromJson<String?>(json['sourceLanguage']),
+      targetLanguage: serializer.fromJson<String>(json['targetLanguage']),
+      sourceText: serializer.fromJson<String>(json['sourceText']),
+      translatedText: serializer.fromJson<String>(json['translatedText']),
+      provider: serializer.fromJson<String>(json['provider']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'documentId': serializer.toJson<String?>(documentId),
+      'pageIndex': serializer.toJson<int>(pageIndex),
+      'sourceLanguage': serializer.toJson<String?>(sourceLanguage),
+      'targetLanguage': serializer.toJson<String>(targetLanguage),
+      'sourceText': serializer.toJson<String>(sourceText),
+      'translatedText': serializer.toJson<String>(translatedText),
+      'provider': serializer.toJson<String>(provider),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  DocumentTranslationRecord copyWith({
+    String? id,
+    Value<String?> documentId = const Value.absent(),
+    int? pageIndex,
+    Value<String?> sourceLanguage = const Value.absent(),
+    String? targetLanguage,
+    String? sourceText,
+    String? translatedText,
+    String? provider,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) => DocumentTranslationRecord(
+    id: id ?? this.id,
+    documentId: documentId.present ? documentId.value : this.documentId,
+    pageIndex: pageIndex ?? this.pageIndex,
+    sourceLanguage: sourceLanguage.present
+        ? sourceLanguage.value
+        : this.sourceLanguage,
+    targetLanguage: targetLanguage ?? this.targetLanguage,
+    sourceText: sourceText ?? this.sourceText,
+    translatedText: translatedText ?? this.translatedText,
+    provider: provider ?? this.provider,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+  DocumentTranslationRecord copyWithCompanion(
+    DocumentTranslationsCompanion data,
+  ) {
+    return DocumentTranslationRecord(
+      id: data.id.present ? data.id.value : this.id,
+      documentId: data.documentId.present
+          ? data.documentId.value
+          : this.documentId,
+      pageIndex: data.pageIndex.present ? data.pageIndex.value : this.pageIndex,
+      sourceLanguage: data.sourceLanguage.present
+          ? data.sourceLanguage.value
+          : this.sourceLanguage,
+      targetLanguage: data.targetLanguage.present
+          ? data.targetLanguage.value
+          : this.targetLanguage,
+      sourceText: data.sourceText.present
+          ? data.sourceText.value
+          : this.sourceText,
+      translatedText: data.translatedText.present
+          ? data.translatedText.value
+          : this.translatedText,
+      provider: data.provider.present ? data.provider.value : this.provider,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DocumentTranslationRecord(')
+          ..write('id: $id, ')
+          ..write('documentId: $documentId, ')
+          ..write('pageIndex: $pageIndex, ')
+          ..write('sourceLanguage: $sourceLanguage, ')
+          ..write('targetLanguage: $targetLanguage, ')
+          ..write('sourceText: $sourceText, ')
+          ..write('translatedText: $translatedText, ')
+          ..write('provider: $provider, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    documentId,
+    pageIndex,
+    sourceLanguage,
+    targetLanguage,
+    sourceText,
+    translatedText,
+    provider,
+    createdAt,
+    updatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DocumentTranslationRecord &&
+          other.id == this.id &&
+          other.documentId == this.documentId &&
+          other.pageIndex == this.pageIndex &&
+          other.sourceLanguage == this.sourceLanguage &&
+          other.targetLanguage == this.targetLanguage &&
+          other.sourceText == this.sourceText &&
+          other.translatedText == this.translatedText &&
+          other.provider == this.provider &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class DocumentTranslationsCompanion
+    extends UpdateCompanion<DocumentTranslationRecord> {
+  final Value<String> id;
+  final Value<String?> documentId;
+  final Value<int> pageIndex;
+  final Value<String?> sourceLanguage;
+  final Value<String> targetLanguage;
+  final Value<String> sourceText;
+  final Value<String> translatedText;
+  final Value<String> provider;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<int> rowid;
+  const DocumentTranslationsCompanion({
+    this.id = const Value.absent(),
+    this.documentId = const Value.absent(),
+    this.pageIndex = const Value.absent(),
+    this.sourceLanguage = const Value.absent(),
+    this.targetLanguage = const Value.absent(),
+    this.sourceText = const Value.absent(),
+    this.translatedText = const Value.absent(),
+    this.provider = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  DocumentTranslationsCompanion.insert({
+    required String id,
+    this.documentId = const Value.absent(),
+    this.pageIndex = const Value.absent(),
+    this.sourceLanguage = const Value.absent(),
+    required String targetLanguage,
+    required String sourceText,
+    required String translatedText,
+    required String provider,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       targetLanguage = Value(targetLanguage),
+       sourceText = Value(sourceText),
+       translatedText = Value(translatedText),
+       provider = Value(provider),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt);
+  static Insertable<DocumentTranslationRecord> custom({
+    Expression<String>? id,
+    Expression<String>? documentId,
+    Expression<int>? pageIndex,
+    Expression<String>? sourceLanguage,
+    Expression<String>? targetLanguage,
+    Expression<String>? sourceText,
+    Expression<String>? translatedText,
+    Expression<String>? provider,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (documentId != null) 'document_id': documentId,
+      if (pageIndex != null) 'page_index': pageIndex,
+      if (sourceLanguage != null) 'source_language': sourceLanguage,
+      if (targetLanguage != null) 'target_language': targetLanguage,
+      if (sourceText != null) 'source_text': sourceText,
+      if (translatedText != null) 'translated_text': translatedText,
+      if (provider != null) 'provider': provider,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  DocumentTranslationsCompanion copyWith({
+    Value<String>? id,
+    Value<String?>? documentId,
+    Value<int>? pageIndex,
+    Value<String?>? sourceLanguage,
+    Value<String>? targetLanguage,
+    Value<String>? sourceText,
+    Value<String>? translatedText,
+    Value<String>? provider,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+    Value<int>? rowid,
+  }) {
+    return DocumentTranslationsCompanion(
+      id: id ?? this.id,
+      documentId: documentId ?? this.documentId,
+      pageIndex: pageIndex ?? this.pageIndex,
+      sourceLanguage: sourceLanguage ?? this.sourceLanguage,
+      targetLanguage: targetLanguage ?? this.targetLanguage,
+      sourceText: sourceText ?? this.sourceText,
+      translatedText: translatedText ?? this.translatedText,
+      provider: provider ?? this.provider,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (documentId.present) {
+      map['document_id'] = Variable<String>(documentId.value);
+    }
+    if (pageIndex.present) {
+      map['page_index'] = Variable<int>(pageIndex.value);
+    }
+    if (sourceLanguage.present) {
+      map['source_language'] = Variable<String>(sourceLanguage.value);
+    }
+    if (targetLanguage.present) {
+      map['target_language'] = Variable<String>(targetLanguage.value);
+    }
+    if (sourceText.present) {
+      map['source_text'] = Variable<String>(sourceText.value);
+    }
+    if (translatedText.present) {
+      map['translated_text'] = Variable<String>(translatedText.value);
+    }
+    if (provider.present) {
+      map['provider'] = Variable<String>(provider.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DocumentTranslationsCompanion(')
+          ..write('id: $id, ')
+          ..write('documentId: $documentId, ')
+          ..write('pageIndex: $pageIndex, ')
+          ..write('sourceLanguage: $sourceLanguage, ')
+          ..write('targetLanguage: $targetLanguage, ')
+          ..write('sourceText: $sourceText, ')
+          ..write('translatedText: $translatedText, ')
+          ..write('provider: $provider, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $DocumentSummariesTable extends DocumentSummaries
+    with TableInfo<$DocumentSummariesTable, DocumentSummaryRecord> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DocumentSummariesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _documentIdMeta = const VerificationMeta(
+    'documentId',
+  );
+  @override
+  late final GeneratedColumn<String> documentId = GeneratedColumn<String>(
+    'document_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES documents (id)',
+    ),
+  );
+  static const VerificationMeta _pageIndexMeta = const VerificationMeta(
+    'pageIndex',
+  );
+  @override
+  late final GeneratedColumn<int> pageIndex = GeneratedColumn<int>(
+    'page_index',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _sourceLanguageMeta = const VerificationMeta(
+    'sourceLanguage',
+  );
+  @override
+  late final GeneratedColumn<String> sourceLanguage = GeneratedColumn<String>(
+    'source_language',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _summaryLanguageMeta = const VerificationMeta(
+    'summaryLanguage',
+  );
+  @override
+  late final GeneratedColumn<String> summaryLanguage = GeneratedColumn<String>(
+    'summary_language',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _sourceTextLengthMeta = const VerificationMeta(
+    'sourceTextLength',
+  );
+  @override
+  late final GeneratedColumn<int> sourceTextLength = GeneratedColumn<int>(
+    'source_text_length',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _summaryTextMeta = const VerificationMeta(
+    'summaryText',
+  );
+  @override
+  late final GeneratedColumn<String> summaryText = GeneratedColumn<String>(
+    'summary_text',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _summaryLengthMeta = const VerificationMeta(
+    'summaryLength',
+  );
+  @override
+  late final GeneratedColumn<String> summaryLength = GeneratedColumn<String>(
+    'summary_length',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _providerMeta = const VerificationMeta(
+    'provider',
+  );
+  @override
+  late final GeneratedColumn<String> provider = GeneratedColumn<String>(
+    'provider',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _modelMeta = const VerificationMeta('model');
+  @override
+  late final GeneratedColumn<String> model = GeneratedColumn<String>(
+    'model',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _deploymentMeta = const VerificationMeta(
+    'deployment',
+  );
+  @override
+  late final GeneratedColumn<String> deployment = GeneratedColumn<String>(
+    'deployment',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    documentId,
+    pageIndex,
+    sourceLanguage,
+    summaryLanguage,
+    sourceTextLength,
+    summaryText,
+    summaryLength,
+    provider,
+    model,
+    deployment,
+    createdAt,
+    updatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'document_summaries';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<DocumentSummaryRecord> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('document_id')) {
+      context.handle(
+        _documentIdMeta,
+        documentId.isAcceptableOrUnknown(data['document_id']!, _documentIdMeta),
+      );
+    }
+    if (data.containsKey('page_index')) {
+      context.handle(
+        _pageIndexMeta,
+        pageIndex.isAcceptableOrUnknown(data['page_index']!, _pageIndexMeta),
+      );
+    }
+    if (data.containsKey('source_language')) {
+      context.handle(
+        _sourceLanguageMeta,
+        sourceLanguage.isAcceptableOrUnknown(
+          data['source_language']!,
+          _sourceLanguageMeta,
+        ),
+      );
+    }
+    if (data.containsKey('summary_language')) {
+      context.handle(
+        _summaryLanguageMeta,
+        summaryLanguage.isAcceptableOrUnknown(
+          data['summary_language']!,
+          _summaryLanguageMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_summaryLanguageMeta);
+    }
+    if (data.containsKey('source_text_length')) {
+      context.handle(
+        _sourceTextLengthMeta,
+        sourceTextLength.isAcceptableOrUnknown(
+          data['source_text_length']!,
+          _sourceTextLengthMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_sourceTextLengthMeta);
+    }
+    if (data.containsKey('summary_text')) {
+      context.handle(
+        _summaryTextMeta,
+        summaryText.isAcceptableOrUnknown(
+          data['summary_text']!,
+          _summaryTextMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_summaryTextMeta);
+    }
+    if (data.containsKey('summary_length')) {
+      context.handle(
+        _summaryLengthMeta,
+        summaryLength.isAcceptableOrUnknown(
+          data['summary_length']!,
+          _summaryLengthMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_summaryLengthMeta);
+    }
+    if (data.containsKey('provider')) {
+      context.handle(
+        _providerMeta,
+        provider.isAcceptableOrUnknown(data['provider']!, _providerMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_providerMeta);
+    }
+    if (data.containsKey('model')) {
+      context.handle(
+        _modelMeta,
+        model.isAcceptableOrUnknown(data['model']!, _modelMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_modelMeta);
+    }
+    if (data.containsKey('deployment')) {
+      context.handle(
+        _deploymentMeta,
+        deployment.isAcceptableOrUnknown(data['deployment']!, _deploymentMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_deploymentMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  DocumentSummaryRecord map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DocumentSummaryRecord(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      documentId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}document_id'],
+      ),
+      pageIndex: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}page_index'],
+      )!,
+      sourceLanguage: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}source_language'],
+      ),
+      summaryLanguage: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}summary_language'],
+      )!,
+      sourceTextLength: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}source_text_length'],
+      )!,
+      summaryText: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}summary_text'],
+      )!,
+      summaryLength: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}summary_length'],
+      )!,
+      provider: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}provider'],
+      )!,
+      model: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}model'],
+      )!,
+      deployment: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}deployment'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $DocumentSummariesTable createAlias(String alias) {
+    return $DocumentSummariesTable(attachedDatabase, alias);
+  }
+}
+
+class DocumentSummaryRecord extends DataClass
+    implements Insertable<DocumentSummaryRecord> {
+  final String id;
+  final String? documentId;
+  final int pageIndex;
+  final String? sourceLanguage;
+  final String summaryLanguage;
+  final int sourceTextLength;
+  final String summaryText;
+  final String summaryLength;
+  final String provider;
+  final String model;
+  final String deployment;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  const DocumentSummaryRecord({
+    required this.id,
+    this.documentId,
+    required this.pageIndex,
+    this.sourceLanguage,
+    required this.summaryLanguage,
+    required this.sourceTextLength,
+    required this.summaryText,
+    required this.summaryLength,
+    required this.provider,
+    required this.model,
+    required this.deployment,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    if (!nullToAbsent || documentId != null) {
+      map['document_id'] = Variable<String>(documentId);
+    }
+    map['page_index'] = Variable<int>(pageIndex);
+    if (!nullToAbsent || sourceLanguage != null) {
+      map['source_language'] = Variable<String>(sourceLanguage);
+    }
+    map['summary_language'] = Variable<String>(summaryLanguage);
+    map['source_text_length'] = Variable<int>(sourceTextLength);
+    map['summary_text'] = Variable<String>(summaryText);
+    map['summary_length'] = Variable<String>(summaryLength);
+    map['provider'] = Variable<String>(provider);
+    map['model'] = Variable<String>(model);
+    map['deployment'] = Variable<String>(deployment);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  DocumentSummariesCompanion toCompanion(bool nullToAbsent) {
+    return DocumentSummariesCompanion(
+      id: Value(id),
+      documentId: documentId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(documentId),
+      pageIndex: Value(pageIndex),
+      sourceLanguage: sourceLanguage == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sourceLanguage),
+      summaryLanguage: Value(summaryLanguage),
+      sourceTextLength: Value(sourceTextLength),
+      summaryText: Value(summaryText),
+      summaryLength: Value(summaryLength),
+      provider: Value(provider),
+      model: Value(model),
+      deployment: Value(deployment),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory DocumentSummaryRecord.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DocumentSummaryRecord(
+      id: serializer.fromJson<String>(json['id']),
+      documentId: serializer.fromJson<String?>(json['documentId']),
+      pageIndex: serializer.fromJson<int>(json['pageIndex']),
+      sourceLanguage: serializer.fromJson<String?>(json['sourceLanguage']),
+      summaryLanguage: serializer.fromJson<String>(json['summaryLanguage']),
+      sourceTextLength: serializer.fromJson<int>(json['sourceTextLength']),
+      summaryText: serializer.fromJson<String>(json['summaryText']),
+      summaryLength: serializer.fromJson<String>(json['summaryLength']),
+      provider: serializer.fromJson<String>(json['provider']),
+      model: serializer.fromJson<String>(json['model']),
+      deployment: serializer.fromJson<String>(json['deployment']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'documentId': serializer.toJson<String?>(documentId),
+      'pageIndex': serializer.toJson<int>(pageIndex),
+      'sourceLanguage': serializer.toJson<String?>(sourceLanguage),
+      'summaryLanguage': serializer.toJson<String>(summaryLanguage),
+      'sourceTextLength': serializer.toJson<int>(sourceTextLength),
+      'summaryText': serializer.toJson<String>(summaryText),
+      'summaryLength': serializer.toJson<String>(summaryLength),
+      'provider': serializer.toJson<String>(provider),
+      'model': serializer.toJson<String>(model),
+      'deployment': serializer.toJson<String>(deployment),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  DocumentSummaryRecord copyWith({
+    String? id,
+    Value<String?> documentId = const Value.absent(),
+    int? pageIndex,
+    Value<String?> sourceLanguage = const Value.absent(),
+    String? summaryLanguage,
+    int? sourceTextLength,
+    String? summaryText,
+    String? summaryLength,
+    String? provider,
+    String? model,
+    String? deployment,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) => DocumentSummaryRecord(
+    id: id ?? this.id,
+    documentId: documentId.present ? documentId.value : this.documentId,
+    pageIndex: pageIndex ?? this.pageIndex,
+    sourceLanguage: sourceLanguage.present
+        ? sourceLanguage.value
+        : this.sourceLanguage,
+    summaryLanguage: summaryLanguage ?? this.summaryLanguage,
+    sourceTextLength: sourceTextLength ?? this.sourceTextLength,
+    summaryText: summaryText ?? this.summaryText,
+    summaryLength: summaryLength ?? this.summaryLength,
+    provider: provider ?? this.provider,
+    model: model ?? this.model,
+    deployment: deployment ?? this.deployment,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+  DocumentSummaryRecord copyWithCompanion(DocumentSummariesCompanion data) {
+    return DocumentSummaryRecord(
+      id: data.id.present ? data.id.value : this.id,
+      documentId: data.documentId.present
+          ? data.documentId.value
+          : this.documentId,
+      pageIndex: data.pageIndex.present ? data.pageIndex.value : this.pageIndex,
+      sourceLanguage: data.sourceLanguage.present
+          ? data.sourceLanguage.value
+          : this.sourceLanguage,
+      summaryLanguage: data.summaryLanguage.present
+          ? data.summaryLanguage.value
+          : this.summaryLanguage,
+      sourceTextLength: data.sourceTextLength.present
+          ? data.sourceTextLength.value
+          : this.sourceTextLength,
+      summaryText: data.summaryText.present
+          ? data.summaryText.value
+          : this.summaryText,
+      summaryLength: data.summaryLength.present
+          ? data.summaryLength.value
+          : this.summaryLength,
+      provider: data.provider.present ? data.provider.value : this.provider,
+      model: data.model.present ? data.model.value : this.model,
+      deployment: data.deployment.present
+          ? data.deployment.value
+          : this.deployment,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DocumentSummaryRecord(')
+          ..write('id: $id, ')
+          ..write('documentId: $documentId, ')
+          ..write('pageIndex: $pageIndex, ')
+          ..write('sourceLanguage: $sourceLanguage, ')
+          ..write('summaryLanguage: $summaryLanguage, ')
+          ..write('sourceTextLength: $sourceTextLength, ')
+          ..write('summaryText: $summaryText, ')
+          ..write('summaryLength: $summaryLength, ')
+          ..write('provider: $provider, ')
+          ..write('model: $model, ')
+          ..write('deployment: $deployment, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    documentId,
+    pageIndex,
+    sourceLanguage,
+    summaryLanguage,
+    sourceTextLength,
+    summaryText,
+    summaryLength,
+    provider,
+    model,
+    deployment,
+    createdAt,
+    updatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DocumentSummaryRecord &&
+          other.id == this.id &&
+          other.documentId == this.documentId &&
+          other.pageIndex == this.pageIndex &&
+          other.sourceLanguage == this.sourceLanguage &&
+          other.summaryLanguage == this.summaryLanguage &&
+          other.sourceTextLength == this.sourceTextLength &&
+          other.summaryText == this.summaryText &&
+          other.summaryLength == this.summaryLength &&
+          other.provider == this.provider &&
+          other.model == this.model &&
+          other.deployment == this.deployment &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class DocumentSummariesCompanion
+    extends UpdateCompanion<DocumentSummaryRecord> {
+  final Value<String> id;
+  final Value<String?> documentId;
+  final Value<int> pageIndex;
+  final Value<String?> sourceLanguage;
+  final Value<String> summaryLanguage;
+  final Value<int> sourceTextLength;
+  final Value<String> summaryText;
+  final Value<String> summaryLength;
+  final Value<String> provider;
+  final Value<String> model;
+  final Value<String> deployment;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<int> rowid;
+  const DocumentSummariesCompanion({
+    this.id = const Value.absent(),
+    this.documentId = const Value.absent(),
+    this.pageIndex = const Value.absent(),
+    this.sourceLanguage = const Value.absent(),
+    this.summaryLanguage = const Value.absent(),
+    this.sourceTextLength = const Value.absent(),
+    this.summaryText = const Value.absent(),
+    this.summaryLength = const Value.absent(),
+    this.provider = const Value.absent(),
+    this.model = const Value.absent(),
+    this.deployment = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  DocumentSummariesCompanion.insert({
+    required String id,
+    this.documentId = const Value.absent(),
+    this.pageIndex = const Value.absent(),
+    this.sourceLanguage = const Value.absent(),
+    required String summaryLanguage,
+    required int sourceTextLength,
+    required String summaryText,
+    required String summaryLength,
+    required String provider,
+    required String model,
+    required String deployment,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       summaryLanguage = Value(summaryLanguage),
+       sourceTextLength = Value(sourceTextLength),
+       summaryText = Value(summaryText),
+       summaryLength = Value(summaryLength),
+       provider = Value(provider),
+       model = Value(model),
+       deployment = Value(deployment),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt);
+  static Insertable<DocumentSummaryRecord> custom({
+    Expression<String>? id,
+    Expression<String>? documentId,
+    Expression<int>? pageIndex,
+    Expression<String>? sourceLanguage,
+    Expression<String>? summaryLanguage,
+    Expression<int>? sourceTextLength,
+    Expression<String>? summaryText,
+    Expression<String>? summaryLength,
+    Expression<String>? provider,
+    Expression<String>? model,
+    Expression<String>? deployment,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (documentId != null) 'document_id': documentId,
+      if (pageIndex != null) 'page_index': pageIndex,
+      if (sourceLanguage != null) 'source_language': sourceLanguage,
+      if (summaryLanguage != null) 'summary_language': summaryLanguage,
+      if (sourceTextLength != null) 'source_text_length': sourceTextLength,
+      if (summaryText != null) 'summary_text': summaryText,
+      if (summaryLength != null) 'summary_length': summaryLength,
+      if (provider != null) 'provider': provider,
+      if (model != null) 'model': model,
+      if (deployment != null) 'deployment': deployment,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  DocumentSummariesCompanion copyWith({
+    Value<String>? id,
+    Value<String?>? documentId,
+    Value<int>? pageIndex,
+    Value<String?>? sourceLanguage,
+    Value<String>? summaryLanguage,
+    Value<int>? sourceTextLength,
+    Value<String>? summaryText,
+    Value<String>? summaryLength,
+    Value<String>? provider,
+    Value<String>? model,
+    Value<String>? deployment,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+    Value<int>? rowid,
+  }) {
+    return DocumentSummariesCompanion(
+      id: id ?? this.id,
+      documentId: documentId ?? this.documentId,
+      pageIndex: pageIndex ?? this.pageIndex,
+      sourceLanguage: sourceLanguage ?? this.sourceLanguage,
+      summaryLanguage: summaryLanguage ?? this.summaryLanguage,
+      sourceTextLength: sourceTextLength ?? this.sourceTextLength,
+      summaryText: summaryText ?? this.summaryText,
+      summaryLength: summaryLength ?? this.summaryLength,
+      provider: provider ?? this.provider,
+      model: model ?? this.model,
+      deployment: deployment ?? this.deployment,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (documentId.present) {
+      map['document_id'] = Variable<String>(documentId.value);
+    }
+    if (pageIndex.present) {
+      map['page_index'] = Variable<int>(pageIndex.value);
+    }
+    if (sourceLanguage.present) {
+      map['source_language'] = Variable<String>(sourceLanguage.value);
+    }
+    if (summaryLanguage.present) {
+      map['summary_language'] = Variable<String>(summaryLanguage.value);
+    }
+    if (sourceTextLength.present) {
+      map['source_text_length'] = Variable<int>(sourceTextLength.value);
+    }
+    if (summaryText.present) {
+      map['summary_text'] = Variable<String>(summaryText.value);
+    }
+    if (summaryLength.present) {
+      map['summary_length'] = Variable<String>(summaryLength.value);
+    }
+    if (provider.present) {
+      map['provider'] = Variable<String>(provider.value);
+    }
+    if (model.present) {
+      map['model'] = Variable<String>(model.value);
+    }
+    if (deployment.present) {
+      map['deployment'] = Variable<String>(deployment.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DocumentSummariesCompanion(')
+          ..write('id: $id, ')
+          ..write('documentId: $documentId, ')
+          ..write('pageIndex: $pageIndex, ')
+          ..write('sourceLanguage: $sourceLanguage, ')
+          ..write('summaryLanguage: $summaryLanguage, ')
+          ..write('sourceTextLength: $sourceTextLength, ')
+          ..write('summaryText: $summaryText, ')
+          ..write('summaryLength: $summaryLength, ')
+          ..write('provider: $provider, ')
+          ..write('model: $model, ')
+          ..write('deployment: $deployment, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$ScanLenoDatabase extends GeneratedDatabase {
   _$ScanLenoDatabase(QueryExecutor e) : super(e);
   $ScanLenoDatabaseManager get managers => $ScanLenoDatabaseManager(this);
@@ -2419,6 +4461,10 @@ abstract class _$ScanLenoDatabase extends GeneratedDatabase {
   );
   late final $UserSettingsTable userSettings = $UserSettingsTable(this);
   late final $DailyUsageTable dailyUsage = $DailyUsageTable(this);
+  late final $DocumentTranslationsTable documentTranslations =
+      $DocumentTranslationsTable(this);
+  late final $DocumentSummariesTable documentSummaries =
+      $DocumentSummariesTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -2429,6 +4475,8 @@ abstract class _$ScanLenoDatabase extends GeneratedDatabase {
     savedSignatures,
     userSettings,
     dailyUsage,
+    documentTranslations,
+    documentSummaries,
   ];
 }
 
@@ -2734,8 +4782,19 @@ typedef $$DocumentsTableCreateCompanionBuilder =
       Value<String?> ocrModel,
       Value<DateTime?> ocrCreatedAt,
       Value<String?> ocrLanguage,
+      Value<String?> ocrDetectedLanguage,
       Value<double?> ocrConfidence,
       Value<int?> ocrPageIndex,
+      Value<bool> hasWatermark,
+      Value<String?> watermarkType,
+      Value<String?> originalDocumentId,
+      Value<String?> outputType,
+      Value<String?> conversionType,
+      Value<String?> conversionProvider,
+      Value<String?> conversionModel,
+      Value<int?> tablesCount,
+      Value<int?> paragraphsCount,
+      Value<int?> pagesProcessed,
       Value<int> rowid,
     });
 typedef $$DocumentsTableUpdateCompanionBuilder =
@@ -2758,8 +4817,19 @@ typedef $$DocumentsTableUpdateCompanionBuilder =
       Value<String?> ocrModel,
       Value<DateTime?> ocrCreatedAt,
       Value<String?> ocrLanguage,
+      Value<String?> ocrDetectedLanguage,
       Value<double?> ocrConfidence,
       Value<int?> ocrPageIndex,
+      Value<bool> hasWatermark,
+      Value<String?> watermarkType,
+      Value<String?> originalDocumentId,
+      Value<String?> outputType,
+      Value<String?> conversionType,
+      Value<String?> conversionProvider,
+      Value<String?> conversionModel,
+      Value<int?> tablesCount,
+      Value<int?> paragraphsCount,
+      Value<int?> pagesProcessed,
       Value<int> rowid,
     });
 
@@ -2782,6 +4852,55 @@ final class $$DocumentsTableReferences
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $DocumentTranslationsTable,
+    List<DocumentTranslationRecord>
+  >
+  _documentTranslationsRefsTable(_$ScanLenoDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.documentTranslations,
+        aliasName: 'documents__id__document_translations__document_id',
+      );
+
+  $$DocumentTranslationsTableProcessedTableManager
+  get documentTranslationsRefs {
+    final manager = $$DocumentTranslationsTableTableManager(
+      $_db,
+      $_db.documentTranslations,
+    ).filter((f) => f.documentId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _documentTranslationsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $DocumentSummariesTable,
+    List<DocumentSummaryRecord>
+  >
+  _documentSummariesRefsTable(_$ScanLenoDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.documentSummaries,
+        aliasName: 'documents__id__document_summaries__document_id',
+      );
+
+  $$DocumentSummariesTableProcessedTableManager get documentSummariesRefs {
+    final manager = $$DocumentSummariesTableTableManager(
+      $_db,
+      $_db.documentSummaries,
+    ).filter((f) => f.documentId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _documentSummariesRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
     );
   }
 }
@@ -2880,6 +4999,11 @@ class $$DocumentsTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<String> get ocrDetectedLanguage => $composableBuilder(
+    column: $table.ocrDetectedLanguage,
+    builder: (column) => ColumnFilters(column),
+  );
+
   ColumnFilters<double> get ocrConfidence => $composableBuilder(
     column: $table.ocrConfidence,
     builder: (column) => ColumnFilters(column),
@@ -2887,6 +5011,56 @@ class $$DocumentsTableFilterComposer
 
   ColumnFilters<int> get ocrPageIndex => $composableBuilder(
     column: $table.ocrPageIndex,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get hasWatermark => $composableBuilder(
+    column: $table.hasWatermark,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get watermarkType => $composableBuilder(
+    column: $table.watermarkType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get originalDocumentId => $composableBuilder(
+    column: $table.originalDocumentId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get outputType => $composableBuilder(
+    column: $table.outputType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get conversionType => $composableBuilder(
+    column: $table.conversionType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get conversionProvider => $composableBuilder(
+    column: $table.conversionProvider,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get conversionModel => $composableBuilder(
+    column: $table.conversionModel,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get tablesCount => $composableBuilder(
+    column: $table.tablesCount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get paragraphsCount => $composableBuilder(
+    column: $table.paragraphsCount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get pagesProcessed => $composableBuilder(
+    column: $table.pagesProcessed,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -2911,6 +5085,56 @@ class $$DocumentsTableFilterComposer
           ),
     );
     return composer;
+  }
+
+  Expression<bool> documentTranslationsRefs(
+    Expression<bool> Function($$DocumentTranslationsTableFilterComposer f) f,
+  ) {
+    final $$DocumentTranslationsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.documentTranslations,
+      getReferencedColumn: (t) => t.documentId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DocumentTranslationsTableFilterComposer(
+            $db: $db,
+            $table: $db.documentTranslations,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> documentSummariesRefs(
+    Expression<bool> Function($$DocumentSummariesTableFilterComposer f) f,
+  ) {
+    final $$DocumentSummariesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.documentSummaries,
+      getReferencedColumn: (t) => t.documentId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DocumentSummariesTableFilterComposer(
+            $db: $db,
+            $table: $db.documentSummaries,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
   }
 }
 
@@ -3008,6 +5232,11 @@ class $$DocumentsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get ocrDetectedLanguage => $composableBuilder(
+    column: $table.ocrDetectedLanguage,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<double> get ocrConfidence => $composableBuilder(
     column: $table.ocrConfidence,
     builder: (column) => ColumnOrderings(column),
@@ -3015,6 +5244,56 @@ class $$DocumentsTableOrderingComposer
 
   ColumnOrderings<int> get ocrPageIndex => $composableBuilder(
     column: $table.ocrPageIndex,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get hasWatermark => $composableBuilder(
+    column: $table.hasWatermark,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get watermarkType => $composableBuilder(
+    column: $table.watermarkType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get originalDocumentId => $composableBuilder(
+    column: $table.originalDocumentId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get outputType => $composableBuilder(
+    column: $table.outputType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get conversionType => $composableBuilder(
+    column: $table.conversionType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get conversionProvider => $composableBuilder(
+    column: $table.conversionProvider,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get conversionModel => $composableBuilder(
+    column: $table.conversionModel,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get tablesCount => $composableBuilder(
+    column: $table.tablesCount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get paragraphsCount => $composableBuilder(
+    column: $table.paragraphsCount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get pagesProcessed => $composableBuilder(
+    column: $table.pagesProcessed,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -3112,6 +5391,11 @@ class $$DocumentsTableAnnotationComposer
     builder: (column) => column,
   );
 
+  GeneratedColumn<String> get ocrDetectedLanguage => $composableBuilder(
+    column: $table.ocrDetectedLanguage,
+    builder: (column) => column,
+  );
+
   GeneratedColumn<double> get ocrConfidence => $composableBuilder(
     column: $table.ocrConfidence,
     builder: (column) => column,
@@ -3119,6 +5403,56 @@ class $$DocumentsTableAnnotationComposer
 
   GeneratedColumn<int> get ocrPageIndex => $composableBuilder(
     column: $table.ocrPageIndex,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get hasWatermark => $composableBuilder(
+    column: $table.hasWatermark,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get watermarkType => $composableBuilder(
+    column: $table.watermarkType,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get originalDocumentId => $composableBuilder(
+    column: $table.originalDocumentId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get outputType => $composableBuilder(
+    column: $table.outputType,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get conversionType => $composableBuilder(
+    column: $table.conversionType,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get conversionProvider => $composableBuilder(
+    column: $table.conversionProvider,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get conversionModel => $composableBuilder(
+    column: $table.conversionModel,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get tablesCount => $composableBuilder(
+    column: $table.tablesCount,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get paragraphsCount => $composableBuilder(
+    column: $table.paragraphsCount,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get pagesProcessed => $composableBuilder(
+    column: $table.pagesProcessed,
     builder: (column) => column,
   );
 
@@ -3144,6 +5478,58 @@ class $$DocumentsTableAnnotationComposer
     );
     return composer;
   }
+
+  Expression<T> documentTranslationsRefs<T extends Object>(
+    Expression<T> Function($$DocumentTranslationsTableAnnotationComposer a) f,
+  ) {
+    final $$DocumentTranslationsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.documentTranslations,
+          getReferencedColumn: (t) => t.documentId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$DocumentTranslationsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.documentTranslations,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+
+  Expression<T> documentSummariesRefs<T extends Object>(
+    Expression<T> Function($$DocumentSummariesTableAnnotationComposer a) f,
+  ) {
+    final $$DocumentSummariesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.documentSummaries,
+          getReferencedColumn: (t) => t.documentId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$DocumentSummariesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.documentSummaries,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
 }
 
 class $$DocumentsTableTableManager
@@ -3159,7 +5545,11 @@ class $$DocumentsTableTableManager
           $$DocumentsTableUpdateCompanionBuilder,
           (DocumentRecord, $$DocumentsTableReferences),
           DocumentRecord,
-          PrefetchHooks Function({bool folderId})
+          PrefetchHooks Function({
+            bool folderId,
+            bool documentTranslationsRefs,
+            bool documentSummariesRefs,
+          })
         > {
   $$DocumentsTableTableManager(_$ScanLenoDatabase db, $DocumentsTable table)
     : super(
@@ -3192,8 +5582,19 @@ class $$DocumentsTableTableManager
                 Value<String?> ocrModel = const Value.absent(),
                 Value<DateTime?> ocrCreatedAt = const Value.absent(),
                 Value<String?> ocrLanguage = const Value.absent(),
+                Value<String?> ocrDetectedLanguage = const Value.absent(),
                 Value<double?> ocrConfidence = const Value.absent(),
                 Value<int?> ocrPageIndex = const Value.absent(),
+                Value<bool> hasWatermark = const Value.absent(),
+                Value<String?> watermarkType = const Value.absent(),
+                Value<String?> originalDocumentId = const Value.absent(),
+                Value<String?> outputType = const Value.absent(),
+                Value<String?> conversionType = const Value.absent(),
+                Value<String?> conversionProvider = const Value.absent(),
+                Value<String?> conversionModel = const Value.absent(),
+                Value<int?> tablesCount = const Value.absent(),
+                Value<int?> paragraphsCount = const Value.absent(),
+                Value<int?> pagesProcessed = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => DocumentsCompanion(
                 id: id,
@@ -3214,8 +5615,19 @@ class $$DocumentsTableTableManager
                 ocrModel: ocrModel,
                 ocrCreatedAt: ocrCreatedAt,
                 ocrLanguage: ocrLanguage,
+                ocrDetectedLanguage: ocrDetectedLanguage,
                 ocrConfidence: ocrConfidence,
                 ocrPageIndex: ocrPageIndex,
+                hasWatermark: hasWatermark,
+                watermarkType: watermarkType,
+                originalDocumentId: originalDocumentId,
+                outputType: outputType,
+                conversionType: conversionType,
+                conversionProvider: conversionProvider,
+                conversionModel: conversionModel,
+                tablesCount: tablesCount,
+                paragraphsCount: paragraphsCount,
+                pagesProcessed: pagesProcessed,
                 rowid: rowid,
               ),
           createCompanionCallback:
@@ -3238,8 +5650,19 @@ class $$DocumentsTableTableManager
                 Value<String?> ocrModel = const Value.absent(),
                 Value<DateTime?> ocrCreatedAt = const Value.absent(),
                 Value<String?> ocrLanguage = const Value.absent(),
+                Value<String?> ocrDetectedLanguage = const Value.absent(),
                 Value<double?> ocrConfidence = const Value.absent(),
                 Value<int?> ocrPageIndex = const Value.absent(),
+                Value<bool> hasWatermark = const Value.absent(),
+                Value<String?> watermarkType = const Value.absent(),
+                Value<String?> originalDocumentId = const Value.absent(),
+                Value<String?> outputType = const Value.absent(),
+                Value<String?> conversionType = const Value.absent(),
+                Value<String?> conversionProvider = const Value.absent(),
+                Value<String?> conversionModel = const Value.absent(),
+                Value<int?> tablesCount = const Value.absent(),
+                Value<int?> paragraphsCount = const Value.absent(),
+                Value<int?> pagesProcessed = const Value.absent(),
                 Value<int> rowid = const Value.absent(),
               }) => DocumentsCompanion.insert(
                 id: id,
@@ -3260,8 +5683,19 @@ class $$DocumentsTableTableManager
                 ocrModel: ocrModel,
                 ocrCreatedAt: ocrCreatedAt,
                 ocrLanguage: ocrLanguage,
+                ocrDetectedLanguage: ocrDetectedLanguage,
                 ocrConfidence: ocrConfidence,
                 ocrPageIndex: ocrPageIndex,
+                hasWatermark: hasWatermark,
+                watermarkType: watermarkType,
+                originalDocumentId: originalDocumentId,
+                outputType: outputType,
+                conversionType: conversionType,
+                conversionProvider: conversionProvider,
+                conversionModel: conversionModel,
+                tablesCount: tablesCount,
+                paragraphsCount: paragraphsCount,
+                pagesProcessed: pagesProcessed,
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
@@ -3272,47 +5706,98 @@ class $$DocumentsTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({folderId = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [],
-              addJoins:
-                  <
-                    T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic
-                    >
-                  >(state) {
-                    if (folderId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.folderId,
-                                referencedTable: $$DocumentsTableReferences
-                                    ._folderIdTable(db),
-                                referencedColumn: $$DocumentsTableReferences
-                                    ._folderIdTable(db)
-                                    .id,
-                              )
-                              as T;
-                    }
+          prefetchHooksCallback:
+              ({
+                folderId = false,
+                documentTranslationsRefs = false,
+                documentSummariesRefs = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (documentTranslationsRefs) db.documentTranslations,
+                    if (documentSummariesRefs) db.documentSummaries,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (folderId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.folderId,
+                                    referencedTable: $$DocumentsTableReferences
+                                        ._folderIdTable(db),
+                                    referencedColumn: $$DocumentsTableReferences
+                                        ._folderIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
 
-                    return state;
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (documentTranslationsRefs)
+                        await $_getPrefetchedData<
+                          DocumentRecord,
+                          $DocumentsTable,
+                          DocumentTranslationRecord
+                        >(
+                          currentTable: table,
+                          referencedTable: $$DocumentsTableReferences
+                              ._documentTranslationsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$DocumentsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).documentTranslationsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.documentId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (documentSummariesRefs)
+                        await $_getPrefetchedData<
+                          DocumentRecord,
+                          $DocumentsTable,
+                          DocumentSummaryRecord
+                        >(
+                          currentTable: table,
+                          referencedTable: $$DocumentsTableReferences
+                              ._documentSummariesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$DocumentsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).documentSummariesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.documentId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
                   },
-              getPrefetchedDataCallback: (items) async {
-                return [];
+                );
               },
-            );
-          },
         ),
       );
 }
@@ -3329,7 +5814,11 @@ typedef $$DocumentsTableProcessedTableManager =
       $$DocumentsTableUpdateCompanionBuilder,
       (DocumentRecord, $$DocumentsTableReferences),
       DocumentRecord,
-      PrefetchHooks Function({bool folderId})
+      PrefetchHooks Function({
+        bool folderId,
+        bool documentTranslationsRefs,
+        bool documentSummariesRefs,
+      })
     >;
 typedef $$SavedSignaturesTableCreateCompanionBuilder =
     SavedSignaturesCompanion Function({
@@ -3906,6 +6395,942 @@ typedef $$DailyUsageTableProcessedTableManager =
       DailyUsageRecord,
       PrefetchHooks Function()
     >;
+typedef $$DocumentTranslationsTableCreateCompanionBuilder =
+    DocumentTranslationsCompanion Function({
+      required String id,
+      Value<String?> documentId,
+      Value<int> pageIndex,
+      Value<String?> sourceLanguage,
+      required String targetLanguage,
+      required String sourceText,
+      required String translatedText,
+      required String provider,
+      required DateTime createdAt,
+      required DateTime updatedAt,
+      Value<int> rowid,
+    });
+typedef $$DocumentTranslationsTableUpdateCompanionBuilder =
+    DocumentTranslationsCompanion Function({
+      Value<String> id,
+      Value<String?> documentId,
+      Value<int> pageIndex,
+      Value<String?> sourceLanguage,
+      Value<String> targetLanguage,
+      Value<String> sourceText,
+      Value<String> translatedText,
+      Value<String> provider,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+      Value<int> rowid,
+    });
+
+final class $$DocumentTranslationsTableReferences
+    extends
+        BaseReferences<
+          _$ScanLenoDatabase,
+          $DocumentTranslationsTable,
+          DocumentTranslationRecord
+        > {
+  $$DocumentTranslationsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $DocumentsTable _documentIdTable(_$ScanLenoDatabase db) => db.documents
+      .createAlias('document_translations__document_id__documents__id');
+
+  $$DocumentsTableProcessedTableManager? get documentId {
+    final $_column = $_itemColumn<String>('document_id');
+    if ($_column == null) return null;
+    final manager = $$DocumentsTableTableManager(
+      $_db,
+      $_db.documents,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_documentIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$DocumentTranslationsTableFilterComposer
+    extends Composer<_$ScanLenoDatabase, $DocumentTranslationsTable> {
+  $$DocumentTranslationsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get pageIndex => $composableBuilder(
+    column: $table.pageIndex,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sourceLanguage => $composableBuilder(
+    column: $table.sourceLanguage,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get targetLanguage => $composableBuilder(
+    column: $table.targetLanguage,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sourceText => $composableBuilder(
+    column: $table.sourceText,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get translatedText => $composableBuilder(
+    column: $table.translatedText,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get provider => $composableBuilder(
+    column: $table.provider,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$DocumentsTableFilterComposer get documentId {
+    final $$DocumentsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.documentId,
+      referencedTable: $db.documents,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DocumentsTableFilterComposer(
+            $db: $db,
+            $table: $db.documents,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$DocumentTranslationsTableOrderingComposer
+    extends Composer<_$ScanLenoDatabase, $DocumentTranslationsTable> {
+  $$DocumentTranslationsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get pageIndex => $composableBuilder(
+    column: $table.pageIndex,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sourceLanguage => $composableBuilder(
+    column: $table.sourceLanguage,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get targetLanguage => $composableBuilder(
+    column: $table.targetLanguage,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sourceText => $composableBuilder(
+    column: $table.sourceText,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get translatedText => $composableBuilder(
+    column: $table.translatedText,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get provider => $composableBuilder(
+    column: $table.provider,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$DocumentsTableOrderingComposer get documentId {
+    final $$DocumentsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.documentId,
+      referencedTable: $db.documents,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DocumentsTableOrderingComposer(
+            $db: $db,
+            $table: $db.documents,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$DocumentTranslationsTableAnnotationComposer
+    extends Composer<_$ScanLenoDatabase, $DocumentTranslationsTable> {
+  $$DocumentTranslationsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get pageIndex =>
+      $composableBuilder(column: $table.pageIndex, builder: (column) => column);
+
+  GeneratedColumn<String> get sourceLanguage => $composableBuilder(
+    column: $table.sourceLanguage,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get targetLanguage => $composableBuilder(
+    column: $table.targetLanguage,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get sourceText => $composableBuilder(
+    column: $table.sourceText,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get translatedText => $composableBuilder(
+    column: $table.translatedText,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get provider =>
+      $composableBuilder(column: $table.provider, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  $$DocumentsTableAnnotationComposer get documentId {
+    final $$DocumentsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.documentId,
+      referencedTable: $db.documents,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DocumentsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.documents,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$DocumentTranslationsTableTableManager
+    extends
+        RootTableManager<
+          _$ScanLenoDatabase,
+          $DocumentTranslationsTable,
+          DocumentTranslationRecord,
+          $$DocumentTranslationsTableFilterComposer,
+          $$DocumentTranslationsTableOrderingComposer,
+          $$DocumentTranslationsTableAnnotationComposer,
+          $$DocumentTranslationsTableCreateCompanionBuilder,
+          $$DocumentTranslationsTableUpdateCompanionBuilder,
+          (DocumentTranslationRecord, $$DocumentTranslationsTableReferences),
+          DocumentTranslationRecord,
+          PrefetchHooks Function({bool documentId})
+        > {
+  $$DocumentTranslationsTableTableManager(
+    _$ScanLenoDatabase db,
+    $DocumentTranslationsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$DocumentTranslationsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$DocumentTranslationsTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$DocumentTranslationsTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String?> documentId = const Value.absent(),
+                Value<int> pageIndex = const Value.absent(),
+                Value<String?> sourceLanguage = const Value.absent(),
+                Value<String> targetLanguage = const Value.absent(),
+                Value<String> sourceText = const Value.absent(),
+                Value<String> translatedText = const Value.absent(),
+                Value<String> provider = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => DocumentTranslationsCompanion(
+                id: id,
+                documentId: documentId,
+                pageIndex: pageIndex,
+                sourceLanguage: sourceLanguage,
+                targetLanguage: targetLanguage,
+                sourceText: sourceText,
+                translatedText: translatedText,
+                provider: provider,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                Value<String?> documentId = const Value.absent(),
+                Value<int> pageIndex = const Value.absent(),
+                Value<String?> sourceLanguage = const Value.absent(),
+                required String targetLanguage,
+                required String sourceText,
+                required String translatedText,
+                required String provider,
+                required DateTime createdAt,
+                required DateTime updatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => DocumentTranslationsCompanion.insert(
+                id: id,
+                documentId: documentId,
+                pageIndex: pageIndex,
+                sourceLanguage: sourceLanguage,
+                targetLanguage: targetLanguage,
+                sourceText: sourceText,
+                translatedText: translatedText,
+                provider: provider,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$DocumentTranslationsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({documentId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (documentId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.documentId,
+                                referencedTable:
+                                    $$DocumentTranslationsTableReferences
+                                        ._documentIdTable(db),
+                                referencedColumn:
+                                    $$DocumentTranslationsTableReferences
+                                        ._documentIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$DocumentTranslationsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$ScanLenoDatabase,
+      $DocumentTranslationsTable,
+      DocumentTranslationRecord,
+      $$DocumentTranslationsTableFilterComposer,
+      $$DocumentTranslationsTableOrderingComposer,
+      $$DocumentTranslationsTableAnnotationComposer,
+      $$DocumentTranslationsTableCreateCompanionBuilder,
+      $$DocumentTranslationsTableUpdateCompanionBuilder,
+      (DocumentTranslationRecord, $$DocumentTranslationsTableReferences),
+      DocumentTranslationRecord,
+      PrefetchHooks Function({bool documentId})
+    >;
+typedef $$DocumentSummariesTableCreateCompanionBuilder =
+    DocumentSummariesCompanion Function({
+      required String id,
+      Value<String?> documentId,
+      Value<int> pageIndex,
+      Value<String?> sourceLanguage,
+      required String summaryLanguage,
+      required int sourceTextLength,
+      required String summaryText,
+      required String summaryLength,
+      required String provider,
+      required String model,
+      required String deployment,
+      required DateTime createdAt,
+      required DateTime updatedAt,
+      Value<int> rowid,
+    });
+typedef $$DocumentSummariesTableUpdateCompanionBuilder =
+    DocumentSummariesCompanion Function({
+      Value<String> id,
+      Value<String?> documentId,
+      Value<int> pageIndex,
+      Value<String?> sourceLanguage,
+      Value<String> summaryLanguage,
+      Value<int> sourceTextLength,
+      Value<String> summaryText,
+      Value<String> summaryLength,
+      Value<String> provider,
+      Value<String> model,
+      Value<String> deployment,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+      Value<int> rowid,
+    });
+
+final class $$DocumentSummariesTableReferences
+    extends
+        BaseReferences<
+          _$ScanLenoDatabase,
+          $DocumentSummariesTable,
+          DocumentSummaryRecord
+        > {
+  $$DocumentSummariesTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $DocumentsTable _documentIdTable(_$ScanLenoDatabase db) => db.documents
+      .createAlias('document_summaries__document_id__documents__id');
+
+  $$DocumentsTableProcessedTableManager? get documentId {
+    final $_column = $_itemColumn<String>('document_id');
+    if ($_column == null) return null;
+    final manager = $$DocumentsTableTableManager(
+      $_db,
+      $_db.documents,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_documentIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$DocumentSummariesTableFilterComposer
+    extends Composer<_$ScanLenoDatabase, $DocumentSummariesTable> {
+  $$DocumentSummariesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get pageIndex => $composableBuilder(
+    column: $table.pageIndex,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sourceLanguage => $composableBuilder(
+    column: $table.sourceLanguage,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get summaryLanguage => $composableBuilder(
+    column: $table.summaryLanguage,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get sourceTextLength => $composableBuilder(
+    column: $table.sourceTextLength,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get summaryText => $composableBuilder(
+    column: $table.summaryText,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get summaryLength => $composableBuilder(
+    column: $table.summaryLength,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get provider => $composableBuilder(
+    column: $table.provider,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get model => $composableBuilder(
+    column: $table.model,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get deployment => $composableBuilder(
+    column: $table.deployment,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$DocumentsTableFilterComposer get documentId {
+    final $$DocumentsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.documentId,
+      referencedTable: $db.documents,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DocumentsTableFilterComposer(
+            $db: $db,
+            $table: $db.documents,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$DocumentSummariesTableOrderingComposer
+    extends Composer<_$ScanLenoDatabase, $DocumentSummariesTable> {
+  $$DocumentSummariesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get pageIndex => $composableBuilder(
+    column: $table.pageIndex,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sourceLanguage => $composableBuilder(
+    column: $table.sourceLanguage,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get summaryLanguage => $composableBuilder(
+    column: $table.summaryLanguage,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get sourceTextLength => $composableBuilder(
+    column: $table.sourceTextLength,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get summaryText => $composableBuilder(
+    column: $table.summaryText,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get summaryLength => $composableBuilder(
+    column: $table.summaryLength,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get provider => $composableBuilder(
+    column: $table.provider,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get model => $composableBuilder(
+    column: $table.model,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get deployment => $composableBuilder(
+    column: $table.deployment,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$DocumentsTableOrderingComposer get documentId {
+    final $$DocumentsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.documentId,
+      referencedTable: $db.documents,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DocumentsTableOrderingComposer(
+            $db: $db,
+            $table: $db.documents,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$DocumentSummariesTableAnnotationComposer
+    extends Composer<_$ScanLenoDatabase, $DocumentSummariesTable> {
+  $$DocumentSummariesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get pageIndex =>
+      $composableBuilder(column: $table.pageIndex, builder: (column) => column);
+
+  GeneratedColumn<String> get sourceLanguage => $composableBuilder(
+    column: $table.sourceLanguage,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get summaryLanguage => $composableBuilder(
+    column: $table.summaryLanguage,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get sourceTextLength => $composableBuilder(
+    column: $table.sourceTextLength,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get summaryText => $composableBuilder(
+    column: $table.summaryText,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get summaryLength => $composableBuilder(
+    column: $table.summaryLength,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get provider =>
+      $composableBuilder(column: $table.provider, builder: (column) => column);
+
+  GeneratedColumn<String> get model =>
+      $composableBuilder(column: $table.model, builder: (column) => column);
+
+  GeneratedColumn<String> get deployment => $composableBuilder(
+    column: $table.deployment,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  $$DocumentsTableAnnotationComposer get documentId {
+    final $$DocumentsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.documentId,
+      referencedTable: $db.documents,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DocumentsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.documents,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$DocumentSummariesTableTableManager
+    extends
+        RootTableManager<
+          _$ScanLenoDatabase,
+          $DocumentSummariesTable,
+          DocumentSummaryRecord,
+          $$DocumentSummariesTableFilterComposer,
+          $$DocumentSummariesTableOrderingComposer,
+          $$DocumentSummariesTableAnnotationComposer,
+          $$DocumentSummariesTableCreateCompanionBuilder,
+          $$DocumentSummariesTableUpdateCompanionBuilder,
+          (DocumentSummaryRecord, $$DocumentSummariesTableReferences),
+          DocumentSummaryRecord,
+          PrefetchHooks Function({bool documentId})
+        > {
+  $$DocumentSummariesTableTableManager(
+    _$ScanLenoDatabase db,
+    $DocumentSummariesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$DocumentSummariesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$DocumentSummariesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$DocumentSummariesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String?> documentId = const Value.absent(),
+                Value<int> pageIndex = const Value.absent(),
+                Value<String?> sourceLanguage = const Value.absent(),
+                Value<String> summaryLanguage = const Value.absent(),
+                Value<int> sourceTextLength = const Value.absent(),
+                Value<String> summaryText = const Value.absent(),
+                Value<String> summaryLength = const Value.absent(),
+                Value<String> provider = const Value.absent(),
+                Value<String> model = const Value.absent(),
+                Value<String> deployment = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => DocumentSummariesCompanion(
+                id: id,
+                documentId: documentId,
+                pageIndex: pageIndex,
+                sourceLanguage: sourceLanguage,
+                summaryLanguage: summaryLanguage,
+                sourceTextLength: sourceTextLength,
+                summaryText: summaryText,
+                summaryLength: summaryLength,
+                provider: provider,
+                model: model,
+                deployment: deployment,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                Value<String?> documentId = const Value.absent(),
+                Value<int> pageIndex = const Value.absent(),
+                Value<String?> sourceLanguage = const Value.absent(),
+                required String summaryLanguage,
+                required int sourceTextLength,
+                required String summaryText,
+                required String summaryLength,
+                required String provider,
+                required String model,
+                required String deployment,
+                required DateTime createdAt,
+                required DateTime updatedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => DocumentSummariesCompanion.insert(
+                id: id,
+                documentId: documentId,
+                pageIndex: pageIndex,
+                sourceLanguage: sourceLanguage,
+                summaryLanguage: summaryLanguage,
+                sourceTextLength: sourceTextLength,
+                summaryText: summaryText,
+                summaryLength: summaryLength,
+                provider: provider,
+                model: model,
+                deployment: deployment,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$DocumentSummariesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({documentId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (documentId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.documentId,
+                                referencedTable:
+                                    $$DocumentSummariesTableReferences
+                                        ._documentIdTable(db),
+                                referencedColumn:
+                                    $$DocumentSummariesTableReferences
+                                        ._documentIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$DocumentSummariesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$ScanLenoDatabase,
+      $DocumentSummariesTable,
+      DocumentSummaryRecord,
+      $$DocumentSummariesTableFilterComposer,
+      $$DocumentSummariesTableOrderingComposer,
+      $$DocumentSummariesTableAnnotationComposer,
+      $$DocumentSummariesTableCreateCompanionBuilder,
+      $$DocumentSummariesTableUpdateCompanionBuilder,
+      (DocumentSummaryRecord, $$DocumentSummariesTableReferences),
+      DocumentSummaryRecord,
+      PrefetchHooks Function({bool documentId})
+    >;
 
 class $ScanLenoDatabaseManager {
   final _$ScanLenoDatabase _db;
@@ -3920,4 +7345,8 @@ class $ScanLenoDatabaseManager {
       $$UserSettingsTableTableManager(_db, _db.userSettings);
   $$DailyUsageTableTableManager get dailyUsage =>
       $$DailyUsageTableTableManager(_db, _db.dailyUsage);
+  $$DocumentTranslationsTableTableManager get documentTranslations =>
+      $$DocumentTranslationsTableTableManager(_db, _db.documentTranslations);
+  $$DocumentSummariesTableTableManager get documentSummaries =>
+      $$DocumentSummariesTableTableManager(_db, _db.documentSummaries);
 }

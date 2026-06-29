@@ -30,9 +30,13 @@ class ToolsPage extends StatelessWidget {
       _Tool.free(Icons.reorder_rounded, l.reorderPages, AppRoutes.export),
       _Tool(Icons.rotate_90_degrees_cw_rounded, l.rotatePdfPages, null, PremiumFeature.editPdfPages),
       _Tool(Icons.collections_outlined, l.pdfToImages, null, PremiumFeature.pdfToImages),
+      _Tool(Icons.table_chart_outlined, l.pdfToExcel, AppRoutes.pdfToExcel, PremiumFeature.pdfToExcel),
+      _Tool(Icons.description_outlined, l.pdfToWord, AppRoutes.pdfToWord, PremiumFeature.pdfToWord),
       _Tool.free(Icons.photo_library_outlined, l.multipleImagesToPdf, AppRoutes.scanner),
       _Tool(Icons.text_fields_rounded, l.addTextToPdf, null, PremiumFeature.pdfTextEditing),
-      _Tool(Icons.opacity_rounded, l.addWatermark, null, PremiumFeature.pdfTextEditing),
+      _Tool.free(Icons.opacity_rounded, l.addWatermark, AppRoutes.watermark),
+      _Tool(Icons.translate_rounded, l.aiTranslate, AppRoutes.translate, PremiumFeature.translate),
+      _Tool(Icons.auto_awesome_rounded, l.aiSummary, AppRoutes.aiSummary, PremiumFeature.aiSummary),
       _Tool.unavailable(Icons.print_outlined, l.printDocument),
       _Tool(Icons.text_snippet_outlined, l.extractText, AppRoutes.ocr, PremiumFeature.ocr),
       _Tool.free(Icons.search_rounded, l.searchDocuments, AppRoutes.files),
@@ -120,6 +124,36 @@ class ToolsPage extends StatelessWidget {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(context.l10n.toolUnavailable)));
+      return;
+    }
+    if (tool.route == AppRoutes.watermark && !FeatureFlags.watermarkEnabled) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(context.l10n.watermarkDisabled)));
+      return;
+    }
+    if (tool.route == AppRoutes.translate && !FeatureFlags.translateEnabled) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(context.l10n.translateDisabled)));
+      return;
+    }
+    if (tool.route == AppRoutes.aiSummary && !FeatureFlags.aiSummaryEnabled) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(context.l10n.aiSummaryDisabled)));
+      return;
+    }
+    if (tool.route == AppRoutes.pdfToExcel && !FeatureFlags.pdfToExcelEnabled) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(context.l10n.pdfToExcelDisabled)));
+      return;
+    }
+    if (tool.route == AppRoutes.pdfToWord && !FeatureFlags.pdfToWordEnabled) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(context.l10n.pdfToWordDisabled)));
       return;
     }
     final feature = tool.feature;

@@ -27,7 +27,42 @@
 - Verify Flutter does not contain Azure keys or call Azure directly.
 - Verify OCR calls `POST /api/ocr/analyze` through the backend.
 - Verify OCR sends only the selected page/image, not all user files.
+- Verify Advanced OCR languages work with Auto Detect, Arabic, English, and the supported language list.
+- Verify Admin controls `defaultOcrLanguage`, `allowAutoLanguageDetection`, `premiumMonthlyOcrLimit`, and `premiumYearlyOcrLimit`.
 - Verify backend does not save OCR images or log document contents.
 - Verify OCR is available to Premium users and to free users only with one `scan_credit`.
-- Verify successful OCR stores `ocrText`, provider, model, created time, language, confidence, and page index in Drift/SQLite.
-- Verify Admin shows Azure OCR status/provider/model without revealing the Azure key.
+- Verify successful OCR stores `ocrText`, provider, model, created time, selected language, detected language, confidence, and page index in Drift/SQLite.
+- Verify Admin shows Azure OCR status/provider/read model/layout model without revealing the Azure key.
+- Verify Watermark can be enabled/disabled from Admin feature flags.
+- Verify free exports receive the default ScanLeno watermark only when `freeExportWatermarkRequired` is enabled.
+- Verify Premium users are not forced to use the default watermark.
+- Verify image watermark saves a new local `_watermarked` copy and registers it in Drift/SQLite.
+- Verify generated PDF exports contain the watermark in the actual output file, not just as an app overlay.
+- Verify Watermark processing does not upload files to the backend, Firebase, or any external service.
+- Create backend Azure Translator environment variables only in backend secrets or `backend/.env`.
+- Verify AI Translate calls `POST /api/translate/text` and never calls Azure Translator from Flutter.
+- Verify AI Translate sends selected text only, not PDF/image files.
+- Verify Free/Premium translation limits and `scan_credit` behavior.
+- Verify Admin controls `translateEnabled`, `translatePremiumOnly`, `translateWithScanCreditEnabled`, and translation limits.
+- Verify translated text saves locally in Drift/SQLite when linked to a document.
+- Create backend Azure OpenAI environment variables only in backend secrets or `backend/.env`.
+- Verify AI Summary calls `POST /api/ai/summary` or `POST /api/ai/summary-from-ocr` and never calls Azure OpenAI from Flutter.
+- Verify AI Summary sends selected text only, not PDF/image files.
+- Verify Free/Premium summary limits and `scan_credit` behavior.
+- Verify Admin controls `aiSummaryEnabled`, `aiSummaryPremiumOnly`, `aiSummaryWithScanCreditEnabled`, and summary limits.
+- Verify summaries save locally in Drift/SQLite when linked to a document.
+- Verify Azure OpenAI keys are not visible in Flutter, Admin, logs, or committed files.
+- Verify `exceljs` is installed in the backend production environment.
+- Verify PDF to Excel calls `POST /api/pdf/to-excel` and never stores the original PDF in the backend.
+- Verify PDF to Excel uses Azure Document Intelligence `prebuilt-layout`.
+- Verify PDF to Excel extracts Arabic and English tables into a valid XLSX workbook.
+- Verify the generated XLSX is saved locally, registered in Drift/SQLite, and shareable from the app.
+- Verify Admin controls `pdfToExcelEnabled`, `pdfToExcelPremiumOnly`, `pdfToExcelWithScanCreditEnabled`, and PDF to Excel limits.
+- Verify PDF to Excel access is enforced for Premium, Free with scan_credit, and Free without scan_credit.
+- Verify `docx` is installed in the backend production environment.
+- Verify PDF to Word calls `POST /api/pdf/to-word` and never stores the original PDF in the backend.
+- Verify PDF to Word uses Azure Document Intelligence `prebuilt-layout`.
+- Verify PDF to Word creates an editable DOCX with paragraphs and tables where available.
+- Verify the generated DOCX is saved locally, registered in Drift/SQLite, and shareable from the app.
+- Verify Admin controls `pdfToWordEnabled`, `pdfToWordPremiumOnly`, `pdfToWordWithScanCreditEnabled`, and PDF to Word limits.
+- Verify PDF to Word access is enforced for Premium, Free with scan_credit, and Free without scan_credit.

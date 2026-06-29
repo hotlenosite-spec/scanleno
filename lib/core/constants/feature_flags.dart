@@ -30,6 +30,26 @@ class FeatureFlagState {
       'freeFolderLimit': 3,
       'watermarkEnabled': false,
       'exportWatermarkEnabled': false,
+      'freeExportWatermarkRequired': true,
+      'defaultWatermarkText': 'ScanLeno',
+      'defaultWatermarkOpacity': 0.14,
+      'defaultWatermarkPosition': 'center',
+      'premiumCustomWatermarkEnabled': true,
+      'translateEnabled': false,
+      'translatePremiumOnly': true,
+      'translateWithScanCreditEnabled': true,
+      'freeDailyTranslateLimit': 3,
+      'premiumMonthlyTranslateLimit': 500,
+      'translatorProvider': 'Azure Translator',
+      'translatorRegion': 'global',
+      'aiSummaryEnabled': false,
+      'aiSummaryPremiumOnly': true,
+      'aiSummaryWithScanCreditEnabled': true,
+      'freeDailySummaryLimit': 3,
+      'premiumMonthlySummaryLimit': 500,
+      'aiSummaryProvider': 'Azure OpenAI',
+      'aiSummaryModel': 'gpt-4o-mini',
+      'aiSummaryDeployment': 'scanleno-gpt-4o-mini',
       'ocrEnabled': true,
       'ocrPremiumOnly': true,
       'ocrAsPremium': true,
@@ -38,6 +58,22 @@ class FeatureFlagState {
       'freeDailyOcrLimit': 3,
       'premiumMonthlyOcrLimit': 500,
       'premiumYearlyOcrLimit': 6000,
+      'defaultOcrLanguage': 'auto',
+      'allowAutoLanguageDetection': true,
+      'pdfToExcelEnabled': false,
+      'pdfToExcelPremiumOnly': true,
+      'pdfToExcelWithScanCreditEnabled': true,
+      'freeDailyPdfToExcelLimit': 3,
+      'premiumMonthlyPdfToExcelLimit': 200,
+      'pdfToExcelProvider': 'Azure Document Intelligence',
+      'pdfToExcelModel': 'prebuilt-layout',
+      'pdfToWordEnabled': false,
+      'pdfToWordPremiumOnly': true,
+      'pdfToWordWithScanCreditEnabled': true,
+      'freeDailyPdfToWordLimit': 3,
+      'premiumMonthlyPdfToWordLimit': 200,
+      'pdfToWordProvider': 'Azure Document Intelligence',
+      'pdfToWordModel': 'prebuilt-layout',
       'advancedPdfToolsEnabled': false,
       'mergePdfEnabled': false,
       'splitPdfEnabled': false,
@@ -190,7 +226,51 @@ abstract final class FeatureFlags {
   static bool get filesBannerAdsEnabled => _bool('filesBannerAdsEnabled', true);
   static bool get toolsBannerAdsEnabled => _bool('toolsBannerAdsEnabled', true);
   static bool get watermarkEnabled => _bool('watermarkEnabled', false);
-  static bool get exportWatermarkEnabled => watermarkEnabled;
+  static bool get exportWatermarkEnabled =>
+      _bool('exportWatermarkEnabled', watermarkEnabled);
+  static bool get freeExportWatermarkRequired =>
+      _bool('freeExportWatermarkRequired', true);
+  static String get defaultWatermarkText =>
+      (_state.values['defaultWatermarkText'] as String?) ?? 'ScanLeno';
+  static double get defaultWatermarkOpacity {
+    final value = _state.values['defaultWatermarkOpacity'];
+    if (value is num) return value.toDouble();
+    if (value is String) return double.tryParse(value) ?? 0.14;
+    return 0.14;
+  }
+
+  static String get defaultWatermarkPosition =>
+      (_state.values['defaultWatermarkPosition'] as String?) ?? 'center';
+  static bool get premiumCustomWatermarkEnabled =>
+      _bool('premiumCustomWatermarkEnabled', true);
+  static bool get translateEnabled => _bool('translateEnabled', false);
+  static bool get translatePremiumOnly => _bool('translatePremiumOnly', true);
+  static bool get translateWithScanCreditEnabled =>
+      _bool('translateWithScanCreditEnabled', true);
+  static int get freeDailyTranslateLimit =>
+      _int('freeDailyTranslateLimit', 3);
+  static int get premiumMonthlyTranslateLimit =>
+      _int('premiumMonthlyTranslateLimit', 500);
+  static String get translatorProvider =>
+      (_state.values['translatorProvider'] as String?) ?? 'Azure Translator';
+  static String get translatorRegion =>
+      (_state.values['translatorRegion'] as String?) ?? 'global';
+  static bool get aiSummaryEnabled => _bool('aiSummaryEnabled', false);
+  static bool get aiSummaryPremiumOnly =>
+      _bool('aiSummaryPremiumOnly', true);
+  static bool get aiSummaryWithScanCreditEnabled =>
+      _bool('aiSummaryWithScanCreditEnabled', true);
+  static int get freeDailySummaryLimit =>
+      _int('freeDailySummaryLimit', 3);
+  static int get premiumMonthlySummaryLimit =>
+      _int('premiumMonthlySummaryLimit', 500);
+  static String get aiSummaryProvider =>
+      (_state.values['aiSummaryProvider'] as String?) ?? 'Azure OpenAI';
+  static String get aiSummaryModel =>
+      (_state.values['aiSummaryModel'] as String?) ?? 'gpt-4o-mini';
+  static String get aiSummaryDeployment =>
+      (_state.values['aiSummaryDeployment'] as String?) ??
+      'scanleno-gpt-4o-mini';
   static bool get freeTrialEnabled => _bool('freeTrialEnabled', false);
   static bool get annualOffersEnabled => _bool('annualOffersEnabled', true);
   static bool get ocrEnabled => _bool('ocrEnabled', true);
@@ -202,6 +282,38 @@ abstract final class FeatureFlags {
   static int get freeDailyOcrLimit => _int('freeDailyOcrLimit', 3);
   static int get premiumMonthlyOcrLimit => _int('premiumMonthlyOcrLimit', 500);
   static int get premiumYearlyOcrLimit => _int('premiumYearlyOcrLimit', 6000);
+  static String get defaultOcrLanguage =>
+      (_state.values['defaultOcrLanguage'] as String?) ?? 'auto';
+  static bool get allowAutoLanguageDetection =>
+      _bool('allowAutoLanguageDetection', true);
+  static bool get pdfToExcelEnabled => _bool('pdfToExcelEnabled', false);
+  static bool get pdfToExcelPremiumOnly =>
+      _bool('pdfToExcelPremiumOnly', true);
+  static bool get pdfToExcelWithScanCreditEnabled =>
+      _bool('pdfToExcelWithScanCreditEnabled', true);
+  static int get freeDailyPdfToExcelLimit =>
+      _int('freeDailyPdfToExcelLimit', 3);
+  static int get premiumMonthlyPdfToExcelLimit =>
+      _int('premiumMonthlyPdfToExcelLimit', 200);
+  static String get pdfToExcelProvider =>
+      (_state.values['pdfToExcelProvider'] as String?) ??
+      'Azure Document Intelligence';
+  static String get pdfToExcelModel =>
+      (_state.values['pdfToExcelModel'] as String?) ?? 'prebuilt-layout';
+  static bool get pdfToWordEnabled => _bool('pdfToWordEnabled', false);
+  static bool get pdfToWordPremiumOnly =>
+      _bool('pdfToWordPremiumOnly', true);
+  static bool get pdfToWordWithScanCreditEnabled =>
+      _bool('pdfToWordWithScanCreditEnabled', true);
+  static int get freeDailyPdfToWordLimit =>
+      _int('freeDailyPdfToWordLimit', 3);
+  static int get premiumMonthlyPdfToWordLimit =>
+      _int('premiumMonthlyPdfToWordLimit', 200);
+  static String get pdfToWordProvider =>
+      (_state.values['pdfToWordProvider'] as String?) ??
+      'Azure Document Intelligence';
+  static String get pdfToWordModel =>
+      (_state.values['pdfToWordModel'] as String?) ?? 'prebuilt-layout';
   static bool get advancedPdfToolsEnabled =>
       _bool('advancedPdfToolsEnabled', false);
   static bool get mergePdfEnabled =>

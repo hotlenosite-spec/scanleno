@@ -34,8 +34,19 @@ class Documents extends Table {
   TextColumn get ocrModel => text().nullable()();
   DateTimeColumn get ocrCreatedAt => dateTime().nullable()();
   TextColumn get ocrLanguage => text().nullable()();
+  TextColumn get ocrDetectedLanguage => text().nullable()();
   RealColumn get ocrConfidence => real().nullable()();
   IntColumn get ocrPageIndex => integer().nullable()();
+  BoolColumn get hasWatermark => boolean().withDefault(const Constant(false))();
+  TextColumn get watermarkType => text().nullable()();
+  TextColumn get originalDocumentId => text().nullable()();
+  TextColumn get outputType => text().nullable()();
+  TextColumn get conversionType => text().nullable()();
+  TextColumn get conversionProvider => text().nullable()();
+  TextColumn get conversionModel => text().nullable()();
+  IntColumn get tablesCount => integer().nullable()();
+  IntColumn get paragraphsCount => integer().nullable()();
+  IntColumn get pagesProcessed => integer().nullable()();
 
   @override
   Set<Column<Object>> get primaryKey => {id};
@@ -74,14 +85,59 @@ class DailyUsage extends Table {
   Set<Column<Object>> get primaryKey => {day};
 }
 
+@DataClassName('DocumentTranslationRecord')
+class DocumentTranslations extends Table {
+  TextColumn get id => text()();
+  TextColumn get documentId => text().nullable().references(Documents, #id)();
+  IntColumn get pageIndex => integer().withDefault(const Constant(0))();
+  TextColumn get sourceLanguage => text().nullable()();
+  TextColumn get targetLanguage => text()();
+  TextColumn get sourceText => text()();
+  TextColumn get translatedText => text()();
+  TextColumn get provider => text()();
+  DateTimeColumn get createdAt => dateTime()();
+  DateTimeColumn get updatedAt => dateTime()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
+@DataClassName('DocumentSummaryRecord')
+class DocumentSummaries extends Table {
+  TextColumn get id => text()();
+  TextColumn get documentId => text().nullable().references(Documents, #id)();
+  IntColumn get pageIndex => integer().withDefault(const Constant(0))();
+  TextColumn get sourceLanguage => text().nullable()();
+  TextColumn get summaryLanguage => text()();
+  IntColumn get sourceTextLength => integer()();
+  TextColumn get summaryText => text()();
+  TextColumn get summaryLength => text()();
+  TextColumn get provider => text()();
+  TextColumn get model => text()();
+  TextColumn get deployment => text()();
+  DateTimeColumn get createdAt => dateTime()();
+  DateTimeColumn get updatedAt => dateTime()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
 @DriftDatabase(
-  tables: [AppFolders, Documents, SavedSignatures, UserSettings, DailyUsage],
+  tables: [
+    AppFolders,
+    Documents,
+    SavedSignatures,
+    UserSettings,
+    DailyUsage,
+    DocumentTranslations,
+    DocumentSummaries,
+  ],
 )
 class ScanLenoDatabase extends _$ScanLenoDatabase {
   ScanLenoDatabase() : super(openScanLenoConnection());
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 8;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -93,6 +149,31 @@ class ScanLenoDatabase extends _$ScanLenoDatabase {
         await migrator.addColumn(documents, documents.ocrLanguage);
         await migrator.addColumn(documents, documents.ocrConfidence);
         await migrator.addColumn(documents, documents.ocrPageIndex);
+      }
+      if (from < 3) {
+        await migrator.addColumn(documents, documents.hasWatermark);
+        await migrator.addColumn(documents, documents.watermarkType);
+      }
+      if (from < 4) {
+        await migrator.createTable(documentTranslations);
+      }
+      if (from < 5) {
+        await migrator.createTable(documentSummaries);
+      }
+      if (from < 6) {
+        await migrator.addColumn(documents, documents.ocrDetectedLanguage);
+      }
+      if (from < 7) {
+        await migrator.addColumn(documents, documents.originalDocumentId);
+        await migrator.addColumn(documents, documents.outputType);
+        await migrator.addColumn(documents, documents.conversionType);
+        await migrator.addColumn(documents, documents.conversionProvider);
+        await migrator.addColumn(documents, documents.conversionModel);
+        await migrator.addColumn(documents, documents.tablesCount);
+        await migrator.addColumn(documents, documents.pagesProcessed);
+      }
+      if (from < 8) {
+        await migrator.addColumn(documents, documents.paragraphsCount);
       }
     },
   );

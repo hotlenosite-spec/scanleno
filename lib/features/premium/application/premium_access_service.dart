@@ -16,6 +16,10 @@ enum PremiumFeature {
   unlimitedScans,
   unlimitedFolders,
   advancedPdfTools,
+  translate,
+  aiSummary,
+  pdfToExcel,
+  pdfToWord,
 }
 
 enum PremiumAccessReason {
@@ -121,6 +125,86 @@ class PremiumAccessService {
       );
     }
 
+    if (feature == PremiumFeature.translate) {
+      final scanCredits = await _repository.getScanCredits();
+      final canUseCredit =
+          _auth.isSignedIn &&
+          FeatureFlags.translateWithScanCreditEnabled &&
+          scanCredits > 0;
+      return PremiumAccessResult(
+        allowed: canUseCredit || !FeatureFlags.translatePremiumOnly,
+        reason: canUseCredit
+            ? PremiumAccessReason.scanCreditAllowed
+            : PremiumAccessReason.premiumRequired,
+        requiresPremium: !canUseCredit && FeatureFlags.translatePremiumOnly,
+        canUseScanCredit: canUseCredit,
+        isPremiumUser: false,
+        messageKey: canUseCredit
+            ? 'translateCreditMessage'
+            : 'premiumRequiredForTranslate',
+      );
+    }
+
+    if (feature == PremiumFeature.aiSummary) {
+      final scanCredits = await _repository.getScanCredits();
+      final canUseCredit =
+          _auth.isSignedIn &&
+          FeatureFlags.aiSummaryWithScanCreditEnabled &&
+          scanCredits > 0;
+      return PremiumAccessResult(
+        allowed: canUseCredit || !FeatureFlags.aiSummaryPremiumOnly,
+        reason: canUseCredit
+            ? PremiumAccessReason.scanCreditAllowed
+            : PremiumAccessReason.premiumRequired,
+        requiresPremium: !canUseCredit && FeatureFlags.aiSummaryPremiumOnly,
+        canUseScanCredit: canUseCredit,
+        isPremiumUser: false,
+        messageKey: canUseCredit
+            ? 'aiSummaryCreditMessage'
+            : 'premiumRequiredForAiSummary',
+      );
+    }
+
+    if (feature == PremiumFeature.pdfToExcel) {
+      final scanCredits = await _repository.getScanCredits();
+      final canUseCredit =
+          _auth.isSignedIn &&
+          FeatureFlags.pdfToExcelWithScanCreditEnabled &&
+          scanCredits > 0;
+      return PremiumAccessResult(
+        allowed: canUseCredit || !FeatureFlags.pdfToExcelPremiumOnly,
+        reason: canUseCredit
+            ? PremiumAccessReason.scanCreditAllowed
+            : PremiumAccessReason.premiumRequired,
+        requiresPremium: !canUseCredit && FeatureFlags.pdfToExcelPremiumOnly,
+        canUseScanCredit: canUseCredit,
+        isPremiumUser: false,
+        messageKey: canUseCredit
+            ? 'pdfToExcelCreditMessage'
+            : 'premiumRequiredForPdfToExcel',
+      );
+    }
+
+    if (feature == PremiumFeature.pdfToWord) {
+      final scanCredits = await _repository.getScanCredits();
+      final canUseCredit =
+          _auth.isSignedIn &&
+          FeatureFlags.pdfToWordWithScanCreditEnabled &&
+          scanCredits > 0;
+      return PremiumAccessResult(
+        allowed: canUseCredit || !FeatureFlags.pdfToWordPremiumOnly,
+        reason: canUseCredit
+            ? PremiumAccessReason.scanCreditAllowed
+            : PremiumAccessReason.premiumRequired,
+        requiresPremium: !canUseCredit && FeatureFlags.pdfToWordPremiumOnly,
+        canUseScanCredit: canUseCredit,
+        isPremiumUser: false,
+        messageKey: canUseCredit
+            ? 'pdfToWordCreditMessage'
+            : 'premiumRequiredForPdfToWord',
+      );
+    }
+
     return PremiumAccessResult(
       allowed: false,
       reason: PremiumAccessReason.premiumRequired,
@@ -144,6 +228,10 @@ class PremiumAccessService {
       PremiumFeature.pdfTextEditing ||
       PremiumFeature.advancedPdfTools => 'premiumRequiredForAdvancedPdf',
       PremiumFeature.ocr => 'premiumRequiredForOcr',
+      PremiumFeature.translate => 'premiumRequiredForTranslate',
+      PremiumFeature.aiSummary => 'premiumRequiredForAiSummary',
+      PremiumFeature.pdfToExcel => 'premiumRequiredForPdfToExcel',
+      PremiumFeature.pdfToWord => 'premiumRequiredForPdfToWord',
       PremiumFeature.removeAds => 'premiumRequiredMessage',
     };
   }
@@ -159,6 +247,10 @@ class PremiumAccessService {
   bool _featureFlagEnabled(PremiumFeature feature) {
     return switch (feature) {
       PremiumFeature.ocr => FeatureFlags.ocrEnabled,
+      PremiumFeature.translate => FeatureFlags.translateEnabled,
+      PremiumFeature.aiSummary => FeatureFlags.aiSummaryEnabled,
+      PremiumFeature.pdfToExcel => FeatureFlags.pdfToExcelEnabled,
+      PremiumFeature.pdfToWord => FeatureFlags.pdfToWordEnabled,
       PremiumFeature.mergePdf => FeatureFlags.mergePdfEnabled,
       PremiumFeature.splitPdf => FeatureFlags.splitPdfEnabled,
       PremiumFeature.compressPdf => FeatureFlags.compressPdfEnabled,

@@ -8,8 +8,12 @@
 - Firebase Storage is intentionally not used for ScanLeno documents.
 - OCR sends only the single page/image selected by the user to the backend for processing.
 - OCR processing forwards that selected page to Azure Document Intelligence and does not upload the user's full document library.
+- Advanced OCR language selection sends only the chosen language hint or Auto Detect setting with the selected page.
 - OCR images are not saved in the backend.
 - Extracted OCR text is returned to the app and stored locally in Drift/SQLite on the user's device.
+- Watermark processing is performed locally on the device for images and generated PDF exports.
+- Watermark does not upload documents, images, or PDFs to the backend, Firebase, or external services.
+- Watermarked output is saved as a new local copy; original files are not overwritten.
 - Admin views must show usage metadata only, not document contents.
 - App errors must not include document text, image bytes, or PDF contents.
 - Secrets, store credentials, and ad unit IDs must be provided through environment/configuration.
@@ -17,3 +21,20 @@
 - SQLite stores metadata, local file paths, settings, usage counters, saved signature vectors, and optional OCR text. PDF/image bytes remain files on-device and are not stored as database blobs.
 - AdMob is used only for ad delivery. ScanLeno does not upload user documents to AdMob or any backend.
 - Azure Document Intelligence credentials must live only in `backend/.env`; never in Flutter, admin HTML, or committed source files.
+- Translation sends only the selected text to Azure Translator for processing.
+- Translation does not upload PDFs, images, or the user's document library to the backend for storage.
+- Translated text is not stored in the backend; when saved, it is stored locally in Drift/SQLite on the user's device.
+- Azure Translator credentials must live only in `backend/.env`; never in Flutter, admin HTML, or committed source files.
+- AI Summary sends only the selected text to Azure OpenAI / Azure AI Foundry for processing.
+- AI Summary does not upload PDFs, images, or the user's document library to the backend for storage.
+- Summary text is not stored in the backend; when saved, it is stored locally in Drift/SQLite on the user's device.
+- Azure OpenAI credentials must live only in `backend/.env` or a secure backend secret manager; never in Flutter, admin HTML, or committed source files.
+- PDF to Excel sends only the user-selected PDF temporarily to Azure Document Intelligence for processing.
+- The original PDF is not stored in the backend and is not saved in Firebase or Cloud Backup.
+- The generated Excel file is returned to the app and saved locally on the user's device.
+- PDF to Excel logs must contain request IDs and status only, never document contents or Azure keys.
+- PDF to Word sends only the user-selected PDF temporarily to Azure Document Intelligence for processing.
+- The original PDF is not stored in the backend and is not saved in Firebase or Cloud Backup.
+- The generated Word file is returned to the app and saved locally on the user's device.
+- PDF to Word metadata is saved in local Drift/SQLite only.
+- PDF to Word logs must contain request IDs and status only, never document contents or Azure keys.

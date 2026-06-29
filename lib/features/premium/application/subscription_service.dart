@@ -8,6 +8,7 @@ import 'package:in_app_purchase/in_app_purchase.dart';
 import '../../../core/config/scanleno_app_config.dart';
 import '../../account/application/firebase_auth_service.dart';
 import '../../files/application/local_file_repository.dart';
+import 'checkout_launcher.dart';
 
 enum SubscriptionPlan { free, monthly, annual }
 
@@ -139,6 +140,8 @@ class SubscriptionService extends ChangeNotifier {
 
   bool _storeAvailable = false;
   bool _loadingProducts = false;
+  bool _webStripeEnabled = false;
+  bool _loadingStripeConfig = false;
 
   ProductDetails? productForPlan(SubscriptionPlan plan) {
     return _products[_productIdForPlan(plan)];
@@ -146,7 +149,10 @@ class SubscriptionService extends ChangeNotifier {
 
   String? priceForPlan(SubscriptionPlan plan) => productForPlan(plan)?.price;
 
-  bool productAvailable(SubscriptionPlan plan) => productForPlan(plan) != null;
+  bool productAvailable(SubscriptionPlan plan) {
+    if (kIsWeb) return _webStripeEnabled && plan != SubscriptionPlan.free;
+    return productForPlan(plan) != null;
+  }
 
   Future<void> initialize() async {
     if (_initialized) return;
@@ -160,6 +166,10 @@ class SubscriptionService extends ChangeNotifier {
 
   Future<void> loadProducts() async {
     if (!_supportsStorePurchases) {
+      if (kIsWeb) {
+        await _loadStripeWebConfig();
+        return;
+      }
       _storeAvailable = false;
       _state = _nonPremiumState(
         status: SubscriptionStatus.unavailable,
@@ -213,6 +223,10 @@ class SubscriptionService extends ChangeNotifier {
 
   Future<void> startPurchase(SubscriptionPlan plan) async {
     await initialize();
+    if (kIsWeb) {
+      await _startStripeWebCheckout(plan);
+      return;
+    }
     final product = productForPlan(plan);
     if (product == null) {
       _state = _nonPremiumState(
@@ -250,6 +264,10 @@ class SubscriptionService extends ChangeNotifier {
 
   Future<void> restorePurchases() async {
     await initialize();
+    if (kIsWeb) {
+      await getCurrentSubscriptionStatus();
+      return;
+    }
     if (!_supportsStorePurchases || !_storeAvailable) {
       _state = _nonPremiumState(
         status: SubscriptionStatus.unavailable,
@@ -387,6 +405,110 @@ class SubscriptionService extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> _loadStripeWebConfig() async {
+    if (_loadingStripeConfig) return;
+    _loadingStripeConfig = true;
+    try {
+      final response = await _client
+          .get(_backendUri('/api/stripe/config'))
+          .timeout(const Duration(seconds: 10));
+      if (response.statusCode < 200 || response.statusCode >= 300) {
+        _webStripeEnabled = false;
+        _storeAvailable = false;
+        _state = _nonPremiumState(
+          status: SubscriptionStatus.unavailable,
+          reason: 'stripe_config_unavailable',
+        );
+        await _saveLocalState(_state);
+        return;
+      }
+      final decoded = _decodeMap(response.body);
+      _webStripeEnabled = decoded['stripeEnabled'] == true;
+      _storeAvailable = _webStripeEnabled;
+      if (!_webStripeEnabled) {
+        _state = _nonPremiumState(
+          status: SubscriptionStatus.unavailable,
+          reason: 'stripe_disabled',
+        );
+        await _saveLocalState(_state);
+      }
+    } catch (_) {
+      _webStripeEnabled = false;
+      _storeAvailable = false;
+      _state = _nonPremiumState(
+        status: SubscriptionStatus.unavailable,
+        reason: 'stripe_config_unavailable',
+      );
+      await _saveLocalState(_state);
+    } finally {
+      _loadingStripeConfig = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> _startStripeWebCheckout(SubscriptionPlan plan) async {
+    if (plan == SubscriptionPlan.free) return;
+    if (!_webStripeEnabled) await _loadStripeWebConfig();
+    if (!_webStripeEnabled) {
+      _state = _nonPremiumState(
+        status: SubscriptionStatus.unavailable,
+        reason: 'stripe_disabled',
+      );
+      await _saveLocalState(_state);
+      notifyListeners();
+      return;
+    }
+    final token = await _auth.idToken(forceRefresh: true);
+    if (token == null) {
+      _state = _nonPremiumState(
+        status: SubscriptionStatus.unavailable,
+        reason: 'auth_required',
+      );
+      await _saveLocalState(_state);
+      notifyListeners();
+      return;
+    }
+    final checkoutPlan = plan == SubscriptionPlan.annual ? 'yearly' : 'monthly';
+    _state = SubscriptionState(
+      isPremium: false,
+      plan: plan,
+      productId: null,
+      platform: 'web',
+      expiresAt: null,
+      verified: false,
+      source: 'stripe_checkout',
+      status: SubscriptionStatus.pendingVerification,
+      reason: 'checkout_started',
+      lastVerifiedAt: DateTime.now(),
+    );
+    await _saveLocalState(_state);
+    notifyListeners();
+    try {
+      final response = await _client
+          .post(
+            _backendUri('/api/stripe/create-checkout-session'),
+            headers: {
+              'content-type': 'application/json; charset=utf-8',
+              'authorization': 'Bearer $token',
+            },
+            body: jsonEncode({'plan': checkoutPlan}),
+          )
+          .timeout(const Duration(seconds: 20));
+      final decoded = _decodeMap(response.body);
+      final checkoutUrl = decoded['checkoutUrl'] as String?;
+      if (response.statusCode < 200 ||
+          response.statusCode >= 300 ||
+          checkoutUrl == null ||
+          checkoutUrl.isEmpty) {
+        await _setError(decoded['error'] as String? ?? 'stripe_checkout_failed');
+        return;
+      }
+      await createCheckoutLauncher().open(checkoutUrl);
+    } catch (_) {
+      await _setError('stripe_checkout_failed');
+    }
+  }
+
   SubscriptionState _pendingState(PurchaseDetails purchase, {required String reason}) {
     return SubscriptionState(
       isPremium: false,
@@ -427,7 +549,8 @@ class SubscriptionService extends ChangeNotifier {
     final verified = json['verified'] == true;
     final active = json['active'] == true || json['isPremium'] == true;
     final productId = json['productId'] as String? ?? fallbackProductId;
-    final plan = _planForProductId(productId);
+    final plan = _planFromBackendName(json['plan'] as String?) ??
+        _planForProductId(productId);
     return SubscriptionState(
       isPremium: verified && active,
       plan: verified && active ? plan : SubscriptionPlan.free,
@@ -447,9 +570,10 @@ class SubscriptionService extends ChangeNotifier {
     String? productId,
   ) {
     final status = json['status'] as String?;
+    final backendPlan = _planFromBackendName(json['plan'] as String?);
     if (json['verified'] == true &&
         (json['active'] == true || json['isPremium'] == true)) {
-      return productId == yearlyProductId
+      return backendPlan == SubscriptionPlan.annual || productId == yearlyProductId
           ? SubscriptionStatus.premiumYearly
           : SubscriptionStatus.premiumMonthly;
     }
@@ -462,6 +586,15 @@ class SubscriptionService extends ChangeNotifier {
       'unavailable' => SubscriptionStatus.unavailable,
       'error' => SubscriptionStatus.error,
       _ => SubscriptionStatus.free,
+    };
+  }
+
+  SubscriptionPlan? _planFromBackendName(String? value) {
+    return switch (value) {
+      'monthly' => SubscriptionPlan.monthly,
+      'yearly' || 'annual' => SubscriptionPlan.annual,
+      'free' => SubscriptionPlan.free,
+      _ => null,
     };
   }
 

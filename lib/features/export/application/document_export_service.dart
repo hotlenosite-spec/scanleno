@@ -158,6 +158,13 @@ class DocumentExportService {
     return Uint8List.fromList(img.encodeJpg(output, quality: _jpgQuality(quality)));
   }
 
+  Future<Uint8List> processedJpgBytesForWatermark(
+    DraftPage page,
+    ExportQuality quality,
+  ) {
+    return _processedJpgBytes(page, quality);
+  }
+
   PdfPageFormat _pdfPageFormat(ExportPageSize size) {
     return switch (size) {
       ExportPageSize.a4 => PdfPageFormat.a4,
@@ -165,6 +172,10 @@ class DocumentExportService {
       ExportPageSize.legal => PdfPageFormat.legal,
       ExportPageSize.original => PdfPageFormat.a4,
     };
+  }
+
+  PdfPageFormat pdfPageFormatForWatermark(ExportPageSize size) {
+    return _pdfPageFormat(size);
   }
 
   int _jpgQuality(ExportQuality quality) {

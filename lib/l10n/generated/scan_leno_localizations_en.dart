@@ -1166,4 +1166,508 @@ class ScanLenoLocalizationsEn extends ScanLenoLocalizations {
 
   @override
   String get role => 'Role';
+
+  @override
+  String get selectFile => 'Select file';
+
+  @override
+  String get watermarkType => 'Watermark type';
+
+  @override
+  String get text => 'Text';
+
+  @override
+  String get logoImage => 'Logo image';
+
+  @override
+  String get watermarkText => 'Watermark text';
+
+  @override
+  String get chooseLogo => 'Choose logo';
+
+  @override
+  String get logoSelected => 'Logo selected';
+
+  @override
+  String get opacity => 'Opacity';
+
+  @override
+  String get rotation => 'Rotation';
+
+  @override
+  String get fontSize => 'Font size';
+
+  @override
+  String get position => 'Position';
+
+  @override
+  String get center => 'Center';
+
+  @override
+  String get top => 'Top';
+
+  @override
+  String get bottom => 'Bottom';
+
+  @override
+  String get right => 'Right';
+
+  @override
+  String get left => 'Left';
+
+  @override
+  String get repeatOnPage => 'Repeat on page';
+
+  @override
+  String get applyToAllPages => 'Apply to all pages';
+
+  @override
+  String get saveCopy => 'Save copy';
+
+  @override
+  String get watermarkAddedSuccess => 'Watermark added successfully.';
+
+  @override
+  String get watermarkAddFailed => 'Could not add watermark. Please try again.';
+
+  @override
+  String get watermarkDisabled => 'Watermark is disabled from the admin panel.';
+
+  @override
+  String get freeVersionWatermark =>
+      'Free exports include a ScanLeno watermark.';
+
+  @override
+  String get noWatermarkForPremium =>
+      'Premium users can export without the default watermark.';
+
+  @override
+  String get watermarkUnsupportedPdf =>
+      'Existing PDF files cannot be edited directly yet. Use Save & Export to create a watermarked PDF from scanned pages.';
+
+  @override
+  String get preview => 'Preview';
+
+  @override
+  String get noFilesYet => 'No files yet.';
+
+  @override
+  String get aiTranslate => 'AI Translate';
+
+  @override
+  String get documentTranslate => 'Document Translate';
+
+  @override
+  String get translate => 'Translate';
+
+  @override
+  String get translateSource => 'Text source';
+
+  @override
+  String get ocrSavedText => 'Saved OCR text';
+
+  @override
+  String get manualText => 'Manual text';
+
+  @override
+  String get sourceLanguage => 'Source language';
+
+  @override
+  String get targetLanguage => 'Target language';
+
+  @override
+  String get autoDetect => 'Auto Detect';
+
+  @override
+  String get translatedText => 'Translated text';
+
+  @override
+  String get translateComplete => 'Translation complete.';
+
+  @override
+  String get translateFailed => 'Translation failed. Please try again.';
+
+  @override
+  String get translateDisabled =>
+      'Translation is disabled from the admin panel.';
+
+  @override
+  String get emptyTranslateText => 'Enter text to translate.';
+
+  @override
+  String get translateTextTooLong =>
+      'The text is too long to translate at once.';
+
+  @override
+  String get unsupportedLanguage => 'This language is not supported yet.';
+
+  @override
+  String get translateRateLimited =>
+      'Translation is temporarily limited. Please try again later.';
+
+  @override
+  String get premiumRequiredForTranslate =>
+      'Translation is available with Premium, or with one scan credit when enabled.';
+
+  @override
+  String get translateCreditMessage =>
+      'You can use one scan credit for this translation. The credit is only consumed after a successful translation.';
+
+  @override
+  String get watchAdForOneTranslateCredit =>
+      'Watch an ad for one translate credit';
+
+  @override
+  String get translatePremiumOnly => 'Translation Premium only';
+
+  @override
+  String get translateWithScanCredit => 'Allow translation with scan_credit';
+
+  @override
+  String get freeDailyTranslateLimit => 'Free daily translation limit';
+
+  @override
+  String get premiumMonthlyTranslateLimit =>
+      'Premium monthly translation limit';
+
+  @override
+  String get translatorProvider => 'Translator provider';
+
+  @override
+  String get translatorRegion => 'Translator region';
+
+  @override
+  String get copied => 'Copied.';
+
+  @override
+  String get aiSummary => 'AI Summary';
+
+  @override
+  String get documentSummary => 'Document Summary';
+
+  @override
+  String get summarySource => 'Summary source';
+
+  @override
+  String get summarize => 'Summarize';
+
+  @override
+  String get summaryLanguage => 'Summary language';
+
+  @override
+  String get summaryLength => 'Summary length';
+
+  @override
+  String get sameAsDocument => 'Same as document';
+
+  @override
+  String get arabic => 'Arabic';
+
+  @override
+  String get english => 'English';
+
+  @override
+  String get summaryShort => 'Short';
+
+  @override
+  String get summaryMedium => 'Medium';
+
+  @override
+  String get summaryDetailed => 'Detailed';
+
+  @override
+  String get originalText => 'Original text';
+
+  @override
+  String get summaryText => 'Summary';
+
+  @override
+  String get aiSummaryComplete => 'Summary created.';
+
+  @override
+  String get aiSummaryFailed =>
+      'Could not summarize the text. Please try again.';
+
+  @override
+  String get aiSummaryDisabled =>
+      'AI Summary is disabled from the admin panel.';
+
+  @override
+  String get emptySummaryText => 'Enter text to summarize.';
+
+  @override
+  String get aiSummaryTextTooLong =>
+      'The text is too long to summarize at once.';
+
+  @override
+  String get invalidSummaryLength => 'Choose a valid summary length.';
+
+  @override
+  String get aiSummaryRateLimited =>
+      'AI Summary is temporarily limited. Please try again later.';
+
+  @override
+  String get premiumRequiredForAiSummary =>
+      'AI Summary is available with Premium, or with one scan credit when enabled.';
+
+  @override
+  String get aiSummaryCreditMessage =>
+      'You can use one scan credit for this summary. The credit is only consumed after a successful summary.';
+
+  @override
+  String get watchAdForOneAiSummaryCredit =>
+      'Watch an ad for one summary credit';
+
+  @override
+  String get aiSummaryPremiumOnly => 'AI Summary Premium only';
+
+  @override
+  String get aiSummaryWithScanCredit => 'Allow AI Summary with scan_credit';
+
+  @override
+  String get freeDailySummaryLimit => 'Free daily summary limit';
+
+  @override
+  String get premiumMonthlySummaryLimit => 'Premium monthly summary limit';
+
+  @override
+  String get aiSummaryProvider => 'AI Summary provider';
+
+  @override
+  String get aiSummaryModel => 'AI Summary model';
+
+  @override
+  String get aiSummaryDeployment => 'AI Summary deployment';
+
+  @override
+  String get ocrLanguage => 'OCR language';
+
+  @override
+  String get ocrDetectedLanguage => 'Detected language';
+
+  @override
+  String get defaultOcrLanguage => 'Default OCR language';
+
+  @override
+  String get allowAutoLanguageDetection => 'Allow auto language detection';
+
+  @override
+  String get ocrReadModel => 'OCR read model';
+
+  @override
+  String get ocrLayoutModel => 'OCR layout model';
+
+  @override
+  String get turkish => 'Turkish';
+
+  @override
+  String get french => 'French';
+
+  @override
+  String get spanish => 'Spanish';
+
+  @override
+  String get german => 'German';
+
+  @override
+  String get italian => 'Italian';
+
+  @override
+  String get portuguese => 'Portuguese';
+
+  @override
+  String get chineseSimplified => 'Chinese Simplified';
+
+  @override
+  String get chineseTraditional => 'Chinese Traditional';
+
+  @override
+  String get japanese => 'Japanese';
+
+  @override
+  String get korean => 'Korean';
+
+  @override
+  String get hindi => 'Hindi';
+
+  @override
+  String get urdu => 'Urdu';
+
+  @override
+  String get indonesian => 'Indonesian';
+
+  @override
+  String get malay => 'Malay';
+
+  @override
+  String get russian => 'Russian';
+
+  @override
+  String get pdfToExcel => 'PDF to Excel';
+
+  @override
+  String get convertToExcel => 'Convert to Excel';
+
+  @override
+  String get selectPdfFile => 'Select PDF file';
+
+  @override
+  String get noPdfFilesYet => 'No PDF files yet.';
+
+  @override
+  String get extractAllTables => 'Extract all tables';
+
+  @override
+  String get oneTablePerSheet => 'One table per sheet';
+
+  @override
+  String get includeTextSheet => 'Add text sheet';
+
+  @override
+  String get pdfToExcelComplete => 'Excel file created.';
+
+  @override
+  String get pdfToExcelFailed =>
+      'Could not convert this PDF to Excel. Please try again.';
+
+  @override
+  String get pdfToExcelDisabled =>
+      'PDF to Excel is disabled from the admin panel.';
+
+  @override
+  String get pdfToExcelRateLimited =>
+      'PDF to Excel is temporarily limited. Please try again later.';
+
+  @override
+  String get invalidPdfFile => 'Choose a valid PDF file.';
+
+  @override
+  String get tablesExtracted => 'Tables extracted';
+
+  @override
+  String get pagesProcessed => 'Pages processed';
+
+  @override
+  String get excelWorkbook => 'Excel workbook';
+
+  @override
+  String get openFileUnavailable =>
+      'This file cannot be opened on this device right now.';
+
+  @override
+  String get premiumRequiredForPdfToExcel =>
+      'PDF to Excel is available with Premium, or with one scan credit when enabled.';
+
+  @override
+  String get pdfToExcelCreditMessage =>
+      'You can use one scan credit for this conversion. The credit is only consumed after a successful Excel file is created.';
+
+  @override
+  String get watchAdForOnePdfToExcelCredit =>
+      'Watch an ad for one Excel conversion credit';
+
+  @override
+  String get pdfToExcelPremiumOnly => 'PDF to Excel Premium only';
+
+  @override
+  String get pdfToExcelWithScanCredit => 'Allow PDF to Excel with scan_credit';
+
+  @override
+  String get freeDailyPdfToExcelLimit => 'Free daily PDF to Excel limit';
+
+  @override
+  String get premiumMonthlyPdfToExcelLimit =>
+      'Premium monthly PDF to Excel limit';
+
+  @override
+  String get pdfToExcelProvider => 'PDF to Excel provider';
+
+  @override
+  String get pdfToExcelModel => 'PDF to Excel model';
+
+  @override
+  String get pdfToWord => 'PDF to Word';
+
+  @override
+  String get convertToWord => 'Convert to Word';
+
+  @override
+  String get preserveParagraphs => 'Preserve paragraphs';
+
+  @override
+  String get includeTables => 'Include tables';
+
+  @override
+  String get includePageBreaks => 'Add page breaks';
+
+  @override
+  String get includeHeadings => 'Detect headings';
+
+  @override
+  String get textDirection => 'Text direction';
+
+  @override
+  String get autoTextDirection => 'Auto';
+
+  @override
+  String get rtlDirection => 'Right to left';
+
+  @override
+  String get ltrDirection => 'Left to right';
+
+  @override
+  String get pdfToWordComplete => 'Word file created.';
+
+  @override
+  String get pdfToWordFailed =>
+      'Could not convert this PDF to Word. Please try again.';
+
+  @override
+  String get pdfToWordDisabled =>
+      'PDF to Word is disabled from the admin panel.';
+
+  @override
+  String get pdfToWordRateLimited =>
+      'PDF to Word is temporarily limited. Please try again later.';
+
+  @override
+  String get pdfToWordInsufficientText =>
+      'Not enough text could be extracted for a Word document.';
+
+  @override
+  String get paragraphsConverted => 'Paragraphs converted';
+
+  @override
+  String get wordDocument => 'Word document';
+
+  @override
+  String get premiumRequiredForPdfToWord =>
+      'PDF to Word is available with Premium, or with one scan credit when enabled.';
+
+  @override
+  String get pdfToWordCreditMessage =>
+      'You can use one scan credit for this conversion. The credit is only consumed after a successful Word file is created.';
+
+  @override
+  String get watchAdForOnePdfToWordCredit =>
+      'Watch an ad for one Word conversion credit';
+
+  @override
+  String get pdfToWordPremiumOnly => 'PDF to Word Premium only';
+
+  @override
+  String get pdfToWordWithScanCredit => 'Allow PDF to Word with scan_credit';
+
+  @override
+  String get freeDailyPdfToWordLimit => 'Free daily PDF to Word limit';
+
+  @override
+  String get premiumMonthlyPdfToWordLimit =>
+      'Premium monthly PDF to Word limit';
+
+  @override
+  String get pdfToWordProvider => 'PDF to Word provider';
+
+  @override
+  String get pdfToWordModel => 'PDF to Word model';
 }

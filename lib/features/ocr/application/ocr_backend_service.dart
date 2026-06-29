@@ -23,6 +23,8 @@ class OcrResult {
     required this.model,
     required this.createdAt,
     this.language,
+    this.detectedLanguage,
+    this.languageHint,
     this.confidence,
     this.creditConsumed = false,
     this.remainingScanCredit,
@@ -37,6 +39,8 @@ class OcrResult {
   final String model;
   final DateTime createdAt;
   final String? language;
+  final String? detectedLanguage;
+  final String? languageHint;
   final double? confidence;
   final bool creditConsumed;
   final int? remainingScanCredit;
@@ -52,10 +56,12 @@ class OcrResult {
         .map((item) => item.toString())
         .toList(growable: false),
     provider: json['provider'] as String? ?? 'azure_document_intelligence',
-    model: json['model'] as String? ?? 'prebuilt-layout',
+    model: json['model'] as String? ?? 'prebuilt-read',
     createdAt: DateTime.tryParse(json['createdAt'] as String? ?? '') ??
         DateTime.now(),
     language: json['language'] as String?,
+    detectedLanguage: json['detectedLanguage'] as String?,
+    languageHint: json['languageHint'] as String?,
     confidence: (json['confidence'] as num?)?.toDouble(),
     creditConsumed: json['creditConsumed'] as bool? ?? false,
     remainingScanCredit: (json['remainingScanCredit'] as num?)?.toInt(),
@@ -73,6 +79,9 @@ class OcrBackendService {
     required File imageFile,
     required bool isPremium,
     required bool scanCreditAvailable,
+    String languageHint = 'auto',
+    String model = 'read',
+    bool detectLanguage = true,
   }) async {
     final bytes = await imageFile.readAsBytes();
     final headers = {'content-type': 'application/json; charset=utf-8'};
@@ -87,6 +96,9 @@ class OcrBackendService {
             'pageIndex': pageIndex,
             'imageBase64': base64Encode(bytes),
             'mimeType': _mimeType(imageFile.path),
+            'languageHint': languageHint,
+            'model': model,
+            'detectLanguage': detectLanguage,
             // Kept only for backward compatibility with older local backends.
             // Current production backend verifies entitlement from Firebase token
             // and backend user metadata, not from these client-provided values.
@@ -131,6 +143,8 @@ class OcrBackendService {
       'OCR_CREDIT_REQUIRED' => 'ocr_credit_required',
       'OCR_DISABLED' => 'ocr_disabled',
       'AZURE_OCR_FAILED' => 'azure_ocr_failed',
+      'UNSUPPORTED_LANGUAGE' => 'unsupported_language',
+      'INVALID_OCR_MODEL' => 'invalid_ocr_model',
       'RATE_LIMITED' => 'ocr_rate_limited',
       'AZURE_KEY_MISSING' || 'AZURE_ENDPOINT_MISSING' => 'ocr_unavailable',
       _ when response.statusCode == 401 => 'auth_required',

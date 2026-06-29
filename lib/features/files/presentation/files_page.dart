@@ -361,6 +361,8 @@ class _FilesPageState extends State<FilesPage> {
       StoredDocumentType.pdf => l.pdfDocument,
       StoredDocumentType.image => l.imageFormat,
       StoredDocumentType.text => l.exportText,
+      StoredDocumentType.xlsx => l.excelWorkbook,
+      StoredDocumentType.docx => l.wordDocument,
     };
   }
 
@@ -536,7 +538,13 @@ class _Thumbnail extends StatelessWidget {
       height: 54,
       decoration: const BoxDecoration(color: AppColors.softBlue, borderRadius: AppRadii.small),
       child: Icon(
-        document.type == StoredDocumentType.pdf ? Icons.picture_as_pdf_outlined : Icons.image_outlined,
+        switch (document.type) {
+          StoredDocumentType.pdf => Icons.picture_as_pdf_outlined,
+          StoredDocumentType.xlsx => Icons.table_chart_outlined,
+          StoredDocumentType.docx => Icons.description_outlined,
+          StoredDocumentType.text => Icons.text_snippet_outlined,
+          StoredDocumentType.image => Icons.image_outlined,
+        },
         color: AppColors.interactive,
       ),
     );
