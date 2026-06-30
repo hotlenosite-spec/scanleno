@@ -1,14 +1,14 @@
 # Flutter / Dart
+
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
 .packages
-build/
 .pub-cache/
-.pub/
-flutter_*.log
+build/
 
 # Android
+
 android/.gradle/
 android/app/build/
 android/local.properties
@@ -18,21 +18,23 @@ key.properties
 *.keystore
 
 # iOS
+
 ios/Pods/
 ios/.symlinks/
 ios/Flutter/Flutter.framework
 ios/Flutter/Flutter.podspec
 
 # Node / backend
+
 node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 logs/
 *.log
-backend/data/scanleno.json
 
-# Env / secrets
+# Environment and secrets
+
 .env
 .env.*
 backend/.env
@@ -43,22 +45,24 @@ backend/.env.*
 firebase-adminsdk*.json
 google-services.json
 GoogleService-Info.plist
-secrets/
-*codex*.json
-*owner*.json
-*-key.json
-scanleno-37d42-*.json
 
-# Keep safe templates tracked
-!.env.example
-!backend/.env.example
+# Agents / local AI tools
 
-# Editor / cache
+.agents/
+skills-lock.json
+
+# Editor / OS
+
 .idea/
 .vscode/
 .DS_Store
 Thumbs.db
 
-# Local agent tooling
-.agents/
-skills-lock.json
+# Keep safe examples tracked
+
+!.env.example
+!backend/.env.example
+
+# Runtime local data
+backend/data/scanleno.json
+!backend/data/scanleno.example.json
