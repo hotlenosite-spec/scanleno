@@ -519,7 +519,7 @@ class _OcrMeta extends StatelessWidget {
         children: [
           _MetaRow(label: l.provider, value: provider ?? 'azure_document_intelligence'),
           const Divider(),
-          _MetaRow(label: l.model, value: model ?? 'prebuilt-read'),
+          _MetaRow(label: l.model, value: model ?? 'prebuilt-layout'),
           if (language != null) ...[
             const Divider(),
             _MetaRow(label: l.language, value: language!),

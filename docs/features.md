@@ -32,7 +32,7 @@ Watermark processing is local-first and uses the app's existing PDF/image stack.
 ScanLeno OCR is implemented through the backend using Azure Document Intelligence.
 
 - Provider: Azure Document Intelligence.
-- Models: `prebuilt-read` for standard OCR and `prebuilt-layout` for layout/table extraction.
+- Model: `prebuilt-layout` for OCR and layout/table extraction.
 - Flutter sends only the selected page/image to `POST /api/ocr/analyze`.
 - Advanced OCR languages support Auto Detect, Arabic, English, Turkish, French, Spanish, German, Italian, Portuguese, Chinese Simplified, Chinese Traditional, Japanese, Korean, Hindi, Urdu, Indonesian, Malay, and Russian.
 - When a user selects a specific OCR language, the backend passes it as a language hint to Azure Document Intelligence. Auto Detect sends no language hint.

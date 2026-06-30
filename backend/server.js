@@ -45,9 +45,9 @@ const rewardedCredit = {
 const azureDocumentIntelligence = {
   endpoint: process.env.AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT || '',
   region: process.env.AZURE_DOCUMENT_INTELLIGENCE_REGION || '',
-  readModel: process.env.AZURE_DOCUMENT_INTELLIGENCE_READ_MODEL || process.env.AZURE_DOCUMENT_INTELLIGENCE_MODEL || 'prebuilt-read',
-  layoutModel: process.env.AZURE_DOCUMENT_INTELLIGENCE_LAYOUT_MODEL || 'prebuilt-layout',
-  model: process.env.AZURE_DOCUMENT_INTELLIGENCE_MODEL || process.env.AZURE_DOCUMENT_INTELLIGENCE_READ_MODEL || 'prebuilt-read',
+  readModel: process.env.AZURE_DOCUMENT_INTELLIGENCE_MODEL || 'prebuilt-layout',
+  layoutModel: process.env.AZURE_DOCUMENT_INTELLIGENCE_MODEL || 'prebuilt-layout',
+  model: process.env.AZURE_DOCUMENT_INTELLIGENCE_MODEL || 'prebuilt-layout',
   apiVersion: process.env.AZURE_DOCUMENT_INTELLIGENCE_API_VERSION || '2024-11-30',
   key: process.env.AZURE_DOCUMENT_INTELLIGENCE_KEY || ''
 };
@@ -146,8 +146,8 @@ const defaults = {
     premiumYearlyOcrLimit: 6000,
     azureOcrEnabled: false,
     azureOcrProvider: 'Azure Document Intelligence',
-    azureOcrModel: 'prebuilt-read',
-    azureOcrReadModel: 'prebuilt-read',
+    azureOcrModel: 'prebuilt-layout',
+    azureOcrReadModel: 'prebuilt-layout',
     azureOcrLayoutModel: 'prebuilt-layout',
     defaultOcrLanguage: 'auto',
     allowAutoLanguageDetection: true,
@@ -256,10 +256,7 @@ function validateProductionEnvironment() {
   if (!process.env.FIREBASE_PROJECT_ID) missing.push('FIREBASE_PROJECT_ID');
   if (!azureDocumentIntelligence.endpoint) missing.push('AZURE_DOCUMENT_INTELLIGENCE_ENDPOINT');
   if (!azureDocumentIntelligence.key) missing.push('AZURE_DOCUMENT_INTELLIGENCE_KEY');
-  if (!process.env.AZURE_DOCUMENT_INTELLIGENCE_READ_MODEL && !process.env.AZURE_DOCUMENT_INTELLIGENCE_MODEL) {
-    missing.push('AZURE_DOCUMENT_INTELLIGENCE_READ_MODEL');
-  }
-  if (!process.env.AZURE_DOCUMENT_INTELLIGENCE_LAYOUT_MODEL) missing.push('AZURE_DOCUMENT_INTELLIGENCE_LAYOUT_MODEL');
+  if (!process.env.AZURE_DOCUMENT_INTELLIGENCE_MODEL) missing.push('AZURE_DOCUMENT_INTELLIGENCE_MODEL');
   if (!allowedOrigins.length) missing.push('SCANLENO_ALLOWED_ORIGINS');
   if (stripeWeb.enabled) missing.push(...stripeMissingConfig({ includePublishable: true }));
   if (azureTranslator.enabled) {

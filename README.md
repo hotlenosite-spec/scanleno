@@ -95,7 +95,7 @@ OCR is routed through the backend only. Flutter never contains the Azure key.
 - Put Azure values in `backend/.env`; never commit that file.
 - `AZURE_DOCUMENT_INTELLIGENCE_KEY` must stay server-side.
 - OCR sends only the selected page/image requested by the user.
-- The backend forwards that page to Azure Document Intelligence using `prebuilt-read` for standard OCR and `prebuilt-layout` when layout/table extraction is needed.
+- The backend forwards that page to Azure Document Intelligence using `prebuilt-layout`.
 - Advanced OCR languages support Auto Detect, Arabic, English, Turkish, French, Spanish, German, Italian, Portuguese, Chinese Simplified, Chinese Traditional, Japanese, Korean, Hindi, Urdu, Indonesian, Malay, and Russian.
 - The selected OCR language is sent as a language hint when applicable; Auto Detect lets Azure detect the language.
 - The backend does not save uploaded OCR images.

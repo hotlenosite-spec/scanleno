@@ -56,7 +56,7 @@ class OcrResult {
         .map((item) => item.toString())
         .toList(growable: false),
     provider: json['provider'] as String? ?? 'azure_document_intelligence',
-    model: json['model'] as String? ?? 'prebuilt-read',
+    model: json['model'] as String? ?? 'prebuilt-layout',
     createdAt: DateTime.tryParse(json['createdAt'] as String? ?? '') ??
         DateTime.now(),
     language: json['language'] as String?,
