@@ -105,6 +105,22 @@ class _OcrPageState extends State<OcrPage> {
       );
       return;
     }
+    final needsAdvancedLanguage =
+        selectedLanguage != 'auto' && selectedLanguage != 'en';
+    if (needsAdvancedLanguage) {
+      final languageAccess = await premiumAccessService.canAccessPremiumFeature(
+        PremiumFeature.advancedOcrLanguages,
+      );
+      if (!mounted) return;
+      if (!languageAccess.allowed) {
+        await showPremiumGateDialog(
+          context,
+          feature: PremiumFeature.advancedOcrLanguages,
+          result: languageAccess,
+        );
+        return;
+      }
+    }
 
     setState(() => loading = true);
     try {
@@ -231,9 +247,12 @@ class _OcrPageState extends State<OcrPage> {
         loadedAccess &&
         documentDraft.hasPages &&
         (access?.allowed ?? false);
-    final availableOcrLanguages = FeatureFlags.allowAutoLanguageDetection
+    final languagePool = FeatureFlags.advancedOcrLanguagesEnabled
         ? _ocrLanguages
-        : _ocrLanguages.where((item) => item.code != 'auto').toList();
+        : _basicOcrLanguages;
+    final availableOcrLanguages = FeatureFlags.allowAutoLanguageDetection
+        ? languagePool
+        : languagePool.where((item) => item.code != 'auto').toList();
     final safeSelectedLanguage = availableOcrLanguages.any(
       (item) => item.code == selectedLanguage,
     )
@@ -405,6 +424,7 @@ class _OcrPageState extends State<OcrPage> {
     final message = switch (code) {
       'ocr_disabled' => context.l10n.featureDisabled,
       'ocr_rate_limited' => context.l10n.ocrRateLimited,
+      'ocr_language_not_supported' => context.l10n.unsupportedLanguage,
       'ocr_unavailable' => context.l10n.ocrFailed,
       'azure_ocr_failed' => context.l10n.ocrFailed,
       _ => context.l10n.ocrFailed,
@@ -555,23 +575,20 @@ class _OcrLanguageOption {
 
 const _ocrLanguages = [
   _OcrLanguageOption('auto', 'autoDetect'),
-  _OcrLanguageOption('ar', 'arabic'),
   _OcrLanguageOption('en', 'english'),
-  _OcrLanguageOption('tr', 'turkish'),
+  _OcrLanguageOption('ar', 'arabic'),
   _OcrLanguageOption('fr', 'french'),
   _OcrLanguageOption('es', 'spanish'),
   _OcrLanguageOption('de', 'german'),
-  _OcrLanguageOption('it', 'italian'),
-  _OcrLanguageOption('pt', 'portuguese'),
+  _OcrLanguageOption('tr', 'turkish'),
   _OcrLanguageOption('zh-Hans', 'chineseSimplified'),
-  _OcrLanguageOption('zh-Hant', 'chineseTraditional'),
   _OcrLanguageOption('ja', 'japanese'),
   _OcrLanguageOption('ko', 'korean'),
-  _OcrLanguageOption('hi', 'hindi'),
-  _OcrLanguageOption('ur', 'urdu'),
-  _OcrLanguageOption('id', 'indonesian'),
-  _OcrLanguageOption('ms', 'malay'),
-  _OcrLanguageOption('ru', 'russian'),
+];
+
+const _basicOcrLanguages = [
+  _OcrLanguageOption('auto', 'autoDetect'),
+  _OcrLanguageOption('en', 'english'),
 ];
 
 class _MetaRow extends StatelessWidget {

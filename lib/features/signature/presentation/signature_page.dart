@@ -5,11 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../../../core/constants/feature_flags.dart';
 import '../../../core/localization/app_localizations.dart';
 import '../../../core/routing/app_routes.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../core/widgets/app_screen.dart';
 import '../../files/application/local_file_repository.dart';
+import '../../premium/application/premium_access_service.dart';
+import '../../premium/presentation/premium_gate_dialog.dart';
 import '../../scanner/application/document_draft_controller.dart';
 import '../application/signature_repository.dart';
 
@@ -43,6 +46,7 @@ class _SignaturePageState extends State<SignaturePage> {
 
   Future<void> _saveSignature() async {
     if (strokes.isEmpty) return;
+    if (!await _ensurePremiumAccess()) return;
     await repository.save(strokes, selectedColor.toARGB32());
     strokes.clear();
     await _load();
@@ -55,6 +59,7 @@ class _SignaturePageState extends State<SignaturePage> {
 
   Future<void> _saveSignedDocument() async {
     if (!documentDraft.hasPages) return;
+    if (!await _ensurePremiumAccess()) return;
     final boundary = previewKey.currentContext?.findRenderObject()
         as RenderRepaintBoundary?;
     if (boundary == null) return;
@@ -80,9 +85,30 @@ class _SignaturePageState extends State<SignaturePage> {
     }
   }
 
+  Future<bool> _ensurePremiumAccess() async {
+    final access = await premiumAccessService.canAccessPremiumFeature(
+      PremiumFeature.signature,
+    );
+    if (!mounted) return false;
+    if (access.allowed) return true;
+    await showPremiumGateDialog(
+      context,
+      feature: PremiumFeature.signature,
+      result: access,
+    );
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     final l = context.l10n;
+    if (!FeatureFlags.signatureEnabled) {
+      return AppScreen(
+        title: l.signDocument,
+        showBack: true,
+        child: Center(child: SoftCard(child: Text(l.toolUnavailable))),
+      );
+    }
     if (!documentDraft.hasPages) {
       return AppScreen(
         title: l.signDocument,

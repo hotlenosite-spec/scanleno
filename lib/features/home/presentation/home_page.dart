@@ -7,6 +7,8 @@ import '../../../core/theme/app_tokens.dart';
 import '../../../core/widgets/app_screen.dart';
 import '../../ads/application/ad_service.dart';
 import '../../ads/presentation/ad_banner_slot.dart';
+import '../../premium/application/premium_access_service.dart';
+import '../../premium/presentation/premium_gate_dialog.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -35,7 +37,7 @@ class HomePage extends StatelessWidget {
             const AdBannerSlot(placement: AdPlacement.home),
             const SizedBox(height: AppSpacing.md),
             Row(children: [
-              Expanded(child: _QuickTool(icon: Icons.draw_rounded, label: l.signPdf, tint: const Color(0xFFEAF3FF), onTap: () => Navigator.of(context).pushNamed(AppRoutes.signature))),
+              Expanded(child: _QuickTool(icon: Icons.draw_rounded, label: l.signPdf, tint: const Color(0xFFEAF3FF), onTap: () => _openSignature(context))),
               const SizedBox(width: AppSpacing.sm),
               Expanded(child: _QuickTool(icon: Icons.compress_rounded, label: l.compressPdf, tint: const Color(0xFFF0EAFE), onTap: () => Navigator.of(context).pushNamed(AppRoutes.tools))),
               const SizedBox(width: AppSpacing.sm),
@@ -57,6 +59,22 @@ class HomePage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _openSignature(BuildContext context) async {
+    final access = await premiumAccessService.canAccessPremiumFeature(
+      PremiumFeature.signature,
+    );
+    if (!context.mounted) return;
+    if (!access.allowed) {
+      await showPremiumGateDialog(
+        context,
+        feature: PremiumFeature.signature,
+        result: access,
+      );
+      return;
+    }
+    Navigator.of(context).pushNamed(AppRoutes.signature);
   }
 }
 

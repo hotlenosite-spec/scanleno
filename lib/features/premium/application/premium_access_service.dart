@@ -20,6 +20,9 @@ enum PremiumFeature {
   aiSummary,
   pdfToExcel,
   pdfToWord,
+  signature,
+  watermark,
+  advancedOcrLanguages,
 }
 
 enum PremiumAccessReason {
@@ -232,6 +235,9 @@ class PremiumAccessService {
       PremiumFeature.aiSummary => 'premiumRequiredForAiSummary',
       PremiumFeature.pdfToExcel => 'premiumRequiredForPdfToExcel',
       PremiumFeature.pdfToWord => 'premiumRequiredForPdfToWord',
+      PremiumFeature.signature ||
+      PremiumFeature.watermark ||
+      PremiumFeature.advancedOcrLanguages => 'premiumRequiredForAdvancedPdf',
       PremiumFeature.removeAds => 'premiumRequiredMessage',
     };
   }
@@ -251,6 +257,10 @@ class PremiumAccessService {
       PremiumFeature.aiSummary => FeatureFlags.aiSummaryEnabled,
       PremiumFeature.pdfToExcel => FeatureFlags.pdfToExcelEnabled,
       PremiumFeature.pdfToWord => FeatureFlags.pdfToWordEnabled,
+      PremiumFeature.signature => FeatureFlags.signatureEnabled,
+      PremiumFeature.watermark => FeatureFlags.watermarkEnabled,
+      PremiumFeature.advancedOcrLanguages =>
+        FeatureFlags.advancedOcrLanguagesEnabled,
       PremiumFeature.mergePdf => FeatureFlags.mergePdfEnabled,
       PremiumFeature.splitPdf => FeatureFlags.splitPdfEnabled,
       PremiumFeature.compressPdf => FeatureFlags.compressPdfEnabled,

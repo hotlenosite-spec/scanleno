@@ -335,8 +335,20 @@ class _FilesPageState extends State<FilesPage> {
     );
   }
 
-  void _openDocument(StoredDocument document) {
+  Future<void> _openDocument(StoredDocument document) async {
     if (document.type == StoredDocumentType.image) {
+      final access = await premiumAccessService.canAccessPremiumFeature(
+        PremiumFeature.signature,
+      );
+      if (!mounted) return;
+      if (!access.allowed) {
+        await showPremiumGateDialog(
+          context,
+          feature: PremiumFeature.signature,
+          result: access,
+        );
+        return;
+      }
       Navigator.of(context).pushNamed(AppRoutes.signature);
       return;
     }

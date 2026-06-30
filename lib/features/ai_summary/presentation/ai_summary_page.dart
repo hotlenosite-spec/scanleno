@@ -140,7 +140,7 @@ class _AiSummaryPageState extends State<AiSummaryPage> {
     final l = context.l10n;
     final message = switch (code) {
       'AI_SUMMARY_DISABLED' => l.aiSummaryDisabled,
-      'EMPTY_TEXT' => l.emptySummaryText,
+      'INVALID_TEXT' || 'EMPTY_TEXT' => l.emptySummaryText,
       'TEXT_TOO_LONG' => l.aiSummaryTextTooLong,
       'INVALID_SUMMARY_LENGTH' => l.invalidSummaryLength,
       'UNSUPPORTED_LANGUAGE' => l.unsupportedLanguage,

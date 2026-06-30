@@ -30,11 +30,11 @@
 - Summary text is not stored in the backend; when saved, it is stored locally in Drift/SQLite on the user's device.
 - Azure OpenAI credentials must live only in `backend/.env` or a secure backend secret manager; never in Flutter, admin HTML, or committed source files.
 - PDF to Excel sends only the user-selected PDF temporarily to Azure Document Intelligence for processing.
-- The original PDF is not stored in the backend and is not saved in Firebase or Cloud Backup.
+- The original PDF is not stored by the backend.
 - The generated Excel file is returned to the app and saved locally on the user's device.
 - PDF to Excel logs must contain request IDs and status only, never document contents or Azure keys.
 - PDF to Word sends only the user-selected PDF temporarily to Azure Document Intelligence for processing.
-- The original PDF is not stored in the backend and is not saved in Firebase or Cloud Backup.
+- The original PDF is not stored by the backend.
 - The generated Word file is returned to the app and saved locally on the user's device.
 - PDF to Word metadata is saved in local Drift/SQLite only.
 - PDF to Word logs must contain request IDs and status only, never document contents or Azure keys.

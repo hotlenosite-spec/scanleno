@@ -52,21 +52,24 @@ const azureDocumentIntelligence = {
   key: process.env.AZURE_DOCUMENT_INTELLIGENCE_KEY || ''
 };
 const azureTranslator = {
-  enabled: String(process.env.AZURE_TRANSLATOR_ENABLED || '').toLowerCase() === 'true',
+  enabled: String(process.env.AI_TRANSLATE_ENABLED || process.env.AZURE_TRANSLATOR_ENABLED || '').toLowerCase() === 'true',
+  provider: process.env.AI_TRANSLATE_PROVIDER || 'azure_translator',
   endpoint: process.env.AZURE_TRANSLATOR_ENDPOINT || '',
   region: process.env.AZURE_TRANSLATOR_REGION || 'global',
   key: process.env.AZURE_TRANSLATOR_KEY || '',
+  model: process.env.AI_TRANSLATE_MODEL || '',
   maxTextChars: Number(process.env.SCANLENO_TRANSLATE_MAX_TEXT_CHARS || 10000),
   perUserPerMinute: Number(process.env.SCANLENO_TRANSLATE_USER_RATE_LIMIT_PER_MINUTE || 20),
   perIpPerMinute: Number(process.env.SCANLENO_TRANSLATE_IP_RATE_LIMIT_PER_MINUTE || 40)
 };
 const azureOpenAi = {
-  enabled: String(process.env.AZURE_AI_SUMMARY_ENABLED || process.env.AZURE_OPENAI_SUMMARY_ENABLED || '').toLowerCase() === 'true',
+  enabled: String(process.env.AI_FEATURES_ENABLED || process.env.AZURE_AI_SUMMARY_ENABLED || process.env.AZURE_OPENAI_SUMMARY_ENABLED || '').toLowerCase() === 'true',
+  provider: process.env.AI_PROVIDER || 'azure_openai',
   projectEndpoint: process.env.AZURE_AI_PROJECT_ENDPOINT || '',
   endpoint: process.env.AZURE_OPENAI_ENDPOINT || '',
-  key: process.env.AZURE_OPENAI_KEY || '',
-  deployment: process.env.AZURE_OPENAI_DEPLOYMENT || 'scanleno-gpt-4o-mini',
-  model: process.env.AZURE_OPENAI_MODEL || 'gpt-4o-mini',
+  key: process.env.AI_API_KEY || process.env.AZURE_OPENAI_KEY || '',
+  deployment: process.env.AZURE_OPENAI_DEPLOYMENT || process.env.AI_SUMMARY_MODEL || 'scanleno-gpt-4o-mini',
+  model: process.env.AI_SUMMARY_MODEL || process.env.AZURE_OPENAI_MODEL || 'gpt-4o-mini',
   apiVersion: process.env.AZURE_OPENAI_API_VERSION || '2024-12-01-preview',
   maxTextChars: Number(process.env.SCANLENO_AI_SUMMARY_MAX_TEXT_CHARS || 12000),
   perUserPerMinute: Number(process.env.SCANLENO_AI_SUMMARY_USER_RATE_LIMIT_PER_MINUTE || 10),
@@ -115,16 +118,19 @@ const defaults = {
     defaultWatermarkOpacity: 0.14,
     defaultWatermarkPosition: 'center',
     premiumCustomWatermarkEnabled: true,
-    translateEnabled: false,
+    signatureEnabled: true,
+    signaturePremiumOnly: true,
+    watermarkPremiumOnly: true,
+    translateEnabled: azureTranslator.enabled,
     translatePremiumOnly: true,
-    translateWithScanCreditEnabled: true,
+    translateWithScanCreditEnabled: false,
     freeDailyTranslateLimit: 3,
     premiumMonthlyTranslateLimit: 500,
     translatorProvider: 'Azure Translator',
     translatorRegion: 'global',
     aiSummaryEnabled: azureOpenAi.enabled,
     aiSummaryPremiumOnly: true,
-    aiSummaryWithScanCreditEnabled: true,
+    aiSummaryWithScanCreditEnabled: false,
     freeDailySummaryLimit: 3,
     premiumMonthlySummaryLimit: 500,
     aiSummaryProvider: 'Azure OpenAI',
@@ -145,16 +151,17 @@ const defaults = {
     azureOcrLayoutModel: 'prebuilt-layout',
     defaultOcrLanguage: 'auto',
     allowAutoLanguageDetection: true,
-    pdfToExcelEnabled: false,
+    advancedOcrLanguagesEnabled: false,
+    pdfToExcelEnabled: String(process.env.PDF_TO_EXCEL_ENABLED || '').toLowerCase() === 'true',
     pdfToExcelPremiumOnly: true,
-    pdfToExcelWithScanCreditEnabled: true,
+    pdfToExcelWithScanCreditEnabled: false,
     freeDailyPdfToExcelLimit: 3,
     premiumMonthlyPdfToExcelLimit: 200,
     pdfToExcelProvider: 'Azure Document Intelligence',
     pdfToExcelModel: 'prebuilt-layout',
-    pdfToWordEnabled: false,
+    pdfToWordEnabled: String(process.env.PDF_TO_WORD_ENABLED || '').toLowerCase() === 'true',
     pdfToWordPremiumOnly: true,
-    pdfToWordWithScanCreditEnabled: true,
+    pdfToWordWithScanCreditEnabled: false,
     freeDailyPdfToWordLimit: 3,
     premiumMonthlyPdfToWordLimit: 200,
     pdfToWordProvider: 'Azure Document Intelligence',
@@ -238,6 +245,8 @@ function normalizeFeatureFlags(flags) {
   normalized.pdfToExcelModel = azureDocumentIntelligence.layoutModel || normalized.pdfToExcelModel || 'prebuilt-layout';
   normalized.pdfToWordProvider = normalized.pdfToWordProvider || 'Azure Document Intelligence';
   normalized.pdfToWordModel = azureDocumentIntelligence.layoutModel || normalized.pdfToWordModel || 'prebuilt-layout';
+  normalized.signaturePremiumOnly = normalized.signaturePremiumOnly !== false;
+  normalized.watermarkPremiumOnly = normalized.watermarkPremiumOnly !== false;
   return normalized;
 }
 
@@ -982,7 +991,19 @@ const supportedOcrLanguages = new Set([
 function normalizeOcrLanguageHint(value) {
   const language = String(value || 'auto').trim();
   if (!language || language.toLowerCase() === 'auto') return 'auto';
+  if (language === 'zh') return 'zh-Hans';
   return supportedOcrLanguages.has(language) ? language : null;
+}
+
+function ocrLanguageAccessForAccount(data, firebaseUser, languageHint) {
+  const normalized = normalizeFeatureFlags(data.featureFlags);
+  if (languageHint === 'auto' || languageHint === 'en') return { allowed: true };
+  if (normalized.advancedOcrLanguagesEnabled !== true) {
+    return { allowed: false, status: 400, error: 'OCR_LANGUAGE_NOT_SUPPORTED' };
+  }
+  const account = findOrCreateAccount(data, firebaseUser);
+  if (isAccountPremium(account, firebaseUser)) return { allowed: true };
+  return { allowed: false, status: 403, error: 'PREMIUM_REQUIRED' };
 }
 
 function normalizeOcrModel(value) {
@@ -1588,7 +1609,7 @@ const supportedTranslateLanguages = [
 ];
 
 function validateTranslatorConfig() {
-  if (!azureTranslator.enabled) return 'TRANSLATE_DISABLED';
+  if (!azureTranslator.enabled) return 'AI_TRANSLATE_DISABLED';
   if (!azureTranslator.endpoint) return 'TRANSLATOR_ENDPOINT_MISSING';
   if (!azureTranslator.key) return 'TRANSLATOR_KEY_MISSING';
   return null;
@@ -1608,7 +1629,7 @@ function todayKey() {
 function translateAccessForAccount(data, firebaseUser) {
   const flags = normalizeFeatureFlags(data.featureFlags);
   if (flags.translateEnabled !== true) {
-    return { allowed: false, status: 403, error: 'TRANSLATE_DISABLED', creditToConsume: false };
+    return { allowed: false, status: 403, error: 'AI_TRANSLATE_DISABLED', creditToConsume: false };
   }
   const account = findOrCreateAccount(data, firebaseUser);
   if (account.disabled === true) {
@@ -1663,9 +1684,9 @@ function updateTranslateUsageAfterSuccess(account, creditToConsume) {
 
 function validateAiSummaryConfig() {
   if (!azureOpenAi.enabled) return 'AI_SUMMARY_DISABLED';
-  if (!azureOpenAi.endpoint) return 'AZURE_OPENAI_ENDPOINT_MISSING';
-  if (!azureOpenAi.key) return 'AZURE_OPENAI_KEY_MISSING';
-  if (!azureOpenAi.deployment) return 'AZURE_OPENAI_DEPLOYMENT_MISSING';
+  if (!azureOpenAi.endpoint) return 'AI_PROVIDER_NOT_CONFIGURED';
+  if (!azureOpenAi.key) return 'AI_PROVIDER_NOT_CONFIGURED';
+  if (!azureOpenAi.deployment) return 'AI_PROVIDER_NOT_CONFIGURED';
   return null;
 }
 
@@ -2280,7 +2301,7 @@ const server = http.createServer(async (req, res) => {
     return send(res, 200, {
       languages: supportedTranslateLanguages,
       autoDetect: true,
-      provider: 'azure_translator'
+      provider: azureTranslator.provider
     });
   }
   if (req.method === 'POST' && url.pathname === '/api/translate/text') {
@@ -2302,16 +2323,16 @@ const server = http.createServer(async (req, res) => {
     try {
       body = await readBody(req, { maxBytes: azureTranslator.maxTextChars * 4 + 2048 });
     } catch (_) {
-      return send(res, 400, { error: 'INVALID_TRANSLATE_REQUEST' });
+      return send(res, 400, { error: 'INVALID_TEXT' });
     }
     const text = String(body.text || '').trim();
-    if (!text) return send(res, 400, { error: 'EMPTY_TEXT' });
-    if (text.length > azureTranslator.maxTextChars) return send(res, 413, { error: 'TEXT_TOO_LONG' });
+    if (!text) return send(res, 400, { error: 'INVALID_TEXT' });
+    if (text.length > azureTranslator.maxTextChars) return send(res, 413, { error: 'INVALID_TEXT' });
     const toLanguage = normalizeTranslateLanguage(body.toLanguage);
     const fromLanguage = normalizeTranslateLanguage(body.fromLanguage, { allowAuto: true });
-    if (!toLanguage || fromLanguage === null) return send(res, 400, { error: 'UNSUPPORTED_LANGUAGE' });
+    if (!toLanguage || fromLanguage === null) return send(res, 400, { error: 'INVALID_LANGUAGE' });
     const configError = validateTranslatorConfig();
-    if (configError) return send(res, 503, { error: configError === 'TRANSLATE_DISABLED' ? 'TRANSLATE_DISABLED' : 'SERVER_CONFIG_ERROR' });
+    if (configError) return send(res, 503, { error: configError === 'AI_TRANSLATE_DISABLED' ? 'AI_TRANSLATE_DISABLED' : 'AI_PROVIDER_NOT_CONFIGURED' });
     const access = translateAccessForAccount(data, firebaseUser);
     if (!access.allowed) {
       safeLog('translate_rejected', { requestId, status: 'rejected', reason: access.error });
@@ -2342,11 +2363,11 @@ const server = http.createServer(async (req, res) => {
       const code = error.code || 'translate_failed';
       safeLog('translate_failed', { requestId, status: 'failed', reason: code, userId: firebaseUser.uid });
       if (code === 'rate_limit') return send(res, 429, { error: 'RATE_LIMITED' });
-      if (code === 'timeout') return send(res, 504, { error: 'AZURE_TRANSLATE_FAILED' });
+      if (code === 'timeout') return send(res, 504, { error: 'AI_TRANSLATE_FAILED' });
       if (code === 'TRANSLATOR_KEY_MISSING' || code === 'TRANSLATOR_ENDPOINT_MISSING') {
-        return send(res, 503, { error: 'SERVER_CONFIG_ERROR' });
+        return send(res, 503, { error: 'AI_PROVIDER_NOT_CONFIGURED' });
       }
-      return send(res, 502, { error: 'AZURE_TRANSLATE_FAILED' });
+      return send(res, 502, { error: 'AI_TRANSLATE_FAILED' });
     }
   }
   if (req.method === 'POST' && (url.pathname === '/api/ai/summary' || url.pathname === '/api/ai/summary-from-ocr')) {
@@ -2368,17 +2389,17 @@ const server = http.createServer(async (req, res) => {
     try {
       body = await readBody(req, { maxBytes: azureOpenAi.maxTextChars * 4 + 2048 });
     } catch (_) {
-      return send(res, 400, { error: 'INVALID_SUMMARY_REQUEST' });
+      return send(res, 400, { error: 'INVALID_TEXT' });
     }
     const text = String(body.text || body.ocrText || '').trim();
-    if (!text) return send(res, 400, { error: 'EMPTY_TEXT' });
-    if (text.length > azureOpenAi.maxTextChars) return send(res, 413, { error: 'TEXT_TOO_LONG' });
+    if (!text) return send(res, 400, { error: 'INVALID_TEXT' });
+    if (text.length > azureOpenAi.maxTextChars) return send(res, 413, { error: 'INVALID_TEXT' });
     const summaryLength = normalizeSummaryLength(body.summaryLength);
     const language = normalizeSummaryLanguage(body.language);
     if (!summaryLength) return send(res, 400, { error: 'INVALID_SUMMARY_LENGTH' });
-    if (!language) return send(res, 400, { error: 'UNSUPPORTED_LANGUAGE' });
+    if (!language) return send(res, 400, { error: 'INVALID_TEXT' });
     const configError = validateAiSummaryConfig();
-    if (configError) return send(res, 503, { error: configError === 'AI_SUMMARY_DISABLED' ? 'AI_SUMMARY_DISABLED' : 'SERVER_CONFIG_ERROR' });
+    if (configError) return send(res, 503, { error: configError });
     const access = aiSummaryAccessForAccount(data, firebaseUser);
     if (!access.allowed) {
       safeLog('ai_summary_rejected', { requestId, status: 'rejected', reason: access.error });
@@ -2413,9 +2434,9 @@ const server = http.createServer(async (req, res) => {
       const code = error.code || 'ai_summary_failed';
       safeLog('ai_summary_failed', { requestId, status: 'failed', reason: code, userId: firebaseUser.uid });
       if (code === 'rate_limit') return send(res, 429, { error: 'RATE_LIMITED' });
-      if (code === 'timeout') return send(res, 504, { error: 'AZURE_AI_SUMMARY_FAILED' });
-      if (code.endsWith('_MISSING')) return send(res, 503, { error: 'SERVER_CONFIG_ERROR' });
-      return send(res, 502, { error: 'AZURE_AI_SUMMARY_FAILED' });
+      if (code === 'timeout') return send(res, 504, { error: 'AI_SUMMARY_FAILED' });
+      if (code === 'AI_PROVIDER_NOT_CONFIGURED' || code.endsWith('_MISSING')) return send(res, 503, { error: 'AI_PROVIDER_NOT_CONFIGURED' });
+      return send(res, 502, { error: 'AI_SUMMARY_FAILED' });
     }
   }
   if (req.method === 'POST' && url.pathname === '/api/pdf/to-excel') {
@@ -2494,11 +2515,11 @@ const server = http.createServer(async (req, res) => {
       const code = error.code || 'pdf_to_excel_failed';
       safeLog('pdf_to_excel_failed', { requestId, status: 'failed', reason: code, userId: firebaseUser.uid });
       if (code === 'rate_limit') return send(res, 429, { error: 'RATE_LIMITED' });
-      if (code === 'timeout') return send(res, 504, { error: 'AZURE_PDF_TO_EXCEL_FAILED' });
+      if (code === 'timeout') return send(res, 504, { error: 'PDF_TO_EXCEL_FAILED' });
       if (code === 'azure_key_missing' || code === 'azure_endpoint_missing') {
         return send(res, 503, { error: 'SERVER_CONFIG_ERROR' });
       }
-      return send(res, 502, { error: 'AZURE_PDF_TO_EXCEL_FAILED' });
+      return send(res, 502, { error: 'PDF_TO_EXCEL_FAILED' });
     }
   }
   if (req.method === 'POST' && url.pathname === '/api/pdf/to-word') {
@@ -2582,11 +2603,11 @@ const server = http.createServer(async (req, res) => {
       safeLog('pdf_to_word_failed', { requestId, status: 'failed', reason: code, userId: firebaseUser.uid });
       if (code === 'rate_limit') return send(res, 429, { error: 'RATE_LIMITED' });
       if (code === 'INSUFFICIENT_TEXT') return send(res, 422, { error: 'INSUFFICIENT_TEXT' });
-      if (code === 'timeout') return send(res, 504, { error: 'AZURE_PDF_TO_WORD_FAILED' });
+      if (code === 'timeout') return send(res, 504, { error: 'PDF_TO_WORD_FAILED' });
       if (code === 'azure_key_missing' || code === 'azure_endpoint_missing') {
         return send(res, 503, { error: 'SERVER_CONFIG_ERROR' });
       }
-      return send(res, 502, { error: 'AZURE_PDF_TO_WORD_FAILED' });
+      return send(res, 502, { error: 'PDF_TO_WORD_FAILED' });
     }
   }
   if (req.method === 'GET' && url.pathname === '/api/subscriptions') {
@@ -2749,7 +2770,9 @@ const server = http.createServer(async (req, res) => {
     const mimeType = normalizeMimeType(body.mimeType);
     if (!mimeType) return send(res, 415, { error: 'INVALID_FILE' });
     const languageHint = normalizeOcrLanguageHint(body.languageHint || data.featureFlags.defaultOcrLanguage);
-    if (!languageHint) return send(res, 400, { error: 'UNSUPPORTED_LANGUAGE' });
+    if (!languageHint) return send(res, 400, { error: 'OCR_LANGUAGE_NOT_SUPPORTED' });
+    const languageAccess = ocrLanguageAccessForAccount(data, firebaseUser, languageHint);
+    if (!languageAccess.allowed) return send(res, languageAccess.status || 403, { error: languageAccess.error });
     const selectedModel = normalizeOcrModel(body.model);
     if (!selectedModel) return send(res, 400, { error: 'INVALID_OCR_MODEL' });
     const detectLanguage = body.detectLanguage === true || languageHint === 'auto';

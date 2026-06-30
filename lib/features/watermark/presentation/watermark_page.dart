@@ -9,6 +9,8 @@ import '../../../core/localization/app_localizations.dart';
 import '../../../core/theme/app_tokens.dart';
 import '../../../core/widgets/app_screen.dart';
 import '../../files/application/local_file_repository.dart';
+import '../../premium/application/premium_access_service.dart';
+import '../../premium/presentation/premium_gate_dialog.dart';
 import '../application/watermark_service.dart';
 import '../domain/watermark_options.dart';
 
@@ -68,8 +70,10 @@ class _WatermarkPageState extends State<WatermarkPage> {
   Future<void> _save() async {
     final document = selected;
     if (document == null) return;
+    final l = context.l10n;
+    if (!await _ensurePremiumAccess()) return;
     if (document.type == StoredDocumentType.pdf) {
-      _snack(context.l10n.watermarkUnsupportedPdf);
+      _snack(l.watermarkUnsupportedPdf);
       return;
     }
     setState(() => saving = true);
@@ -79,12 +83,12 @@ class _WatermarkPageState extends State<WatermarkPage> {
         watermark: _options(),
       );
       if (!mounted) return;
-      _snack(context.l10n.watermarkAddedSuccess);
+      _snack(l.watermarkAddedSuccess);
       setState(() {
         future = repository.load();
       });
     } catch (_) {
-      if (mounted) _snack(context.l10n.watermarkAddFailed);
+      if (mounted) _snack(l.watermarkAddFailed);
     } finally {
       if (mounted) setState(() => saving = false);
     }
@@ -92,6 +96,20 @@ class _WatermarkPageState extends State<WatermarkPage> {
 
   void _snack(String message) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+  }
+
+  Future<bool> _ensurePremiumAccess() async {
+    final access = await premiumAccessService.canAccessPremiumFeature(
+      PremiumFeature.watermark,
+    );
+    if (!mounted) return false;
+    if (access.allowed) return true;
+    await showPremiumGateDialog(
+      context,
+      feature: PremiumFeature.watermark,
+      result: access,
+    );
+    return false;
   }
 
   @override

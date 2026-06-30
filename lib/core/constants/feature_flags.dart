@@ -35,16 +35,19 @@ class FeatureFlagState {
       'defaultWatermarkOpacity': 0.14,
       'defaultWatermarkPosition': 'center',
       'premiumCustomWatermarkEnabled': true,
+      'watermarkPremiumOnly': true,
+      'signatureEnabled': true,
+      'signaturePremiumOnly': true,
       'translateEnabled': false,
       'translatePremiumOnly': true,
-      'translateWithScanCreditEnabled': true,
+      'translateWithScanCreditEnabled': false,
       'freeDailyTranslateLimit': 3,
       'premiumMonthlyTranslateLimit': 500,
       'translatorProvider': 'Azure Translator',
       'translatorRegion': 'global',
       'aiSummaryEnabled': false,
       'aiSummaryPremiumOnly': true,
-      'aiSummaryWithScanCreditEnabled': true,
+      'aiSummaryWithScanCreditEnabled': false,
       'freeDailySummaryLimit': 3,
       'premiumMonthlySummaryLimit': 500,
       'aiSummaryProvider': 'Azure OpenAI',
@@ -60,16 +63,17 @@ class FeatureFlagState {
       'premiumYearlyOcrLimit': 6000,
       'defaultOcrLanguage': 'auto',
       'allowAutoLanguageDetection': true,
+      'advancedOcrLanguagesEnabled': false,
       'pdfToExcelEnabled': false,
       'pdfToExcelPremiumOnly': true,
-      'pdfToExcelWithScanCreditEnabled': true,
+      'pdfToExcelWithScanCreditEnabled': false,
       'freeDailyPdfToExcelLimit': 3,
       'premiumMonthlyPdfToExcelLimit': 200,
       'pdfToExcelProvider': 'Azure Document Intelligence',
       'pdfToExcelModel': 'prebuilt-layout',
       'pdfToWordEnabled': false,
       'pdfToWordPremiumOnly': true,
-      'pdfToWordWithScanCreditEnabled': true,
+      'pdfToWordWithScanCreditEnabled': false,
       'freeDailyPdfToWordLimit': 3,
       'premiumMonthlyPdfToWordLimit': 200,
       'pdfToWordProvider': 'Azure Document Intelligence',
@@ -243,6 +247,9 @@ abstract final class FeatureFlags {
       (_state.values['defaultWatermarkPosition'] as String?) ?? 'center';
   static bool get premiumCustomWatermarkEnabled =>
       _bool('premiumCustomWatermarkEnabled', true);
+  static bool get watermarkPremiumOnly => _bool('watermarkPremiumOnly', true);
+  static bool get signatureEnabled => _bool('signatureEnabled', true);
+  static bool get signaturePremiumOnly => _bool('signaturePremiumOnly', true);
   static bool get translateEnabled => _bool('translateEnabled', false);
   static bool get translatePremiumOnly => _bool('translatePremiumOnly', true);
   static bool get translateWithScanCreditEnabled =>
@@ -286,6 +293,8 @@ abstract final class FeatureFlags {
       (_state.values['defaultOcrLanguage'] as String?) ?? 'auto';
   static bool get allowAutoLanguageDetection =>
       _bool('allowAutoLanguageDetection', true);
+  static bool get advancedOcrLanguagesEnabled =>
+      _bool('advancedOcrLanguagesEnabled', false);
   static bool get pdfToExcelEnabled => _bool('pdfToExcelEnabled', false);
   static bool get pdfToExcelPremiumOnly =>
       _bool('pdfToExcelPremiumOnly', true);

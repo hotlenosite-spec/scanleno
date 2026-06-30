@@ -133,10 +133,10 @@ class _TranslatePageState extends State<TranslatePage> {
     }
     final l = context.l10n;
     final message = switch (code) {
-      'TRANSLATE_DISABLED' => l.translateDisabled,
-      'EMPTY_TEXT' => l.emptyTranslateText,
+      'AI_TRANSLATE_DISABLED' || 'TRANSLATE_DISABLED' => l.translateDisabled,
+      'INVALID_TEXT' || 'EMPTY_TEXT' => l.emptyTranslateText,
       'TEXT_TOO_LONG' => l.translateTextTooLong,
-      'UNSUPPORTED_LANGUAGE' => l.unsupportedLanguage,
+      'INVALID_LANGUAGE' || 'UNSUPPORTED_LANGUAGE' => l.unsupportedLanguage,
       'RATE_LIMITED' => l.translateRateLimited,
       'AUTH_REQUIRED' => l.signIn,
       _ => l.translateFailed,

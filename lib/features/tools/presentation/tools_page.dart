@@ -22,7 +22,7 @@ class ToolsPage extends StatelessWidget {
       _Tool(Icons.merge_type_rounded, l.mergePdf, AppRoutes.export, PremiumFeature.mergePdf),
       _Tool(Icons.call_split_rounded, l.splitPdf, null, PremiumFeature.splitPdf),
       _Tool(Icons.compress_rounded, l.compressPdf, null, PremiumFeature.compressPdf),
-      _Tool.free(Icons.draw_outlined, l.signPdf, AppRoutes.signature),
+      _Tool(Icons.draw_outlined, l.signPdf, AppRoutes.signature, PremiumFeature.signature),
       _Tool.free(Icons.image_outlined, l.imagesToPdf, AppRoutes.scanner),
       if (showPasswordProtection)
         _Tool(Icons.lock_outline, l.protectPdf, null, PremiumFeature.protectPdf),
@@ -34,7 +34,7 @@ class ToolsPage extends StatelessWidget {
       _Tool(Icons.description_outlined, l.pdfToWord, AppRoutes.pdfToWord, PremiumFeature.pdfToWord),
       _Tool.free(Icons.photo_library_outlined, l.multipleImagesToPdf, AppRoutes.scanner),
       _Tool(Icons.text_fields_rounded, l.addTextToPdf, null, PremiumFeature.pdfTextEditing),
-      _Tool.free(Icons.opacity_rounded, l.addWatermark, AppRoutes.watermark),
+      _Tool(Icons.opacity_rounded, l.addWatermark, AppRoutes.watermark, PremiumFeature.watermark),
       _Tool(Icons.translate_rounded, l.aiTranslate, AppRoutes.translate, PremiumFeature.translate),
       _Tool(Icons.auto_awesome_rounded, l.aiSummary, AppRoutes.aiSummary, PremiumFeature.aiSummary),
       _Tool.unavailable(Icons.print_outlined, l.printDocument),
@@ -130,6 +130,12 @@ class ToolsPage extends StatelessWidget {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(context.l10n.watermarkDisabled)));
+      return;
+    }
+    if (tool.route == AppRoutes.signature && !FeatureFlags.signatureEnabled) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(context.l10n.toolUnavailable)));
       return;
     }
     if (tool.route == AppRoutes.translate && !FeatureFlags.translateEnabled) {

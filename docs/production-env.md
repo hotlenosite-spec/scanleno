@@ -53,6 +53,9 @@ Required:
 
 Azure Translator, when translation is enabled:
 
+- `AI_TRANSLATE_ENABLED=true`
+- `AI_TRANSLATE_PROVIDER=azure_translator`
+- `AI_TRANSLATE_MODEL` if your provider requires a model name
 - `AZURE_TRANSLATOR_ENABLED=true`
 - `AZURE_TRANSLATOR_ENDPOINT=https://api.cognitive.microsofttranslator.com/`
 - `AZURE_TRANSLATOR_REGION=global`
@@ -63,6 +66,10 @@ Azure Translator, when translation is enabled:
 
 Azure OpenAI / Azure AI Foundry, when AI Summary is enabled:
 
+- `AI_FEATURES_ENABLED=true`
+- `AI_PROVIDER=azure_openai`
+- `AI_API_KEY` from backend secrets only
+- `AI_SUMMARY_MODEL`
 - `AZURE_AI_SUMMARY_ENABLED=true`
 - `AZURE_AI_PROJECT_ENDPOINT`
 - `AZURE_OPENAI_ENDPOINT=https://scanleno-ai-summary.openai.azure.com/openai/v1`
@@ -77,6 +84,15 @@ Azure OpenAI / Azure AI Foundry, when AI Summary is enabled:
 If the `scanleno-gpt-4o-mini` deployment does not exist in Azure AI Foundry,
 create a deployment with that name or update `AZURE_OPENAI_DEPLOYMENT` in the
 backend environment. Do not put Azure OpenAI keys in Flutter or Git.
+
+Premium PDF conversion tools:
+
+- `PDF_TO_WORD_ENABLED=true`
+- `PDF_TO_EXCEL_ENABLED=true`
+- `SCANLENO_PDF_TO_WORD_MAX_PDF_BYTES=15728640`
+- `SCANLENO_PDF_TO_WORD_MAX_BODY_BYTES=23068672`
+- `SCANLENO_PDF_TO_EXCEL_MAX_PDF_BYTES=15728640`
+- `SCANLENO_PDF_TO_EXCEL_MAX_BODY_BYTES=23068672`
 
 Recommended:
 
